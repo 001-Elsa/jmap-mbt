@@ -32,7 +32,7 @@ Mooncakes 目录中可以找到与本项目共享机制的邻近实现：`moonre
 
 “指定快照内未观察到同目的实现”是本项目可以使用的证据措辞；它不等同于绝对原创，也不保证评审方不会基于共享基础机制作相似性判断。项目的低重合策略是减少通用功能面，把代码、演示和篇幅集中在 JMAP 邮件查询前缀一致性及其决策证书上。
 
-2026-10-26 的完整归档文本复核覆盖当前目录 3,331 个精确 `(name, version)` 模块；09:52:20 重新取得的目录与该扫描快照一致。本轮还对候选“载荷/trace 闭合审计”方案重读全部归档文本，发现 MoonTxnWitness 等强架构邻居，因此该新增层已撤回，没有进入当前源码或公共 API。证据包、回放、字段变更记录、闭环门禁、CDC、集合对账和分页都有邻近项目；保留现有 JMAP 窄领域定位不等于已证明原创或无判重风险。依据见 [方案核对与撤回说明](outputs/MoonJMAP-深化方案全量核对与撤回说明-2026-10-26.md)，前次原有功能核查见 [源码复核](outputs/MoonJMAP-独有功能与相似技术复核-2026-10-26.md)。
+2026-10-26 的完整归档文本复核覆盖当前目录 3,331 个精确 `(name, version)` 模块；09:52:20 重新取得的目录与该扫描快照一致。本轮还对候选“载荷/trace 闭合审计”方案重读全部归档文本，发现 MoonTxnWitness 等强架构邻居，因此该新增层已撤回，没有进入当前源码或公共 API。证据包、回放、字段变更记录、闭环门禁、CDC、集合对账和分页都有邻近项目；保留现有 JMAP 窄领域定位不等于已证明原创或无判重风险。依据见 [方案核对与撤回说明](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E6%B7%B1%E5%8C%96%E6%96%B9%E6%A1%88%E5%85%A8%E9%87%8F%E6%A0%B8%E5%AF%B9%E4%B8%8E%E6%92%A4%E5%9B%9E%E8%AF%B4%E6%98%8E-2026-10-26.md)，前次原有功能核查见 [源码复核](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%8B%AC%E6%9C%89%E5%8A%9F%E8%83%BD%E4%B8%8E%E7%9B%B8%E4%BC%BC%E6%8A%80%E6%9C%AF%E5%A4%8D%E6%A0%B8-2026-10-26.md)。
 
 > 当前仓库按 v0.1 规划收敛。真实服务实现互操作和性能必须以脱敏外部证据为准，不能由本地单元测试替代；本次已补充 Stalwart v0.16.27 真实实现的本机部署记录，托管邮箱服务仍需单独授权。
 
@@ -46,7 +46,7 @@ Mooncakes 目录中可以找到与本项目共享机制的邻近实现：`moonre
 
 checkpoint、预算、generation、Ready 门禁及独立验证仍有既有技术先例。此次改变不构成零相似或算法原创证明。证书字段与旧变化响应入口有本地 API 不兼容调整，详见 [证书结构与迁移](docs/decision-certificates.md)。改造前的全量审计报告保留为历史快照，不能把其中的 FNV、remove/add 证书描述套用于当前源码。
 
-最终冻结源码的 wasm、wasm-gc、使用 Codex bundled Node 的 JS 测试各 **86/86** 通过，native 静态检查通过；其中包含 93,072 组最终排名归并对拍和 4,225 种位置证书转移。Python 回归 26/26、独立 oracle 17/17、固定向量和有界跨实现对拍各 15/15。详细变更、与指定近邻的实测差值和证据边界见 [本次差异化改造报告](outputs/MoonJMAP-差异化改造与复核-2026-10-26.md)。这些结果没有重新验证真实服务器互操作或生产性能。
+最终冻结源码的 wasm、wasm-gc、使用 Codex bundled Node 的 JS 测试各 **86/86** 通过，native 静态检查通过；其中包含 93,072 组最终排名归并对拍和 4,225 种位置证书转移。Python 回归 26/26、独立 oracle 17/17、固定向量和有界跨实现对拍各 15/15。详细变更、与指定近邻的实测差值和证据边界见 [本次差异化改造报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E5%B7%AE%E5%BC%82%E5%8C%96%E6%94%B9%E9%80%A0%E4%B8%8E%E5%A4%8D%E6%A0%B8-2026-10-26.md)。这些结果没有重新验证真实服务器互操作或生产性能。
 
 ## 代码边界
 
@@ -63,6 +63,45 @@ checkpoint、预算、generation、Ready 门禁及独立验证仍有既有技术
 
 核心代码已包含在 `src/email`、`src/jmap` 和 `src/sync`；`tests/vectors` 和 `examples` 仍可独立用于确认协议场景的预期行为。它们属于本地模型证据，不会伪装成真实服务器验证。
 
+## 安装与使用
+
+Mooncakes 包名为 `001-Elsa/moonjmap`，版本为 `0.1.0`。在已有 MoonBit 工程中添加：
+
+```sh
+moon add 001-Elsa/moonjmap@0.1.0
+```
+
+在使用邮件视图的包的 `moon.pkg` 中导入：
+
+```moonbit
+import {
+  "001-Elsa/moonjmap/src/email" @email,
+  "001-Elsa/moonjmap/src/sync" @sync,
+}
+```
+
+下面的测试会构造一个本地视图，并取得第一批查询计划；网络请求由调用方执行：
+
+```moonbit
+test "open a bounded mail view" {
+  let account : @sync.AccountScope = {
+    service_identity: "https://jmap.example.test",
+    account_id: "account-1",
+  }
+  let view = @sync.open_view(
+    account,
+    @email.ViewSpec::Latest("inbox"),
+    @sync.default_limits(),
+    Some("email-state-0"),
+  )
+  let next = @sync.plan(view)
+  assert_eq(next.requests.length(), 1)
+  assert_true(next.requests[0].kind == @sync.RequestKind::Query)
+}
+```
+
+第三个公共包 `001-Elsa/moonjmap/src/jmap` 提供有限的 MoonBit wire 类型。根包保持为空；Python 探针与审计脚本随源码提供，不属于 MoonBit 公共 API。Mooncakes 包通过 `.moonignore` 排除本地调查、历史输出和构建产物，历史证据从 GitHub 仓库查看。
+
 ## 快速查看
 
 ```sh
@@ -77,12 +116,12 @@ moon test --target wasm-gc
 
 脚本只使用 Python 标准库，读取 `tests/vectors/incremental_cases.json`，检查每个向量的初始顺序、变化应用顺序、补位状态和最终完整性。它是协议语义的独立可读 oracle，不替代 MoonBit 核心实现的测试。
 
-2026-10-26 撤回新增审计层后、此次差异化改造前的源码，MoonBit `wasm`、`wasm-gc`、使用 Codex bundled Node 的 JS 测试各 78/78 通过；其中包含原有证书修复的 4,225 种转移穷举和 27 条同步边界回归。Python wire/HTTP 探针回归为 26/26，独立状态机 oracle 为 17/17，向量回放为 15/15。MoonBit `native`、`js` 静态检查均 rc0。本轮没有扩展实服验证：此前 Stalwart v0.16.27 的本机只读记录解析了 25 个 Email 对象，5 轮、20 请求的脱敏证据见 [真实服务验证报告](outputs/MoonJMAP-真实服务互操作与性能验证-2026-10-26.md) 和 [对象级互操作记录](outputs/real-interop-stalwart-v0.16.27/record-seeded-object-level-20261026.json)。性能结果只代表本机 loopback 和合成数据，不是公网 SLO；非空运行原始响应未保存，因此不把它写成已重新通过 typed decoder。
+2026-10-26 撤回新增审计层后、此次差异化改造前的源码，MoonBit `wasm`、`wasm-gc`、使用 Codex bundled Node 的 JS 测试各 78/78 通过；其中包含原有证书修复的 4,225 种转移穷举和 27 条同步边界回归。Python wire/HTTP 探针回归为 26/26，独立状态机 oracle 为 17/17，向量回放为 15/15。MoonBit `native`、`js` 静态检查均 rc0。本轮没有扩展实服验证：此前 Stalwart v0.16.27 的本机只读记录解析了 25 个 Email 对象，5 轮、20 请求的脱敏证据见 [真实服务验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md) 和 [对象级互操作记录](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/real-interop-stalwart-v0.16.27/record-seeded-object-level-20261026.json)。性能结果只代表本机 loopback 和合成数据，不是公网 SLO；非空运行原始响应未保存，因此不把它写成已重新通过 typed decoder。
 
 跨实现逐事件对拍可运行：`python3 scripts/run_differential.py` 会启动 MoonBit
 `wasm` trace adapter，并把 C01–C15 的有序前缀、opaque state、generation 和
 下一请求投影与独立 Python 回放逐步比较；当前结果为 15/15，机器证据见
-[`outputs/MoonJMAP-跨实现逐步对拍-2026-10-25.json`](outputs/MoonJMAP-跨实现逐步对拍-2026-10-25.json)，
+[`outputs/MoonJMAP-跨实现逐步对拍-2026-10-25.json`](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E8%B7%A8%E5%AE%9E%E7%8E%B0%E9%80%90%E6%AD%A5%E5%AF%B9%E6%8B%8D-2026-10-25.json)，
 解释和边界见 [`docs/differential-harness.md`](docs/differential-harness.md)。
 这是一组有界共同投影比较，不是完整跨语言等价证明，也不替代真实服务记录。
 
@@ -121,8 +160,8 @@ moon test --target wasm-gc
 * [邮件查询决策证书与纯 MoonBit 验证器](docs/decision-certificates.md)
 * [合成视图指标与预算基准](docs/metrics-benchmark.md)
 * [向量和演示验收报告](docs/validation-report.md)
-* [真实服务互操作与性能验证报告](outputs/MoonJMAP-真实服务互操作与性能验证-2026-10-26.md)
-* [外部事项完成度与 31 个公开赛事候选审计](outputs/MoonJMAP-外部事项完成度-2026-10-26.md)
+* [真实服务互操作与性能验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md)
+* [外部事项完成度与 31 个公开赛事候选审计](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E5%A4%96%E9%83%A8%E4%BA%8B%E9%A1%B9%E5%AE%8C%E6%88%90%E5%BA%A6-2026-10-26.md)
 * [真实服务互操作记录模板](docs/interop-record-template.md)
 * [本地发布检查清单](docs/release-checklist.md)
 
@@ -146,5 +185,5 @@ wire 回归、向量回放和 codec round-trip。
 
 ## 证据边界
 
-本仓库中的 fixture、模型回放和测试输出证明的是模型内部行为；真实 JMAP 服务兼容和性能以 [真实服务验证报告](outputs/MoonJMAP-真实服务互操作与性能验证-2026-10-26.md) 及其脱敏 JSON 为准。该报告只覆盖 Stalwart v0.16.27 的本机临时部署、Basic Auth 和合成数据，不扩展为其他服务、TLS/OAuth 或生产性能保证。
+本仓库中的 fixture、模型回放和测试输出证明的是模型内部行为；真实 JMAP 服务兼容和性能以 [真实服务验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md) 及其脱敏 JSON 为准。该报告只覆盖 Stalwart v0.16.27 的本机临时部署、Basic Auth 和合成数据，不扩展为其他服务、TLS/OAuth 或生产性能保证。
 

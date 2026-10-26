@@ -1,8 +1,8 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonjmap/moonjmap/src/sync"
+package "001-Elsa/moonjmap/src/sync"
 
 import {
-  "moonjmap/moonjmap/src/email",
+  "001-Elsa/moonjmap/src/email",
 }
 
 // Values

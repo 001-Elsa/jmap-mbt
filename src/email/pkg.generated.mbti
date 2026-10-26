@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonjmap/moonjmap/src/email"
+package "001-Elsa/moonjmap/src/email"
 
 // Values
 pub fn default_properties() -> Array[String]

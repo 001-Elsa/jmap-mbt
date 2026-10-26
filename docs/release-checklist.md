@@ -106,4 +106,27 @@ archive smoke test alone:
   `outputs/contest-source-audit-public-candidates-expanded/audit.md`. The
   official contest roster is not public, so the audit is not a full-entrant
   comparison and does not decide contest eligibility or judging.
-- a public repository, Mooncakes upload, version tag, or contest submission.
+- [x] public source repository: https://github.com/001-Elsa/jmap-mbt.
+- Mooncakes upload: run the separate registry procedure below and verify the live result.
+- a version tag or contest submission, if requested separately.
+
+## Registry publication procedure
+
+The initial registry module is `001-Elsa/moonjmap@0.1.0`. `.moonignore`
+replaces `.gitignore` for registry selection and excludes historical `outputs/`,
+local `work/`, `dist/`, build products, cache files and credentials.
+
+```sh
+moon whoami
+moon package --frozen --list
+moon publish --dry-run
+moon publish
+moon view 001-Elsa/moonjmap@0.1.0 --json
+```
+
+Inspect the actual `_build/publish/001-Elsa-moonjmap-0.1.0.zip` before
+publishing. After publication, create a fresh external module, install the exact
+version with `moon add 001-Elsa/moonjmap@0.1.0`, and compile and run tests using
+all three public packages (`src/email`, `src/jmap`, `src/sync`). Registry metadata,
+the downloaded ZIP checksum and the independent consumer result are separate
+checks from the local test suite.

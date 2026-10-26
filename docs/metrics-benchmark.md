@@ -12,8 +12,8 @@ PYTHONPATH=src python3 -m unittest tests.test_metrics -v
 
 输出位于：
 
-- [metrics.json](../outputs/metrics/metrics.json)：机器可读的运行、fixture SHA-256、能力/限制、每场景指标和 trace 清单；
-- [metrics.md](../outputs/metrics/metrics.md)：面向评审的汇总表；
+- [metrics.json](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/metrics/metrics.json)：机器可读的运行、fixture SHA-256、能力/限制、每场景指标和 trace 清单；
+- [metrics.md](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/metrics/metrics.md)：面向评审的汇总表；
 - `outputs/metrics/traces/Cxx.json`：每个向量的逐响应脱敏 trace。
 
 ## 指标口径
@@ -39,6 +39,6 @@ PYTHONPATH=src python3 -m unittest tests.test_metrics -v
 
 ## 证据边界
 
-该基准是 `synthetic-local`，不使用 HTTP、TLS、OAuth 或真实账号；它本身不替代 [真实服务互操作记录模板](interop-record-template.md)，也不产生网络性能承诺。M4 的独立真实证据现已另行保存于 [真实服务验证报告](../outputs/MoonJMAP-真实服务互操作与性能验证-2026-10-26.md) 和对应脱敏 JSON；本页的合成 `response_bytes=null` 与 `performance_claim=false` 仍然只描述这组本地向量。
+该基准是 `synthetic-local`，不使用 HTTP、TLS、OAuth 或真实账号；它本身不替代 [真实服务互操作记录模板](interop-record-template.md)，也不产生网络性能承诺。M4 的独立真实证据现已另行保存于 [真实服务验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md) 和对应脱敏 JSON；本页的合成 `response_bytes=null` 与 `performance_claim=false` 仍然只描述这组本地向量。
 
 如需对已授权的真实 JMAP 服务取 RTT、请求/响应字节和四个固定方法的对象/变更计数，使用 [真实 JMAP 服务性能基准](live-performance-benchmark.md)。该入口会在无凭据或非 2xx 时明确输出 `blocked`/`partial`，不会把本地向量升级为网络性能结果。

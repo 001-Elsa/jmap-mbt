@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonjmap/moonjmap/src/jmap"
+package "001-Elsa/moonjmap/src/jmap"
 
 import {
   "moonbitlang/core/debug",

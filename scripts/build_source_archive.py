@@ -38,6 +38,7 @@ TOP_LEVEL_FILES = (
     "pkg.generated.mbti",
 )
 TOP_LEVEL_DIRS = ("cmd", "docs", "examples", "python", "scripts", "src", "tests")
+OPTIONAL_TOP_LEVEL_FILES = (".moonignore",)
 
 
 def project_metadata(root: Path) -> tuple[str, str]:
@@ -56,6 +57,10 @@ def iter_files(root: Path, *, excluded_root: Path | None = None) -> list[Path]:
         if not path.is_file():
             raise SystemExit(f"required source file is missing: {path}")
         files.append(path)
+    for name in OPTIONAL_TOP_LEVEL_FILES:
+        path = root / name
+        if path.is_file():
+            files.append(path)
     for directory in TOP_LEVEL_DIRS:
         base = root / directory
         if not base.is_dir():

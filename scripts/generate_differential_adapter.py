@@ -252,5 +252,5 @@ fn main {
 }
 '''
 (root/'cmd/differential').mkdir(parents=True,exist_ok=True)
-(root/'cmd/differential/moon.pkg').write_text('''import {\n "moonjmap/moonjmap/src/email" @email,\n "moonjmap/moonjmap/src/sync" @sync,\n}\noptions(\n "is-main": true,\n)\n''')
+(root/'cmd/differential/moon.pkg').write_text('''import {\n "001-Elsa/moonjmap/src/email" @email,\n "001-Elsa/moonjmap/src/sync" @sync,\n}\noptions(\n "is-main": true,\n)\n''')
 (root/'cmd/differential/main.mbt').write_text(base+cases)

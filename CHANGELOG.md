@@ -4,6 +4,15 @@ All notable changes to MoonJMAP are recorded here. The project is currently
 at the `0.1.0` source-delivery stage. The public source repository is
 https://github.com/001-Elsa/jmap-mbt; Mooncakes publication remains separate.
 
+## Registry packaging - 2026-10-26
+
+- Set the owned module namespace to `001-Elsa/moonjmap` for the initial
+  `0.1.0` registry release, updating package imports and generated interfaces.
+- Add a dedicated `.moonignore` to keep historical investigation outputs,
+  local work and build artifacts out of registry packages.
+- Document registry installation and public package imports; link historical
+  evidence to the GitHub repository so it remains available outside the package.
+
 ## Repository import - 2026-10-26
 
 - Organize the existing source snapshot into 20 non-empty commits by feature

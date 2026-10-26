@@ -1,0 +1,25 @@
+# Registry packages contain the library, tests and supporting source only.
+.git/
+.mooncakes/
+.repos/
+node_modules/
+_build/
+target/
+dist/
+work/
+inputs/
+outputs/
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+材料清单-*.md

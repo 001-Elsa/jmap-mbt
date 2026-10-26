@@ -61,7 +61,7 @@
 
 ## v2 本地指标扩展
 
-`trace_version=2` 只扩展 MoonJMAP 邮件查询视图的诊断记录，不把 trace 设计成通用日志或持久化数据库格式。固定向量运行器会为每个场景保存一个脱敏 JSON 文件，路径在 [outputs/metrics/metrics.json](../outputs/metrics/metrics.json) 的 `trace_files` 中列出。
+`trace_version=2` 只扩展 MoonJMAP 邮件查询视图的诊断记录，不把 trace 设计成通用日志或持久化数据库格式。固定向量运行器会为每个场景保存一个脱敏 JSON 文件，路径在 [outputs/metrics/metrics.json](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/metrics/metrics.json) 的 `trace_files` 中列出。
 
 v2 在文档开头的单请求记录之外增加以下字段。`run_id` 由 fixture hash、范围和 schema 计算，不含时间戳，因此重复运行可直接比较：
 

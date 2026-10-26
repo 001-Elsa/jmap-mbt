@@ -1,6 +1,6 @@
 import {
- "moonjmap/moonjmap/src/email" @email,
- "moonjmap/moonjmap/src/sync" @sync,
+ "001-Elsa/moonjmap/src/email" @email,
+ "001-Elsa/moonjmap/src/sync" @sync,
 }
 options(
  "is-main": true,

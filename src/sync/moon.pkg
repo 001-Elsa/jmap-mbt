@@ -1,4 +1,4 @@
 import {
   "moonbitlang/core/int",
-  "moonjmap/moonjmap/src/email",
+  "001-Elsa/moonjmap/src/email",
 }
