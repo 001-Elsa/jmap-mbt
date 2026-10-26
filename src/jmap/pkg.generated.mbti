@@ -1,0 +1,95 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonjmap/moonjmap/src/jmap"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) enum DecodeFailure {
+  InvalidInput(String)
+  Unsupported(String)
+  ProtocolFailure(String)
+  StaleResponse(String)
+} derive(Eq, @debug.Debug)
+pub fn DecodeFailure::equal(Self, Self) -> Bool
+pub fn DecodeFailure::not_equal(Self, Self) -> Bool
+pub fn DecodeFailure::to_repr(Self) -> @debug.Repr
+
+pub(all) struct MethodCall {
+  method_name : MethodName
+  arguments : Json
+  call_id : String
+} derive(@debug.Debug)
+pub fn MethodCall::new(MethodName, Json, String) -> Self?
+pub fn MethodCall::to_json(Self) -> Json
+pub fn MethodCall::to_repr(Self) -> @debug.Repr
+
+pub(all) struct MethodError {
+  type_ : String
+  arguments : Json
+} derive(@debug.Debug)
+pub fn MethodError::new(String, Json) -> Self?
+pub fn MethodError::to_repr(Self) -> @debug.Repr
+
+pub(all) enum MethodName {
+  EmailQuery
+  EmailQueryChanges
+  EmailGet
+  EmailChanges
+} derive(Eq, @debug.Debug)
+pub fn MethodName::equal(Self, Self) -> Bool
+pub fn MethodName::not_equal(Self, Self) -> Bool
+pub fn MethodName::to_repr(Self) -> @debug.Repr
+pub fn MethodName::wire_name(Self) -> String
+
+pub(all) struct MethodResponse {
+  name : String
+  arguments : Json
+  call_id : String
+} derive(@debug.Debug)
+pub fn MethodResponse::new(String, Json, String) -> Self?
+pub fn MethodResponse::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Request {
+  method_calls : Array[MethodCall]
+} derive(@debug.Debug)
+pub fn Request::new(Array[MethodCall]) -> Self?
+pub fn Request::to_json(Self) -> Json
+pub fn Request::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Response {
+  method_responses : Array[MethodResponse]
+} derive(@debug.Debug)
+pub fn Response::new(Array[MethodResponse]) -> Self?
+pub fn Response::to_json(Self) -> Json
+pub fn Response::to_repr(Self) -> @debug.Repr
+
+pub(all) struct ResultReference {
+  result_of : String
+} derive(Eq, @debug.Debug)
+pub fn ResultReference::equal(Self, Self) -> Bool
+pub fn ResultReference::new(String) -> Self?
+pub fn ResultReference::not_equal(Self, Self) -> Bool
+pub fn ResultReference::to_json(Self) -> Json
+pub fn ResultReference::to_repr(Self) -> @debug.Repr
+
+pub(all) struct TypedMethodResponse {
+  method_name : MethodName
+  account_id : String
+  arguments : Json
+  call_id : String
+  can_calculate_changes : Bool?
+} derive(@debug.Debug)
+pub fn TypedMethodResponse::account_matches(Self, String) -> Bool
+pub fn TypedMethodResponse::new(MethodName, String, Json, String, Bool?) -> Self?
+pub fn TypedMethodResponse::to_method_response(Self) -> MethodResponse?
+pub fn TypedMethodResponse::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits

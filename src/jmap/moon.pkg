@@ -1,0 +1,5 @@
+// Wire-only MoonBit package.  Networking and synchronisation live in separate
+// packages; this package contains the four read-only JMAP method envelopes.
+import {
+  "moonbitlang/core/debug",
+}
