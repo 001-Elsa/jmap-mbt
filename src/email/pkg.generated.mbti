@@ -1,0 +1,84 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonjmap/moonjmap/src/email"
+
+// Values
+pub fn default_properties() -> Array[String]
+
+pub fn property_name(Property) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct BooleanEntry {
+  key : String
+  value : Bool
+} derive(Eq)
+pub fn BooleanEntry::equal(Self, Self) -> Bool
+pub fn BooleanEntry::not_equal(Self, Self) -> Bool
+
+pub(all) struct EmailAddress {
+  email : String
+  name : String?
+} derive(Eq)
+pub fn EmailAddress::equal(Self, Self) -> Bool
+pub fn EmailAddress::not_equal(Self, Self) -> Bool
+
+pub(all) struct EmailRecord {
+  id : String
+  thread_id : String
+  mailbox_ids : Array[BooleanEntry]?
+  keywords : Array[BooleanEntry]?
+  received_at : String?
+  subject : String?
+  from : Array[EmailAddress]?
+  preview : String?
+} derive(Eq)
+pub fn EmailRecord::empty(String) -> Self
+pub fn EmailRecord::equal(Self, Self) -> Bool
+pub fn EmailRecord::has_id(Self, String) -> Bool
+pub fn EmailRecord::is_complete(Self) -> Bool
+pub fn EmailRecord::not_equal(Self, Self) -> Bool
+
+pub(all) enum FilterSpec {
+  InMailbox(String)
+  UnreadInMailbox(String)
+} derive(Eq)
+pub fn FilterSpec::canonical(Self) -> String
+pub fn FilterSpec::equal(Self, Self) -> Bool
+pub fn FilterSpec::not_equal(Self, Self) -> Bool
+
+pub(all) enum Property {
+  Id
+  ThreadId
+  MailboxIds
+  Keywords
+  ReceivedAt
+  Subject
+  From
+  Preview
+} derive(Eq)
+pub fn Property::equal(Self, Self) -> Bool
+pub fn Property::not_equal(Self, Self) -> Bool
+
+pub(all) enum SortSpec {
+  ReceivedAtDescending
+} derive(Eq)
+pub fn SortSpec::canonical(Self) -> String
+pub fn SortSpec::equal(Self, Self) -> Bool
+pub fn SortSpec::not_equal(Self, Self) -> Bool
+
+pub(all) enum ViewSpec {
+  Latest(String)
+  Unread(String)
+} derive(Eq)
+pub fn ViewSpec::equal(Self, Self) -> Bool
+pub fn ViewSpec::filter(Self) -> String
+pub fn ViewSpec::filter_spec(Self) -> FilterSpec
+pub fn ViewSpec::name(Self) -> String
+pub fn ViewSpec::not_equal(Self, Self) -> Bool
+pub fn ViewSpec::sort(Self) -> String
+pub fn ViewSpec::sort_spec(Self) -> SortSpec
+
+// Type aliases
+
+// Traits
