@@ -1,0 +1,1055 @@
+{
+  "report_type": "synthetic_jmap_view_metrics",
+  "schema_version": 1,
+  "generated_on": "2026-10-25",
+  "evidence": "synthetic-local",
+  "live_server": false,
+  "performance_claim": false,
+  "fixture": "tests/vectors/incremental_cases.json",
+  "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+  "scenario_count": 15,
+  "trace_version": 2,
+  "run_id": "synthetic-c41227834ccfe457",
+  "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+  "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+  "capability_projection": {
+    "filter": "mailbox + optional unread",
+    "sort": "receivedAt:desc"
+  },
+  "measurement_definition": {
+    "requests_attempted": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+    "response_bytes": "only an explicit response_bytes/bytes field from the fixture; current vectors provide none",
+    "objects_received": "Email/get list object count; notFound is counted separately",
+    "query_rebuilds": "query_result plus query history invalidation fallback",
+    "email_rebuilds": "Email history invalidation fallback",
+    "budget_termination": "declared vector max_rounds or max_calls prevents more work",
+    "timing": "not measured; no live transport",
+    "memory": "not measured; no live transport"
+  },
+  "aggregate_integer_metrics": {
+    "budget_terminations": 2,
+    "control_events": 8,
+    "email_created": 0,
+    "email_destroyed": 0,
+    "email_rebuilds": 1,
+    "email_updated": 1,
+    "not_found_objects": 0,
+    "objects_received": 6,
+    "query_added": 3,
+    "query_fill_requests": 2,
+    "query_rebuilds": 4,
+    "query_reconciliation_required": 1,
+    "query_removed": 4,
+    "requested_objects": 6,
+    "requests_attempted": 21,
+    "requests_planned": 4,
+    "response_bytes_available": 0,
+    "responses_accepted": 20,
+    "responses_dropped": 1,
+    "responses_observed": 21,
+    "responses_total": 21,
+    "rounds_accepted": 20,
+    "stale_responses_dropped": 1,
+    "unique_objects_received": 6,
+    "unsupported": 1
+  },
+  "aggregate_requests_by_method": {
+    "Email/changes": {
+      "accepted": 2,
+      "responses": 2
+    },
+    "Email/get": {
+      "accepted": 6,
+      "responses": 6
+    },
+    "Email/query": {
+      "accepted": 5,
+      "responses": 5
+    },
+    "Email/queryChanges": {
+      "accepted": 7,
+      "dropped": 1,
+      "responses": 8
+    }
+  },
+  "aggregate_requests_planned_by_method": {
+    "Email/get": 3,
+    "Email/query": 1
+  },
+  "aggregate_measurements": {
+    "response_bytes": null,
+    "response_bytes_available": false,
+    "timing": null,
+    "memory": null
+  },
+  "scenarios": [
+    {
+      "scenario_id": "C01",
+      "title": "顺序不变但 a 的 keywords 改变",
+      "metrics": {
+        "control_events": 0,
+        "email_created": 0,
+        "email_destroyed": 0,
+        "email_updated": 1,
+        "not_found_objects": 0,
+        "objects_received": 1,
+        "requested_objects": 1,
+        "requests_attempted": 2,
+        "requests_planned": 0,
+        "responses_accepted": 2,
+        "responses_observed": 2,
+        "responses_total": 2,
+        "rounds_accepted": 2,
+        "unique_objects_received": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/changes": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/get": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "view_complete",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q0",
+          "email_state": "e1",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "query_state": "q0",
+        "email_state": "e1",
+        "updated_ids": [
+          "a"
+        ]
+      },
+      "trace_file": "traces/C01.json"
+    },
+    {
+      "scenario_id": "C02",
+      "title": "b 从前缀中移出后按同一个 queryState 补位",
+      "metrics": {
+        "control_events": 0,
+        "not_found_objects": 0,
+        "objects_received": 1,
+        "query_added": 0,
+        "query_fill_requests": 1,
+        "query_removed": 1,
+        "requested_objects": 1,
+        "requests_attempted": 3,
+        "requests_planned": 0,
+        "responses_accepted": 3,
+        "responses_observed": 3,
+        "responses_total": 3,
+        "rounds_accepted": 3,
+        "unique_objects_received": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/get": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/query": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "view_complete",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:4d4f1e68c876bca1c0a50c229c6fe77a5cc18735994b2fa80a7ef8469f044497",
+          "total": 4,
+          "object_count": 3,
+          "object_ids_hash": "sha256:4d4f1e68c876bca1c0a50c229c6fe77a5cc18735994b2fa80a7ef8469f044497",
+          "query_state": "q1",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "a",
+          "c",
+          "d"
+        ],
+        "query_state": "q1",
+        "email_state": "e0"
+      },
+      "trace_file": "traces/C02.json"
+    },
+    {
+      "scenario_id": "C03",
+      "title": "同一个 ID 先 remove 后 add 时按新 index 处理",
+      "metrics": {
+        "control_events": 0,
+        "not_found_objects": 0,
+        "objects_received": 1,
+        "query_added": 1,
+        "query_removed": 1,
+        "requested_objects": 1,
+        "requests_attempted": 2,
+        "requests_planned": 0,
+        "responses_accepted": 2,
+        "responses_observed": 2,
+        "responses_total": 2,
+        "rounds_accepted": 2,
+        "unique_objects_received": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/get": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "view_complete",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:f1d7b7b353ca5d84a3aff99495488a4625a5e948e877e04a3c1d5dc81a86f8f0",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q1",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "b",
+          "a",
+          "c"
+        ],
+        "query_state": "q1",
+        "email_state": "e0"
+      },
+      "trace_file": "traces/C03.json"
+    },
+    {
+      "scenario_id": "C04",
+      "title": "removed 包含本地未缓存 ID",
+      "metrics": {
+        "control_events": 0,
+        "query_added": 0,
+        "query_removed": 1,
+        "requests_attempted": 1,
+        "requests_planned": 0,
+        "responses_accepted": 1,
+        "responses_observed": 1,
+        "responses_total": 1,
+        "rounds_accepted": 1,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "view_complete",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q1",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "query_state": "q1",
+        "email_state": "e0"
+      },
+      "trace_file": "traces/C04.json"
+    },
+    {
+      "scenario_id": "C05",
+      "title": "补位返回不同 queryState，拒绝混接",
+      "metrics": {
+        "control_events": 0,
+        "query_added": 0,
+        "query_fill_requests": 1,
+        "query_removed": 1,
+        "requests_attempted": 2,
+        "requests_planned": 0,
+        "responses_accepted": 2,
+        "responses_observed": 2,
+        "responses_total": 2,
+        "rounds_accepted": 2,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/query": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "NeedsRefresh",
+          "reason_code": "fill_query_state_mismatch",
+          "generation": 0,
+          "ordered_count": 2,
+          "ordered_ids_hash": "sha256:87494a1b580146b76dc4a0a3dba956cf3dc59c5a1d1e55bc177a29f47beb0c81",
+          "total": 4,
+          "object_count": 2,
+          "object_ids_hash": "sha256:87494a1b580146b76dc4a0a3dba956cf3dc59c5a1d1e55bc177a29f47beb0c81",
+          "query_state": "q1",
+          "email_state": "e0",
+          "pending_work": [
+            "refresh:fill_query_state_mismatch"
+          ]
+        }
+      },
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "fill_query_state_mismatch",
+        "ordered_ids": [
+          "a",
+          "c"
+        ],
+        "query_state": "q1"
+      },
+      "trace_file": "traces/C05.json"
+    },
+    {
+      "scenario_id": "C06",
+      "title": "Email changes 历史失效而 queryState 仍有效",
+      "metrics": {
+        "control_events": 0,
+        "email_created": 0,
+        "email_destroyed": 0,
+        "email_rebuilds": 1,
+        "email_updated": 0,
+        "not_found_objects": 0,
+        "objects_received": 1,
+        "requested_objects": 1,
+        "requests_attempted": 2,
+        "requests_planned": 0,
+        "responses_accepted": 2,
+        "responses_observed": 2,
+        "responses_total": 2,
+        "rounds_accepted": 2,
+        "unique_objects_received": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/changes": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/get": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "NeedsRefresh",
+          "reason_code": "email_history_invalid",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q0",
+          "email_state": null,
+          "pending_work": [
+            "email-history-invalid"
+          ]
+        }
+      },
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "email_history_invalid",
+        "query_state": "q0",
+        "email_state": null
+      },
+      "trace_file": "traces/C06.json"
+    },
+    {
+      "scenario_id": "C07",
+      "title": "queryChanges 历史失效而 Email state 仍有效",
+      "metrics": {
+        "control_events": 0,
+        "query_added": 0,
+        "query_rebuilds": 1,
+        "query_removed": 0,
+        "requests_attempted": 1,
+        "requests_planned": 0,
+        "responses_accepted": 1,
+        "responses_observed": 1,
+        "responses_total": 1,
+        "rounds_accepted": 1,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "NeedsRefresh",
+          "reason_code": "query_history_invalid",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": null,
+          "email_state": "e0",
+          "pending_work": [
+            "query-history-invalid"
+          ]
+        }
+      },
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "query_history_invalid",
+        "query_state": null,
+        "email_state": "e0"
+      },
+      "trace_file": "traces/C07.json"
+    },
+    {
+      "scenario_id": "C08",
+      "title": "窗口外邮件进入筛选时继续追赶",
+      "metrics": {
+        "control_events": 0,
+        "not_found_objects": 0,
+        "objects_received": 1,
+        "query_added": 1,
+        "query_reconciliation_required": 1,
+        "query_removed": 0,
+        "requested_objects": 1,
+        "requests_attempted": 2,
+        "requests_planned": 0,
+        "responses_accepted": 2,
+        "responses_observed": 2,
+        "responses_total": 2,
+        "rounds_accepted": 2,
+        "unique_objects_received": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/get": {
+            "accepted": 1,
+            "responses": 1
+          },
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Pending",
+          "reason_code": "query_changed_during_refresh",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:3a564a4d7647f087da68c5517de5c02315ddaf798769db437c3ed95d056b6630",
+          "total": 4,
+          "object_count": 3,
+          "object_ids_hash": "sha256:810ec5cd986453d871fa57aba97866f7708cabf9eda37713737c0ba61fe6ded5",
+          "query_state": "q1",
+          "email_state": "e0",
+          "pending_work": [
+            "query-recheck"
+          ]
+        }
+      },
+      "expected": {
+        "status": "Pending",
+        "reason": "query_changed_during_refresh",
+        "ordered_ids": [
+          "x",
+          "a",
+          "b"
+        ],
+        "query_state": "q1"
+      },
+      "trace_file": "traces/C08.json"
+    },
+    {
+      "scenario_id": "C09",
+      "title": "get 观测到超前 Email state，不能跳过 Email changes",
+      "metrics": {
+        "control_events": 0,
+        "not_found_objects": 0,
+        "objects_received": 1,
+        "requested_objects": 1,
+        "requests_attempted": 1,
+        "requests_planned": 0,
+        "responses_accepted": 1,
+        "responses_observed": 1,
+        "responses_total": 1,
+        "rounds_accepted": 1,
+        "unique_objects_received": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/get": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "NeedsRefresh",
+          "reason_code": "email_state_gap",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q0",
+          "email_state": "e0",
+          "pending_work": [
+            "email-state-gap"
+          ]
+        }
+      },
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "email_state_gap",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "email_state": "e0"
+      },
+      "trace_file": "traces/C09.json"
+    },
+    {
+      "scenario_id": "C10",
+      "title": "旧请求响应晚到时按 generation 丢弃",
+      "metrics": {
+        "control_events": 1,
+        "requests_attempted": 1,
+        "requests_planned": 0,
+        "responses_dropped": 1,
+        "responses_observed": 1,
+        "responses_total": 1,
+        "rounds_accepted": 0,
+        "stale_responses_dropped": 1,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/queryChanges": {
+            "dropped": 1,
+            "responses": 1
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "stale_response_discarded",
+          "generation": 5,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q0",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "reason": "stale_response_discarded",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "generation": 5
+      },
+      "trace_file": "traces/C10.json"
+    },
+    {
+      "scenario_id": "C11",
+      "title": "maxCallsInRequest=1 时拆分请求",
+      "metrics": {
+        "control_events": 2,
+        "requests_attempted": 0,
+        "requests_planned": 2,
+        "responses_observed": 0,
+        "responses_total": 0,
+        "rounds_accepted": 0,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {
+          "Email/get": 1,
+          "Email/query": 1
+        },
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {},
+        "limits": {
+          "maxCallsInRequest": 1,
+          "supportsResultReference": false
+        },
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "view_complete",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q0",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "plan_calls": [
+          [
+            "Email/query"
+          ],
+          [
+            "Email/get"
+          ]
+        ],
+        "uses_result_reference": false
+      },
+      "trace_file": "traces/C11.json"
+    },
+    {
+      "scenario_id": "C12",
+      "title": "maxObjectsInGet 小于前缀时分段并保留 Pending",
+      "metrics": {
+        "budget_terminations": 1,
+        "control_events": 3,
+        "requests_attempted": 0,
+        "requests_planned": 2,
+        "responses_observed": 0,
+        "responses_total": 0,
+        "rounds_accepted": 0,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {
+          "Email/get": 2
+        },
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {},
+        "limits": {
+          "maxObjectsInGet": 2,
+          "max_calls": 1
+        },
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": {
+          "reason": "call_budget_exhausted",
+          "limit": 1,
+          "planned": 2,
+          "used": 1
+        },
+        "final": {
+          "status": "Pending",
+          "reason_code": "call_budget_exhausted",
+          "generation": 0,
+          "ordered_count": 2,
+          "ordered_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+          "total": 3,
+          "object_count": 2,
+          "object_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+          "query_state": "q0",
+          "email_state": "e0",
+          "pending_work": [
+            "budget:call",
+            "get_hash:sha256:fd2079a3096d5abb9bdf54cc5c80262e7b58bac10d524846455474beff760be9"
+          ]
+        }
+      },
+      "expected": {
+        "status": "Pending",
+        "reason": "budget_exhausted",
+        "remaining_ids": [
+          "c"
+        ],
+        "ordered_ids": [
+          "a",
+          "b"
+        ]
+      },
+      "trace_file": "traces/C12.json"
+    },
+    {
+      "scenario_id": "C13",
+      "title": "服务端不支持固定 filter/sort",
+      "metrics": {
+        "control_events": 1,
+        "requests_attempted": 0,
+        "requests_planned": 0,
+        "responses_observed": 0,
+        "responses_total": 0,
+        "rounds_accepted": 0,
+        "unique_objects_received": 0,
+        "unsupported": 1,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {},
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": false,
+          "supportsResultReference": true,
+          "supportsSort": false
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Unsupported",
+          "reason_code": "fixed_query_projection_not_supported",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q0",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Unsupported",
+        "reason": "fixed_query_projection_not_supported"
+      },
+      "trace_file": "traces/C13.json"
+    },
+    {
+      "scenario_id": "C14",
+      "title": "持续变化超出轮数预算",
+      "metrics": {
+        "budget_terminations": 1,
+        "control_events": 1,
+        "query_added": 1,
+        "query_removed": 0,
+        "requests_attempted": 1,
+        "requests_planned": 0,
+        "responses_accepted": 1,
+        "responses_observed": 1,
+        "responses_total": 1,
+        "rounds_accepted": 1,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/queryChanges": {
+            "accepted": 1,
+            "responses": 1
+          }
+        },
+        "limits": {
+          "max_rounds": 1
+        },
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": {
+          "reason": "round_budget_exhausted",
+          "limit": 1,
+          "used": 1,
+          "blocked_event": "query_changes"
+        },
+        "final": {
+          "status": "Pending",
+          "reason_code": "round_budget_exhausted",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:3a564a4d7647f087da68c5517de5c02315ddaf798769db437c3ed95d056b6630",
+          "total": 4,
+          "object_count": 2,
+          "object_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+          "query_state": "q1",
+          "email_state": "e0",
+          "pending_work": [
+            "budget:round"
+          ]
+        }
+      },
+      "expected": {
+        "status": "Pending",
+        "reason": "round_budget_exhausted",
+        "query_state": "q1"
+      },
+      "trace_file": "traces/C14.json"
+    },
+    {
+      "scenario_id": "C15",
+      "title": "空列表、短列表和恰好 N 条不制造缺口",
+      "metrics": {
+        "control_events": 0,
+        "query_rebuilds": 3,
+        "requests_attempted": 3,
+        "requests_planned": 0,
+        "responses_accepted": 3,
+        "responses_observed": 3,
+        "responses_total": 3,
+        "rounds_accepted": 3,
+        "unique_objects_received": 0,
+        "requests_planned_by_method": {},
+        "requests_attempted_definition": "one observed response event corresponds to one attempted call; plan-only calls stay in requests_planned",
+        "response_bytes": null,
+        "response_bytes_available": false,
+        "requests_by_method": {
+          "Email/query": {
+            "accepted": 3,
+            "responses": 3
+          }
+        },
+        "limits": {},
+        "capabilities": {
+          "supportsFilter": true,
+          "supportsResultReference": true,
+          "supportsSort": true
+        },
+        "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+        "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+        "budget_termination": null,
+        "final": {
+          "status": "Ready",
+          "reason_code": "view_complete",
+          "generation": 0,
+          "ordered_count": 3,
+          "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "total": 3,
+          "object_count": 3,
+          "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+          "query_state": "q3",
+          "email_state": "e0",
+          "pending_work": []
+        }
+      },
+      "expected": {
+        "status": "Ready",
+        "length_checks": [
+          {
+            "total": 0,
+            "length": 0
+          },
+          {
+            "total": 2,
+            "length": 2
+          },
+          {
+            "total": 3,
+            "length": 3
+          }
+        ]
+      },
+      "trace_file": "traces/C15.json"
+    }
+  ],
+  "trace_files": [
+    "traces/C01.json",
+    "traces/C02.json",
+    "traces/C03.json",
+    "traces/C04.json",
+    "traces/C05.json",
+    "traces/C06.json",
+    "traces/C07.json",
+    "traces/C08.json",
+    "traces/C09.json",
+    "traces/C10.json",
+    "traces/C11.json",
+    "traces/C12.json",
+    "traces/C13.json",
+    "traces/C14.json",
+    "traces/C15.json"
+  ],
+  "reproducibility": {
+    "command": "python3 scripts/benchmark_metrics.py",
+    "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+    "canonical_json": true,
+    "network": false,
+    "authentication": false
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "trace_version": 2,
+  "run_id": "synthetic-c41227834ccfe457",
+  "scenario_id": "C12",
+  "title": "maxObjectsInGet 小于前缀时分段并保留 Pending",
+  "evidence": "synthetic-local",
+  "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+  "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+  "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+  "capabilities": {
+    "supportsFilter": true,
+    "supportsResultReference": true,
+    "supportsSort": true
+  },
+  "limits": {
+    "maxObjectsInGet": 2,
+    "max_calls": 1
+  },
+  "controls": [
+    {
+      "kind": "limits",
+      "summary": {
+        "maxObjectsInGet": 2
+      },
+      "decision": "Control",
+      "reason_code": "limits_declared",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      },
+      "after": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      }
+    },
+    {
+      "kind": "budget",
+      "summary": {
+        "max_calls": 1
+      },
+      "decision": "Control",
+      "reason_code": "budget_declared",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      },
+      "after": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      }
+    },
+    {
+      "kind": "plan",
+      "summary": {
+        "methods": [
+          "Email/get"
+        ],
+        "ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477"
+      },
+      "decision": "Control",
+      "reason_code": "plan_declared",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      },
+      "after": {
+        "ordered_count": 2,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Pending",
+        "pending_work": [
+          "get_hash:sha256:fd2079a3096d5abb9bdf54cc5c80262e7b58bac10d524846455474beff760be9"
+        ],
+        "object_count": 2,
+        "ordered_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+        "object_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+        "state_hash": "sha256:c2d132cd0a3fe7ba3a63e276ec37f3bb700ba07fd3141d71038051b0b04fb360"
+      }
+    }
+  ],
+  "events": [],
+  "final": {
+    "status": "Pending",
+    "reason_code": "call_budget_exhausted",
+    "generation": 0,
+    "ordered_count": 2,
+    "ordered_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+    "total": 3,
+    "object_count": 2,
+    "object_ids_hash": "sha256:0473ef2dc0d324ab659d3580c1134e9d812035905c4781fdd6d529b0c6860e13",
+    "query_state": "q0",
+    "email_state": "e0",
+    "pending_work": [
+      "budget:call",
+      "get_hash:sha256:fd2079a3096d5abb9bdf54cc5c80262e7b58bac10d524846455474beff760be9"
+    ]
+  },
+  "terminal_reason": "budget_exhausted"
+}

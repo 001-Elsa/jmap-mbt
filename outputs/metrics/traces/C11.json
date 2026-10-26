@@ -1,0 +1,104 @@
+{
+  "trace_version": 2,
+  "run_id": "synthetic-c41227834ccfe457",
+  "scenario_id": "C11",
+  "title": "maxCallsInRequest=1 时拆分请求",
+  "evidence": "synthetic-local",
+  "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+  "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+  "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+  "capabilities": {
+    "supportsFilter": true,
+    "supportsResultReference": true,
+    "supportsSort": true
+  },
+  "limits": {
+    "maxCallsInRequest": 1,
+    "supportsResultReference": false
+  },
+  "controls": [
+    {
+      "kind": "limits",
+      "summary": {
+        "maxCallsInRequest": 1,
+        "supportsResultReference": false
+      },
+      "decision": "Control",
+      "reason_code": "limits_declared",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      },
+      "after": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      }
+    },
+    {
+      "kind": "plan",
+      "summary": {
+        "methods": [
+          "Email/query",
+          "Email/get"
+        ]
+      },
+      "decision": "Control",
+      "reason_code": "plan_declared",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      },
+      "after": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      }
+    }
+  ],
+  "events": [],
+  "final": {
+    "status": "Ready",
+    "reason_code": "view_complete",
+    "generation": 0,
+    "ordered_count": 3,
+    "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+    "total": 3,
+    "object_count": 3,
+    "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+    "query_state": "q0",
+    "email_state": "e0",
+    "pending_work": []
+  },
+  "terminal_reason": null
+}

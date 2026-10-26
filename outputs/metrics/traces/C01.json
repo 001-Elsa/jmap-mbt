@@ -1,0 +1,150 @@
+{
+  "trace_version": 2,
+  "run_id": "synthetic-c41227834ccfe457",
+  "scenario_id": "C01",
+  "title": "顺序不变但 a 的 keywords 改变",
+  "evidence": "synthetic-local",
+  "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+  "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+  "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+  "capabilities": {
+    "supportsFilter": true,
+    "supportsResultReference": true,
+    "supportsSort": true
+  },
+  "limits": {},
+  "controls": [],
+  "events": [
+    {
+      "trace_version": 2,
+      "run_id": "synthetic-c41227834ccfe457",
+      "scenario_id": "C01",
+      "implementation": "vector-projection",
+      "evidence": "synthetic-local",
+      "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+      "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+      "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+      "generation": 0,
+      "step": 1,
+      "ticket": {
+        "request_id": 1,
+        "kind": "Email/changes",
+        "expected_query_state": "q0",
+        "expected_email_state": "e0",
+        "position": 0,
+        "limit": 3
+      },
+      "response": {
+        "call_id": "synthetic-C01-1",
+        "method": "Email/changes",
+        "kind": "email_changes",
+        "bytes": null,
+        "bytes_source": "unavailable",
+        "old_state": "e0",
+        "new_state": "e1",
+        "created_count": 0,
+        "updated_count": 1,
+        "destroyed_count": 0,
+        "has_more": false
+      },
+      "decision": "Continue",
+      "reason_code": "response_accepted",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:315200cab3851bd02909498b247eeec152171072a8277ab826ca0e8a8e72bc2d"
+      },
+      "after": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e1",
+        "completeness": "Pending",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:b346442f47dee0bc6ad7de9ca8acb6706b2f46451c2b612768217add33403a93"
+      }
+    },
+    {
+      "trace_version": 2,
+      "run_id": "synthetic-c41227834ccfe457",
+      "scenario_id": "C01",
+      "implementation": "vector-projection",
+      "evidence": "synthetic-local",
+      "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+      "account_scope_hash": "sha256:bf1075d26d1225d4ccd9fff315fa3204c002d7c671b1f53b0a0e6d93161b18bd",
+      "query_key_hash": "sha256:5ed0d3ee227417e2ddbc95771c5a09f261f1f6ac0470d73fd945843f59eee67e",
+      "generation": 0,
+      "step": 2,
+      "ticket": {
+        "request_id": 2,
+        "kind": "Email/get",
+        "expected_query_state": "q0",
+        "expected_email_state": "e1",
+        "position": 0,
+        "limit": 3
+      },
+      "response": {
+        "call_id": "synthetic-C01-2",
+        "method": "Email/get",
+        "kind": "email_get",
+        "bytes": null,
+        "bytes_source": "unavailable",
+        "old_state": null,
+        "new_state": "e1",
+        "requested_count": 1,
+        "list_count": 1,
+        "not_found_count": 0
+      },
+      "decision": "Commit",
+      "reason_code": "view_complete",
+      "before": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e1",
+        "completeness": "Pending",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:b346442f47dee0bc6ad7de9ca8acb6706b2f46451c2b612768217add33403a93"
+      },
+      "after": {
+        "ordered_count": 3,
+        "total": 3,
+        "query_state": "q0",
+        "email_state": "e1",
+        "completeness": "Ready",
+        "pending_work": [],
+        "object_count": 3,
+        "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+        "state_hash": "sha256:2f4b8faa4d9f3785ea8dde75694eb66212e386ec5adc9dd6fd111ca2f4d8a99b"
+      }
+    }
+  ],
+  "final": {
+    "status": "Ready",
+    "reason_code": "view_complete",
+    "generation": 0,
+    "ordered_count": 3,
+    "ordered_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+    "total": 3,
+    "object_count": 3,
+    "object_ids_hash": "sha256:fa1844c2988ad15ab7b49e0ece09684500fad94df916859fb9a43ff85f5bb477",
+    "query_state": "q0",
+    "email_state": "e1",
+    "pending_work": []
+  },
+  "terminal_reason": null
+}
