@@ -18,7 +18,7 @@
 
 **尚未满足两端当前一致和默认master。** 本次读取Gitlink HEAD仍为main、提交6069ca1；GitHub已向前更新。本机没有Gitlink HTTPS推送凭据，已有SSH身份也被拒绝。内置浏览器已登录并可管理项目，但浏览器登录不是Git协议凭据。
 
-已找到项目“服务→Reposyncer仓库同步”，填好目标Github仓库地址。该服务还要求Github仓库读写token，并配置webhook与同步分支；未输入或传递任何token，也未擅自启用持续授权。同步授权或Git推送认证补齐后，应同步完整历史、设Gitlink默认master，并用`git ls-remote --symref`比对HEAD、分支尖端和本地提交。
+本人随后明确授权配置这一个仓库的同步权限。已创建仅选择`001-Elsa/jmap-mbt`的fine-grained token，Contents和Webhooks为读写、Metadata为必需只读，有效期至2026-11-25；已保存给Gitlink Reposyncer，不将凭据写入源码、日志或截图。GitHub已配置仅push事件的HTTPS webhook，证书校验开启，测试ping返回204。Gitlink已绑定两端master，首次同步方向为GitHub→Gitlink；任务结果尚待核实。应在实际同步完成后设Gitlink默认master，并用`git ls-remote --symref`比对HEAD、分支尖端和本地提交。
 
 ## 3. Mooncakes
 

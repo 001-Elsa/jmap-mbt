@@ -15,7 +15,7 @@
 
 ## 发布内容及验证
 
-增加README.mbt.md、ACCEPTANCE.md和MoonBit主演示等交付文件；统一格式，保持既有主库功能与边界。仓库CI增加native执行和格式/deny-warn门禁；注册表工具不会将`.github`目录打进Mooncakes ZIP，CI由GitHub仓库提供。个人申报书和联系方式仍位于排除的本机work目录，已扫描上传ZIP确认无对应电话/邮箱，不随发布公开。
+增加README.mbt.md、ACCEPTANCE.md，保留既有MoonBit主演示等交付文件；统一格式，保持既有主库功能与边界。仓库CI增加native执行和格式/deny-warn门禁；注册表工具不会将`.github`目录打进Mooncakes ZIP，CI由GitHub仓库提供。个人申报书和联系方式仍位于排除的本机work目录，已扫描上传ZIP确认无对应电话/邮箱，不随发布公开。
 
 发布前`moon update`、`moon fmt --check`、`moon check --target all --deny-warn`、`moon test --target all --deny-warn`、`moon info`、`moon package`均已实际执行。四个后端各86/86。本机native使用进程级SDKROOT选择已有MacOSX26.5 SDK，未修改系统默认配置；Linux原生后端由远程CI独立运行。
 
