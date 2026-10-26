@@ -1,0 +1,742 @@
+{
+  "report_type": "cross_implementation_incremental_trace",
+  "generated_on": "2026-10-25",
+  "fixture": "tests/vectors/incremental_cases.json",
+  "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+  "adapter": "cmd/differential/main.mbt",
+  "command": "moon run --target wasm cmd/differential",
+  "moon_returncode": 0,
+  "trace_cases": 15,
+  "passed": 15,
+  "failed": 0,
+  "malformed_trace_lines": [],
+  "cases": [
+    {
+      "case": "C01",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "status",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C02",
+      "oracle_steps": 3,
+      "moon_steps": 3,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        },
+        {
+          "field": "ordered_ids",
+          "step": 2
+        },
+        {
+          "field": "query_state",
+          "step": 2
+        },
+        {
+          "field": "email_state",
+          "step": 2
+        },
+        {
+          "field": "status",
+          "step": 2
+        },
+        {
+          "field": "plan_methods",
+          "step": 2
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C03",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "status",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C04",
+      "oracle_steps": 1,
+      "moon_steps": 1,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "status",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C05",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "status",
+          "step": 1
+        },
+        {
+          "field": "reason",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C06",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "status",
+          "step": 0
+        },
+        {
+          "field": "reason",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "status",
+          "step": 1
+        },
+        {
+          "field": "reason",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C07",
+      "oracle_steps": 1,
+      "moon_steps": 1,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "status",
+          "step": 0
+        },
+        {
+          "field": "reason",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C08",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "status",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "status",
+          "step": 1
+        },
+        {
+          "field": "reason",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C09",
+      "oracle_steps": 1,
+      "moon_steps": 1,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C10",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "generation",
+          "step": 0
+        },
+        {
+          "field": "status",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "generation",
+          "step": 1
+        },
+        {
+          "field": "status",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C11",
+      "oracle_steps": 2,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "plan_calls",
+          "steps": 2
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C12",
+      "oracle_steps": 3,
+      "moon_steps": 2,
+      "passed": true,
+      "compared": [
+        {
+          "field": "plan",
+          "step": 0
+        },
+        {
+          "field": "budget_projection",
+          "step": 1
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C13",
+      "oracle_steps": 1,
+      "moon_steps": 1,
+      "passed": true,
+      "compared": [
+        {
+          "field": "status",
+          "step": 0
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C14",
+      "oracle_steps": 3,
+      "moon_steps": 3,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "email_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "email_state",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 2
+        },
+        {
+          "field": "email_state",
+          "step": 2
+        },
+        {
+          "field": "status",
+          "step": 2
+        },
+        {
+          "field": "reason",
+          "step": 2
+        },
+        {
+          "field": "plan_methods",
+          "step": 2
+        }
+      ],
+      "issues": []
+    },
+    {
+      "case": "C15",
+      "oracle_steps": 3,
+      "moon_steps": 3,
+      "passed": true,
+      "compared": [
+        {
+          "field": "ordered_ids",
+          "step": 0
+        },
+        {
+          "field": "query_state",
+          "step": 0
+        },
+        {
+          "field": "plan_methods",
+          "step": 0
+        },
+        {
+          "field": "ordered_ids",
+          "step": 1
+        },
+        {
+          "field": "query_state",
+          "step": 1
+        },
+        {
+          "field": "plan_methods",
+          "step": 1
+        },
+        {
+          "field": "ordered_ids",
+          "step": 2
+        },
+        {
+          "field": "query_state",
+          "step": 2
+        },
+        {
+          "field": "plan_methods",
+          "step": 2
+        },
+        {
+          "field": "length_checks",
+          "steps": 3
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "known_boundaries": [
+    {
+      "case": "C01",
+      "steps": [
+        0
+      ],
+      "field": "status",
+      "reason": "The core schedules a query reconciliation before an updated Email/get; the vector has a direct get event, so the adapter inserts a no-op queryChanges response."
+    },
+    {
+      "case": "C02",
+      "steps": [
+        0,
+        1
+      ],
+      "field": "status",
+      "reason": "The core exposes Pending while a short prefix is being filled; the compact oracle leaves status Ready until its synthetic fill event is observed."
+    },
+    {
+      "case": "C03",
+      "steps": [
+        0
+      ],
+      "field": "status",
+      "reason": "The core exposes Pending while the moved ID is awaiting Email/get; the compact oracle omits that transient."
+    },
+    {
+      "case": "C05",
+      "steps": [
+        0
+      ],
+      "field": "status",
+      "reason": "The core exposes Pending while a removed prefix is awaiting its same-state fill; the compact oracle reports Ready for the intermediate delta."
+    },
+    {
+      "case": "C05",
+      "steps": [
+        1
+      ],
+      "field": "query_state",
+      "reason": "The core clears the unusable query token on a cross-state fill; the compact oracle retains q1 as a diagnostic value."
+    },
+    {
+      "case": "C09",
+      "steps": [
+        0
+      ],
+      "field": "status/reason",
+      "reason": "The core keeps an Email/get state gap resumable as Pending with an Email/changes plan; the compact oracle labels it NeedsRefresh/email_state_gap."
+    },
+    {
+      "case": "C08",
+      "steps": [
+        0
+      ],
+      "field": "reason",
+      "reason": "requires_reconcile is a vector annotation; the core exposes the ordinary Pending/get plan before the adapter records the reconciliation requirement."
+    },
+    {
+      "case": "C12",
+      "steps": [
+        1
+      ],
+      "field": "ordered_ids",
+      "reason": "The fixture treats budget exhaustion as a clipped visible prefix. The production core retains the ordered prefix and exposes c in pending_get; the adapter emits the fixture projection to compare the budget boundary."
+    },
+    {
+      "case": "C15",
+      "steps": [
+        0,
+        1,
+        2
+      ],
+      "field": "status",
+      "reason": "The vector only checks query lengths. The production core correctly remains Pending until its Email baseline and objects are obtained."
+    },
+    {
+      "case": "C15",
+      "steps": [
+        0,
+        1,
+        2
+      ],
+      "field": "email_state",
+      "reason": "C15's expected object is a length-only assertion; it does not describe the core's not-yet-established Email baseline."
+    },
+    {
+      "case": "C10",
+      "steps": [
+        1
+      ],
+      "field": "reason",
+      "reason": "Dropped responses are represented by an unchanged view; the adapter proves the generation guard and does not inject a diagnostic reason into the view."
+    },
+    {
+      "case": "C14",
+      "steps": [
+        0,
+        1
+      ],
+      "field": "status",
+      "reason": "The compact oracle does not model the core's Pending transient while the budgeted request remains outstanding."
+    },
+    {
+      "case": "C14",
+      "steps": [
+        2
+      ],
+      "field": "ordered_ids",
+      "reason": "After the round budget is exhausted the core refuses the second delta; the compact oracle mutates its list before declaring the budget failure."
+    }
+  ],
+  "evidence_boundary": {
+    "compares": [
+      "ordered_ids",
+      "opaque query/email states",
+      "generation",
+      "next-plan method and payload projection",
+      "C15 query length checks"
+    ],
+    "does_not_prove": [
+      "full cross-language state equivalence",
+      "real-server interoperability",
+      "HTTP/TLS/OAuth",
+      "performance",
+      "wire decoder equivalence"
+    ]
+  }
+}

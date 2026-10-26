@@ -1,0 +1,7 @@
+import {
+ "moonjmap/moonjmap/src/email" @email,
+ "moonjmap/moonjmap/src/sync" @sync,
+}
+options(
+ "is-main": true,
+)
