@@ -30,9 +30,11 @@ PACKAGE_RE = re.compile(r"^name\s*=\s*\"([^\"]+)\"\s*$", re.MULTILINE)
 # Source-delivery allowlist. Keep generated build products and the large
 # investigative work/outputs directories out of a package intended for users.
 TOP_LEVEL_FILES = (
+    "ACCEPTANCE.md",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
+    "README.mbt.md",
     "moon.mod",
     "moon.pkg",
     "pkg.generated.mbti",

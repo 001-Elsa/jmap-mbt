@@ -1,7 +1,6 @@
 import {
- "001-Elsa/moonjmap/src/email" @email,
- "001-Elsa/moonjmap/src/sync" @sync,
+  "001-Elsa/moonjmap/src/email",
+  "001-Elsa/moonjmap/src/sync",
 }
-options(
- "is-main": true,
-)
+
+pkgtype(kind: "executable")

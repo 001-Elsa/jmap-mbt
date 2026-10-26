@@ -5,17 +5,23 @@
 // | boundary so a MoonBit caller can construct the same fixed JMAP tuples and
 // | hand them to an existing JSON/HTTP library.
 
-///| The only methods exported by MoonJMAP v0.1.
+///|
+/// The only methods exported by MoonJMAP v0.1.
 pub(all) enum MethodName {
   EmailQuery
   EmailQueryChanges
   EmailGet
   EmailChanges
 } derive(Eq, Debug)
+
+///|
 pub extend MethodName with Eq::{not_equal, equal}
+
+///|
 pub extend MethodName with @moonbitlang/core/debug.Debug::{to_repr}
 
-///| Return the wire method name, without introducing a generic RPC dispatcher.
+///|
+/// Return the wire method name, without introducing a generic RPC dispatcher.
 pub fn MethodName::wire_name(self : Self) -> String {
   match self {
     EmailQuery => "Email/query"
@@ -26,21 +32,32 @@ pub fn MethodName::wire_name(self : Self) -> String {
 }
 
 ///| Failure classes exposed by the wire boundary.  A sync caller can map
-///| `StaleResponse` to a dropped response without advancing a checkpoint.
+
+///|
+/// `StaleResponse` to a dropped response without advancing a checkpoint.
 pub(all) enum DecodeFailure {
   InvalidInput(String)
   Unsupported(String)
   ProtocolFailure(String)
   StaleResponse(String)
 } derive(Eq, Debug)
+
+///|
 pub extend DecodeFailure with Eq::{not_equal, equal}
+
+///|
 pub extend DecodeFailure with @moonbitlang/core/debug.Debug::{to_repr}
 
-///| The sole supported result reference: an in-batch Email/query `/ids` value.
+///|
+/// The sole supported result reference: an in-batch Email/query `/ids` value.
 pub(all) struct ResultReference {
   result_of : String
 } derive(Eq, Debug)
+
+///|
 pub extend ResultReference with Eq::{not_equal, equal}
+
+///|
 pub extend ResultReference with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
@@ -62,21 +79,30 @@ pub fn ResultReference::to_json(self : Self) -> Json {
 }
 
 ///| A JMAP method call tuple.  `arguments` is a fixed-method object built by a
+
 ///| higher-level request type; this package deliberately does not parse generic
-///| JSON pointers or dispatch arbitrary RPC methods.
+
+///|
+/// JSON pointers or dispatch arbitrary RPC methods.
 pub(all) struct MethodCall {
   method_name : MethodName
   arguments : Json
   call_id : String
 } derive(Debug)
+
+///|
 pub extend MethodCall with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
-pub fn MethodCall::new(method_name : MethodName, arguments : Json, call_id : String) -> MethodCall? {
+pub fn MethodCall::new(
+  method_name : MethodName,
+  arguments : Json,
+  call_id : String,
+) -> MethodCall? {
   if call_id.is_empty() {
     None
   } else {
-    Some({ method_name, arguments, call_id })
+    Some({ method_name, arguments, call_id, })
   }
 }
 
@@ -90,10 +116,14 @@ pub fn MethodCall::to_json(self : Self) -> Json {
 }
 
 ///| Fixed request envelope.  `using` is intentionally not configurable: the
-///| v0.1 core only speaks JMAP Core + Mail.
+
+///|
+/// v0.1 core only speaks JMAP Core + Mail.
 pub(all) struct Request {
   method_calls : Array[MethodCall]
 } derive(Debug)
+
+///|
 pub extend Request with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
@@ -112,16 +142,22 @@ pub fn Request::to_json(self : Self) -> Json {
       Json::string("urn:ietf:params:jmap:core"),
       Json::string("urn:ietf:params:jmap:mail"),
     ]),
-    "methodCalls": Json::array(self.method_calls.map(fn(call) { call.to_json() })),
+    "methodCalls": Json::array(
+      self.method_calls.map(fn(call) { call.to_json() }),
+    ),
   }
 }
 
 ///| A server-side JMAP method error.  Unknown fields are retained in the raw
-///| object by the Python codec; MoonBit callers can keep the same object here.
+
+///|
+/// object by the Python codec; MoonBit callers can keep the same object here.
 pub(all) struct MethodError {
   type_ : String
   arguments : Json
 } derive(Debug)
+
+///|
 pub extend MethodError with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
@@ -129,29 +165,39 @@ pub fn MethodError::new(type_ : String, arguments : Json) -> MethodError? {
   if type_.is_empty() {
     None
   } else {
-    Some({ type_, arguments })
+    Some({ type_, arguments, })
   }
 }
 
 ///| Raw response tuple.  The method name is kept so the synchronisation layer
+
 ///| can correlate call IDs and validate the expected response kind before it
-///| advances either state token.
+
+///|
+/// advances either state token.
 pub(all) struct MethodResponse {
   name : String
   arguments : Json
   call_id : String
 } derive(Debug)
+
+///|
 pub extend MethodResponse with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
-pub fn MethodResponse::new(name : String, arguments : Json, call_id : String) -> MethodResponse? {
+pub fn MethodResponse::new(
+  name : String,
+  arguments : Json,
+  call_id : String,
+) -> MethodResponse? {
   if call_id.is_empty() || !supported_response_name(name) {
     None
   } else {
-    Some({ name, arguments, call_id })
+    Some({ name, arguments, call_id, })
   }
 }
 
+///|
 /// A response after a fixed-method wire adapter has decoded its accountId.
 ///
 /// This is intentionally a metadata envelope rather than a generic JSON
@@ -166,8 +212,11 @@ pub(all) struct TypedMethodResponse {
   call_id : String
   can_calculate_changes : Bool?
 } derive(Debug)
+
+///|
 pub extend TypedMethodResponse with @moonbitlang/core/debug.Debug::{to_repr}
 
+///|
 pub fn TypedMethodResponse::new(
   method_name : MethodName,
   account_id : String,
@@ -180,24 +229,24 @@ pub fn TypedMethodResponse::new(
   } else if method_name != EmailQuery && can_calculate_changes is Some(_) {
     None
   } else {
-    Some({
-      method_name,
-      account_id,
-      arguments,
-      call_id,
-      can_calculate_changes,
-    })
+    Some({ method_name, account_id, arguments, call_id, can_calculate_changes, })
   }
 }
 
+///|
 /// Convert the typed metadata envelope back to the raw JMAP tuple.  The
 /// accountId and optional capability remain in `arguments`; this conversion
 /// does not synthesize or mutate JSON fields because this package deliberately
 /// avoids a generic JSON object builder.
 pub fn TypedMethodResponse::to_method_response(self : Self) -> MethodResponse? {
-  MethodResponse::new(self.method_name.wire_name(), self.arguments, self.call_id)
+  MethodResponse::new(
+    self.method_name.wire_name(),
+    self.arguments,
+    self.call_id,
+  )
 }
 
+///|
 pub fn TypedMethodResponse::account_matches(
   self : Self,
   expected_account_id : String,
@@ -205,17 +254,26 @@ pub fn TypedMethodResponse::account_matches(
   !expected_account_id.is_empty() && self.account_id == expected_account_id
 }
 
+///|
 fn supported_response_name(name : String) -> Bool {
-  name == "error" || name == "Email/query" || name == "Email/queryChanges" ||
-    name == "Email/get" || name == "Email/changes"
+  name == "error" ||
+  name == "Email/query" ||
+  name == "Email/queryChanges" ||
+  name == "Email/get" ||
+  name == "Email/changes"
 }
 
 ///| Fixed response envelope.  JMAP method responses are ordered tuples and may
+
 ///| contain multiple rows for one logical request; callers must not collapse
-///| them into a call-id dictionary.
+
+///|
+/// them into a call-id dictionary.
 pub(all) struct Response {
   method_responses : Array[MethodResponse]
 } derive(Debug)
+
+///|
 pub extend Response with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
@@ -230,13 +288,14 @@ pub fn Response::new(method_responses : Array[MethodResponse]) -> Response? {
 ///|
 pub fn Response::to_json(self : Self) -> Json {
   {
-    "methodResponses": Json::array(self.method_responses.map(fn(row) {
-      Json::array([
-        Json::string(row.name),
-        row.arguments,
-        Json::string(row.call_id),
-      ])
-    })),
+    "methodResponses": Json::array(
+      self.method_responses.map(fn(row) {
+        Json::array([
+          Json::string(row.name),
+          row.arguments,
+          Json::string(row.call_id),
+        ])
+      }),
+    ),
   }
 }
-

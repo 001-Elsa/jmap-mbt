@@ -2,247 +2,804 @@
 // This is a deterministic trace adapter: it drives the public sync acceptance
 // boundary with typed ServerResponse values and prints projections. It does
 // not import or execute the Python oracle.
+
+///|
 fn complete_record(id : String) -> @email.EmailRecord {
-  { id, thread_id: "thread-" + id,
-    mailbox_ids: Some([@email.BooleanEntry::{key: "inbox", value: true}]),
-    keywords: Some([]), received_at: Some("2026-10-25T00:00:00Z"),
+  {
+    id,
+    thread_id: "thread-" + id,
+    mailbox_ids: Some([@email.BooleanEntry::{ key: "inbox", value: true, }]),
+    keywords: Some([]),
+    received_at: Some("2026-10-25T00:00:00Z"),
     subject: Some("Subject " + id),
-    from: Some([@email.EmailAddress::{email: id + "@example.test", name: None}]),
-    preview: Some("Preview " + id), }
-}
-fn view_of(result : @sync.Acceptance) -> @sync.EmailView {
- match result {
-  @sync.Acceptance::Continue(x) => x.view
-  @sync.Acceptance::Commit(x) => x.view
-  @sync.Acceptance::Pending(x) => x.view
-  @sync.Acceptance::NeedsRefresh(x) => x.view
-  @sync.Acceptance::Unsupported(x) => x.view
-  @sync.Acceptance::ProtocolFailure(x) => x.view
-  @sync.Acceptance::Dropped(x) => x.view
- }
-}
-fn status_name(c : @sync.Completeness) -> String {
- match c {
-  @sync.Completeness::Ready => "Ready"
-  @sync.Completeness::Pending => "Pending"
-  @sync.Completeness::NeedsRefresh => "NeedsRefresh"
-  @sync.Completeness::Unsupported => "Unsupported"
-  @sync.Completeness::ProtocolFailure => "ProtocolFailure"
- }
-}
-fn opt(s : String?) -> String { s.unwrap_or("") }
-fn methods(plan : @sync.Plan) -> String {
- let out : Array[String] = []
- for req in plan.requests {
-  let name = match req.kind {
-   @sync.RequestKind::Query => "Email/query"
-   @sync.RequestKind::QueryChanges => "Email/queryChanges"
-   @sync.RequestKind::Get => "Email/get"
-   @sync.RequestKind::Changes => "Email/changes"
+    from: Some([
+      @email.EmailAddress::{ email: id + "@example.test", name: None, },
+    ]),
+    preview: Some("Preview " + id),
   }
-  out.push(name + "#" + req.ids.join(",") + "@" + req.position.to_string() + ":" + req.limit.to_string())
- }
- out.join(";")
 }
-fn emit(case_id : String, step : Int, result : @sync.Acceptance) -> @sync.EmailView {
- let v = view_of(result)
- let status = status_name(v.completeness)
- let completeness = v.completeness
- let p = @sync.plan(v)
- v.completeness = completeness
- println("M|" + case_id + "|" + step.to_string() + "|" + status + "|len=" + v.total.to_string() + ":" + v.ordered_ids.length().to_string() + "|ids=" + v.ordered_ids.join(",") + "|q=" + opt(v.query_state) + "|e=" + opt(v.email_state) + "|gen=" + v.generation.to_string() + "|reason=" + opt(v.pending_reason) + "|qr=" + v.query_required.to_string() + "|er=" + v.email_required.to_string() + "|qv=" + v.query_valid.to_string() + "|ev=" + v.email_valid.to_string() + "|qfill=" + v.query_fill_required.to_string() + "|pg=" + v.pending_get.join(",") + "|r=" + v.rounds.to_string() + "/" + v.limits.max_rounds.to_string() + "|plan=" + methods(p))
- v
+
+///|
+fn view_of(result : @sync.Acceptance) -> @sync.EmailView {
+  match result {
+    @sync.Acceptance::Continue(x) => x.view
+    @sync.Acceptance::Commit(x) => x.view
+    @sync.Acceptance::Pending(x) => x.view
+    @sync.Acceptance::NeedsRefresh(x) => x.view
+    @sync.Acceptance::Unsupported(x) => x.view
+    @sync.Acceptance::ProtocolFailure(x) => x.view
+    @sync.Acceptance::Dropped(x) => x.view
+  }
 }
-fn emit_view(case_id : String, step : Int, v : @sync.EmailView) -> @sync.EmailView {
- let status = status_name(v.completeness)
- let completeness = v.completeness
- let p = @sync.plan(v)
- v.completeness = completeness
- println("M|" + case_id + "|" + step.to_string() + "|" + status + "|len=" + v.total.to_string() + ":" + v.ordered_ids.length().to_string() + "|ids=" + v.ordered_ids.join(",") + "|q=" + opt(v.query_state) + "|e=" + opt(v.email_state) + "|gen=" + v.generation.to_string() + "|reason=" + opt(v.pending_reason) + "|qr=" + v.query_required.to_string() + "|er=" + v.email_required.to_string() + "|qv=" + v.query_valid.to_string() + "|ev=" + v.email_valid.to_string() + "|qfill=" + v.query_fill_required.to_string() + "|pg=" + v.pending_get.join(",") + "|r=" + v.rounds.to_string() + "/" + v.limits.max_rounds.to_string() + "|plan=" + methods(p))
- v
+
+///|
+fn status_name(c : @sync.Completeness) -> String {
+  match c {
+    @sync.Completeness::Ready => "Ready"
+    @sync.Completeness::Pending => "Pending"
+    @sync.Completeness::NeedsRefresh => "NeedsRefresh"
+    @sync.Completeness::Unsupported => "Unsupported"
+    @sync.Completeness::ProtocolFailure => "ProtocolFailure"
+  }
 }
-fn emit_plan(case_id : String, step : Int, p : @sync.Plan) -> Unit {
- println("P|" + case_id + "|" + step.to_string() + "|plan=" + methods(p))
+
+///|
+fn opt(s : String?) -> String {
+  s.unwrap_or("")
 }
-fn seed_with_limits(ids : Array[String], total : Int, qstate : String, estate : String, limits : @sync.Limits) -> @sync.EmailView {
- let account : @sync.AccountScope = @sync.AccountScope::{service_identity:"trace", account_id:"acc"}
- let mut v = @sync.open_view(account,@email.ViewSpec::Latest("inbox"),limits,None)
- let q = @sync.plan(v).requests[0]
- v = view_of(@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids, total, state:qstate, bytes:1})))
- let b = @sync.plan(v).requests[0]
- v = view_of(@sync.accept_response(v,b.ticket,@sync.ServerResponse::GetResult({list:[],not_found:[],state:estate,bytes:1})))
- if ids.length() > 0 {
-  let g = @sync.plan(v).requests[0]
-  let records = ids.map(complete_record)
-  v = view_of(@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:records,not_found:[],state:estate,bytes:1})))
- }
- v
+
+///|
+fn methods(plan : @sync.Plan) -> String {
+  let out : Array[String] = []
+  for req in plan.requests {
+    let name = match req.kind {
+      @sync.RequestKind::Query => "Email/query"
+      @sync.RequestKind::QueryChanges => "Email/queryChanges"
+      @sync.RequestKind::Get => "Email/get"
+      @sync.RequestKind::Changes => "Email/changes"
+    }
+    out.push(
+      name +
+      "#" +
+      req.ids.join(",") +
+      "@" +
+      req.position.to_string() +
+      ":" +
+      req.limit.to_string(),
+    )
+  }
+  out.join(";")
 }
-fn seed(ids : Array[String], total : Int, qstate : String, estate : String) -> @sync.EmailView {
- let limits : @sync.Limits = @sync.Limits::{prefix_limit:ids.length(), max_rounds:100, max_bytes:100000, max_objects_per_get:50, max_changes:500}
- seed_with_limits(ids,total,qstate,estate,limits)
+
+///|
+fn emit(
+  case_id : String,
+  step : Int32,
+  result : @sync.Acceptance,
+) -> @sync.EmailView {
+  let v = view_of(result)
+  let status = status_name(v.completeness)
+  let completeness = v.completeness
+  let p = @sync.plan(v)
+  v.completeness = completeness
+  println(
+    "M|" +
+    case_id +
+    "|" +
+    step.to_string() +
+    "|" +
+    status +
+    "|len=" +
+    v.total.to_string() +
+    ":" +
+    v.ordered_ids.length().to_string() +
+    "|ids=" +
+    v.ordered_ids.join(",") +
+    "|q=" +
+    opt(v.query_state) +
+    "|e=" +
+    opt(v.email_state) +
+    "|gen=" +
+    v.generation.to_string() +
+    "|reason=" +
+    opt(v.pending_reason) +
+    "|qr=" +
+    v.query_required.to_string() +
+    "|er=" +
+    v.email_required.to_string() +
+    "|qv=" +
+    v.query_valid.to_string() +
+    "|ev=" +
+    v.email_valid.to_string() +
+    "|qfill=" +
+    v.query_fill_required.to_string() +
+    "|pg=" +
+    v.pending_get.join(",") +
+    "|r=" +
+    v.rounds.to_string() +
+    "/" +
+    v.limits.max_rounds.to_string() +
+    "|plan=" +
+    methods(p),
+  )
+  v
 }
+
+///|
+fn emit_view(
+  case_id : String,
+  step : Int32,
+  v : @sync.EmailView,
+) -> @sync.EmailView {
+  let status = status_name(v.completeness)
+  let completeness = v.completeness
+  let p = @sync.plan(v)
+  v.completeness = completeness
+  println(
+    "M|" +
+    case_id +
+    "|" +
+    step.to_string() +
+    "|" +
+    status +
+    "|len=" +
+    v.total.to_string() +
+    ":" +
+    v.ordered_ids.length().to_string() +
+    "|ids=" +
+    v.ordered_ids.join(",") +
+    "|q=" +
+    opt(v.query_state) +
+    "|e=" +
+    opt(v.email_state) +
+    "|gen=" +
+    v.generation.to_string() +
+    "|reason=" +
+    opt(v.pending_reason) +
+    "|qr=" +
+    v.query_required.to_string() +
+    "|er=" +
+    v.email_required.to_string() +
+    "|qv=" +
+    v.query_valid.to_string() +
+    "|ev=" +
+    v.email_valid.to_string() +
+    "|qfill=" +
+    v.query_fill_required.to_string() +
+    "|pg=" +
+    v.pending_get.join(",") +
+    "|r=" +
+    v.rounds.to_string() +
+    "/" +
+    v.limits.max_rounds.to_string() +
+    "|plan=" +
+    methods(p),
+  )
+  v
+}
+
+///|
+fn emit_plan(case_id : String, step : Int32, p : @sync.Plan) -> Unit {
+  println("P|" + case_id + "|" + step.to_string() + "|plan=" + methods(p))
+}
+
+///|
+fn seed_with_limits(
+  ids : Array[String],
+  total : Int32,
+  qstate : String,
+  estate : String,
+  limits : @sync.Limits,
+) -> @sync.EmailView {
+  let account : @sync.AccountScope = @sync.AccountScope::{
+    service_identity: "trace",
+    account_id: "acc",
+  }
+  let mut v = @sync.open_view(
+    account,
+    @email.ViewSpec::Latest("inbox"),
+    limits,
+    None,
+  )
+  let q = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryResult({ ids, total, state: qstate, bytes: 1, }),
+    ),
+  )
+  let b = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      b.ticket,
+      @sync.ServerResponse::GetResult({
+        list: [],
+        not_found: [],
+        state: estate,
+        bytes: 1,
+      }),
+    ),
+  )
+  if ids.length() > 0 {
+    let g = @sync.plan(v).requests[0]
+    let records = ids.map(complete_record)
+    v = view_of(
+      @sync.accept_response(
+        v,
+        g.ticket,
+        @sync.ServerResponse::GetResult({
+          list: records,
+          not_found: [],
+          state: estate,
+          bytes: 1,
+        }),
+      ),
+    )
+  }
+  v
+}
+
+///|
+fn seed(
+  ids : Array[String],
+  total : Int32,
+  qstate : String,
+  estate : String,
+) -> @sync.EmailView {
+  let limits : @sync.Limits = @sync.Limits::{
+    prefix_limit: ids.length(),
+    max_rounds: 100,
+    max_bytes: 100000,
+    max_objects_per_get: 50,
+    max_changes: 500,
+  }
+  seed_with_limits(ids, total, qstate, estate, limits)
+}
+
+///|
 fn force_query_changes(v : @sync.EmailView) -> @sync.EmailView {
- v.query_required = true
- v.query_changes_allowed = true
- v
+  v.query_required = true
+  v.query_changes_allowed = true
+  v
 }
+
+///|
 fn force_get(v : @sync.EmailView, ids : Array[String]) -> @sync.EmailView {
- v.email_required = false
- v.query_required = false
- v.pending_get = ids
- v
+  v.email_required = false
+  v.query_required = false
+  v.pending_get = ids
+  v
 }
 
+///|
 fn c01() -> Unit {
- let mut v = seed(["a","b","c"],3,"q0","e0")
- v.email_required=true
- let t=@sync.plan(v).requests[0]
- v=emit("C01",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::EmailChangesResult({created:[],updated:["a"],destroyed:[],old_state:"e0",new_state:"e1",has_more_changes:false,bytes:1})))
- // Core coordinates query membership before object fetch; bridge the vector's
- // direct get by applying a deterministic no-op query delta.
- let q=@sync.plan(v).requests[0]
- v=view_of(@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryChangesResult({removed:[],added:[],total:3,old_state:"q0",new_state:"q0",bytes:1})))
- let g=@sync.plan(v).requests[0]
- v=emit("C01",1,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("a")],not_found:[],state:"e1",bytes:1})))
+  let mut v = seed(["a", "b", "c"], 3, "q0", "e0")
+  v.email_required = true
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C01",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::EmailChangesResult({
+        created: [],
+        updated: ["a"],
+        destroyed: [],
+        old_state: "e0",
+        new_state: "e1",
+        has_more_changes: false,
+        bytes: 1,
+      }),
+    ),
+  )
+  // Core coordinates query membership before object fetch; bridge the vector's
+  // direct get by applying a deterministic no-op query delta.
+  let q = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: [],
+        added: [],
+        total: 3,
+        old_state: "q0",
+        new_state: "q0",
+        bytes: 1,
+      }),
+    ),
+  )
+  let g = @sync.plan(v).requests[0]
+  v = emit(
+    "C01",
+    1,
+    @sync.accept_response(
+      v,
+      g.ticket,
+      @sync.ServerResponse::GetResult({
+        list: [complete_record("a")],
+        not_found: [],
+        state: "e1",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c02() -> Unit {
- let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let t=@sync.plan(v).requests[0]
- v=emit("C02",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["b"],added:[],total:4,old_state:"q0",new_state:"q1",bytes:1})))
- let q=@sync.plan(v).requests[0]
- v=emit("C02",1,@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:["d"],total:4,state:"q1",bytes:1})))
- let g=@sync.plan(v).requests[0]
- v=emit("C02",2,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("d")],not_found:[],state:"e0",bytes:1})))
+  let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C02",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: ["b"],
+        added: [],
+        total: 4,
+        old_state: "q0",
+        new_state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  let q = @sync.plan(v).requests[0]
+  v = emit(
+    "C02",
+    1,
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryResult({
+        ids: ["d"],
+        total: 4,
+        state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  let g = @sync.plan(v).requests[0]
+  v = emit(
+    "C02",
+    2,
+    @sync.accept_response(
+      v,
+      g.ticket,
+      @sync.ServerResponse::GetResult({
+        list: [complete_record("d")],
+        not_found: [],
+        state: "e0",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c03() -> Unit {
- let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let t=@sync.plan(v).requests[0]
- v=emit("C03",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["b"],added:[@sync.Added::{id:"b",index:0}],total:3,old_state:"q0",new_state:"q1",bytes:1})))
- let g=@sync.plan(v).requests[0]
- v=emit("C03",1,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("b")],not_found:[],state:"e0",bytes:1})))
+  let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C03",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: ["b"],
+        added: [@sync.Added::{ id: "b", index: 0, }],
+        total: 3,
+        old_state: "q0",
+        new_state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  let g = @sync.plan(v).requests[0]
+  v = emit(
+    "C03",
+    1,
+    @sync.accept_response(
+      v,
+      g.ticket,
+      @sync.ServerResponse::GetResult({
+        list: [complete_record("b")],
+        not_found: [],
+        state: "e0",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c04() -> Unit {
- let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let t=@sync.plan(v).requests[0]
- v=emit("C04",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["outside"],added:[],total:3,old_state:"q0",new_state:"q1",bytes:1})))
+  let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C04",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: ["outside"],
+        added: [],
+        total: 3,
+        old_state: "q0",
+        new_state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c05() -> Unit {
- let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let t=@sync.plan(v).requests[0]
- v=emit("C05",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["b"],added:[],total:4,old_state:"q0",new_state:"q1",bytes:1})))
- let q=@sync.plan(v).requests[0]
- v=emit("C05",1,@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:["d"],total:4,state:"q2",bytes:1})))
+  let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C05",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: ["b"],
+        added: [],
+        total: 4,
+        old_state: "q0",
+        new_state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  let q = @sync.plan(v).requests[0]
+  v = emit(
+    "C05",
+    1,
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryResult({
+        ids: ["d"],
+        total: 4,
+        state: "q2",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c06() -> Unit {
- let mut v=seed(["a","b","c"],3,"q0","e0")
- v.email_required=true
- let t=@sync.plan(v).requests[0]
- v=emit("C06",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::Error(@sync.ResponseError::CannotCalculateChanges)))
- // A stateful adapter records the subsequent over-advanced observation but
- // cannot accept it without a fresh baseline; retain the invalid checkpoint.
- v=emit_view("C06",1,v)
+  let mut v = seed(["a", "b", "c"], 3, "q0", "e0")
+  v.email_required = true
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C06",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::Error(@sync.ResponseError::CannotCalculateChanges),
+    ),
+  )
+  // A stateful adapter records the subsequent over-advanced observation but
+  // cannot accept it without a fresh baseline; retain the invalid checkpoint.
+  v = emit_view("C06", 1, v)
 }
+
+///|
 fn c07() -> Unit {
- let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let t=@sync.plan(v).requests[0]
- v=emit("C07",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::Error(@sync.ResponseError::CannotCalculateChanges)))
+  let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C07",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::Error(@sync.ResponseError::CannotCalculateChanges),
+    ),
+  )
 }
+
+///|
 fn c08() -> Unit {
- let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let t=@sync.plan(v).requests[0]
- v=emit("C08",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:[],added:[@sync.Added::{id:"x",index:0}],total:4,old_state:"q0",new_state:"q1",bytes:1})))
- let g=@sync.plan(v).requests[0]
- v=view_of(@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("x")],not_found:[],state:"e0",bytes:1})))
- v.query_required=true
- v.completeness=@sync.Completeness::Pending
- v.pending_reason=Some("query_changed_during_refresh")
- v=emit_view("C08",1,v)
+  let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C08",
+    0,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: [],
+        added: [@sync.Added::{ id: "x", index: 0, }],
+        total: 4,
+        old_state: "q0",
+        new_state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  let g = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      g.ticket,
+      @sync.ServerResponse::GetResult({
+        list: [complete_record("x")],
+        not_found: [],
+        state: "e0",
+        bytes: 1,
+      }),
+    ),
+  )
+  v.query_required = true
+  v.completeness = @sync.Completeness::Pending
+  v.pending_reason = Some("query_changed_during_refresh")
+  v = emit_view("C08", 1, v)
 }
+
+///|
 fn c09() -> Unit {
- let mut v=force_get(seed(["a","b","c"],3,"q0","e0"),["a"])
- let g=@sync.plan(v).requests[0]
- // Core currently keeps the state gap resumable as Pending; the trace makes
- // this observable instead of coercing it to NeedsRefresh.
- v=emit("C09",0,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("a")],not_found:[],state:"e2",bytes:1})))
+  let mut v = force_get(seed(["a", "b", "c"], 3, "q0", "e0"), ["a"])
+  let g = @sync.plan(v).requests[0]
+  // Core currently keeps the state gap resumable as Pending; the trace makes
+  // this observable instead of coercing it to NeedsRefresh.
+  v = emit(
+    "C09",
+    0,
+    @sync.accept_response(
+      v,
+      g.ticket,
+      @sync.ServerResponse::GetResult({
+        list: [complete_record("a")],
+        not_found: [],
+        state: "e2",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c10() -> Unit {
- let mut v=seed(["a","b","c"],3,"q0","e0")
- let planned=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
- let old=@sync.plan(planned).requests[0].ticket
- v.generation=5
- let stale : @sync.RequestTicket = { ..old, generation:4 }
- ignore(emit_view("C10",0,v))
- v=emit("C10",1,@sync.accept_response(v,stale,@sync.ServerResponse::QueryChangesResult({removed:[],added:[],total:3,old_state:"q0",new_state:"q_old",bytes:1})))
+  let mut v = seed(["a", "b", "c"], 3, "q0", "e0")
+  let planned = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
+  let old = @sync.plan(planned).requests[0].ticket
+  v.generation = 5
+  let stale : @sync.RequestTicket = { ..old, generation: 4, }
+  ignore(emit_view("C10", 0, v))
+  v = emit(
+    "C10",
+    1,
+    @sync.accept_response(
+      v,
+      stale,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: [],
+        added: [],
+        total: 3,
+        old_state: "q0",
+        new_state: "q_old",
+        bytes: 1,
+      }),
+    ),
+  )
 }
+
+///|
 fn c11() -> Unit {
- let limits : @sync.Limits = @sync.Limits::{prefix_limit:3, max_rounds:100, max_bytes:100000, max_objects_per_get:50, max_changes:500}
- let v=seed_with_limits(["a","b","c"],3,"q0","e0",limits)
- v.query_required=true
- v.query_valid=false
- v.query_state=None
- v.email_required=false
- let p1=@sync.plan(v)
- emit_plan("C11",0,p1)
- v.query_required=false
- v.query_valid=true
- v.query_state=Some("q0")
- v.pending_get=["a","b","c"]
+  let limits : @sync.Limits = @sync.Limits::{
+    prefix_limit: 3,
+    max_rounds: 100,
+    max_bytes: 100000,
+    max_objects_per_get: 50,
+    max_changes: 500,
+  }
+  let v = seed_with_limits(["a", "b", "c"], 3, "q0", "e0", limits)
+  v.query_required = true
+  v.query_valid = false
+  v.query_state = None
+  v.email_required = false
+  let p1 = @sync.plan(v)
+  emit_plan("C11", 0, p1)
+  v.query_required = false
+  v.query_valid = true
+  v.query_state = Some("q0")
+  v.pending_get = ["a", "b", "c"]
 
- let p2=@sync.plan(v)
- emit_plan("C11",1,p2)
+  let p2 = @sync.plan(v)
+  emit_plan("C11", 1, p2)
 }
+
+///|
 fn c12() -> Unit {
- let limits : @sync.Limits = @sync.Limits::{prefix_limit:3, max_rounds:100, max_bytes:100000, max_objects_per_get:2, max_changes:500}
- let v=seed_with_limits(["a","b","c"],3,"q0","e0",limits)
- v.pending_get=["a","b","c"]
+  let limits : @sync.Limits = @sync.Limits::{
+    prefix_limit: 3,
+    max_rounds: 100,
+    max_bytes: 100000,
+    max_objects_per_get: 2,
+    max_changes: 500,
+  }
+  let v = seed_with_limits(["a", "b", "c"], 3, "q0", "e0", limits)
+  v.pending_get = ["a", "b", "c"]
 
- emit_plan("C12",0,@sync.plan(v))
- // The fixture models budget truncation at the projection boundary. The core
- // retains the full ordered prefix while exposing c as the only pending ID.
- v.ordered_ids=["a","b"]
- v.pending_get=["c"]
- v.completeness=@sync.Completeness::Pending
- v.pending_reason=Some("budget_exhausted")
- ignore(emit_view("C12",1,v))
+  emit_plan("C12", 0, @sync.plan(v))
+  // The fixture models budget truncation at the projection boundary. The core
+  // retains the full ordered prefix while exposing c as the only pending ID.
+  v.ordered_ids = ["a", "b"]
+  v.pending_get = ["c"]
+  v.completeness = @sync.Completeness::Pending
+  v.pending_reason = Some("budget_exhausted")
+  ignore(emit_view("C12", 1, v))
 }
+
+///|
 fn c13() -> Unit {
- let account : @sync.AccountScope = @sync.AccountScope::{service_identity:"trace",account_id:"acc"}
- let caps : @sync.CapabilityProjection = { ..@sync.default_capabilities(), supports_filter:false, supports_sort:false }
- match @sync.open_view_with_capabilities(account,@email.ViewSpec::Latest("inbox"),caps,@sync.default_limits(),Some("e0")) {
-  @sync.OpenViewResult::Unsupported(reason) => println("M|C13|0|Unsupported|ids=|q=|e=e0|gen=0|reason=" + reason + "|plan=")
-  _ => println("M|C13|0|ProtocolFailure|ids=|q=|e=e0|gen=0|reason=unexpected|plan=")
- }
+  let account : @sync.AccountScope = @sync.AccountScope::{
+    service_identity: "trace",
+    account_id: "acc",
+  }
+  let caps : @sync.CapabilityProjection = {
+    ..@sync.default_capabilities(),
+    supports_filter: false,
+    supports_sort: false,
+  }
+  match
+    @sync.open_view_with_capabilities(
+      account,
+      @email.ViewSpec::Latest("inbox"),
+      caps,
+      @sync.default_limits(),
+      Some("e0"),
+    ) {
+    @sync.OpenViewResult::Unsupported(reason) =>
+      println(
+        "M|C13|0|Unsupported|ids=|q=|e=e0|gen=0|reason=" + reason + "|plan=",
+      )
+    _ =>
+      println(
+        "M|C13|0|ProtocolFailure|ids=|q=|e=e0|gen=0|reason=unexpected|plan=",
+      )
+  }
 }
+
+///|
 fn c14() -> Unit {
- let limits : @sync.Limits = @sync.Limits::{prefix_limit:3, max_rounds:1, max_bytes:100000, max_objects_per_get:50, max_changes:500}
- // The vector starts with an already populated view. Bootstrap that fixture
- // with a separate setup budget, then apply the tested one-round budget.
- // Otherwise the Query alone exhausts the budget before the Email baseline.
- let prepared=seed_with_limits(["a","b","c"],3,"q0","e0",{..limits,max_rounds:100})
- let mut v={..prepared,limits,rounds:0}
- v.query_required=true
- ignore(emit_view("C14",0,v))
- let t=@sync.plan(v).requests[0]
- v=emit("C14",1,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:[],added:[@sync.Added::{id:"x",index:0}],total:4,old_state:"q0",new_state:"q1",bytes:1})))
- v=emit_view("C14",2,v)
+  let limits : @sync.Limits = @sync.Limits::{
+    prefix_limit: 3,
+    max_rounds: 1,
+    max_bytes: 100000,
+    max_objects_per_get: 50,
+    max_changes: 500,
+  }
+  // The vector starts with an already populated view. Bootstrap that fixture
+  // with a separate setup budget, then apply the tested one-round budget.
+  // Otherwise the Query alone exhausts the budget before the Email baseline.
+  let prepared = seed_with_limits(["a", "b", "c"], 3, "q0", "e0", {
+    ..limits,
+    max_rounds: 100,
+  })
+  let mut v = { ..prepared, limits, rounds: 0, }
+  v.query_required = true
+  ignore(emit_view("C14", 0, v))
+  let t = @sync.plan(v).requests[0]
+  v = emit(
+    "C14",
+    1,
+    @sync.accept_response(
+      v,
+      t.ticket,
+      @sync.ServerResponse::QueryChangesResult({
+        removed: [],
+        added: [@sync.Added::{ id: "x", index: 0, }],
+        total: 4,
+        old_state: "q0",
+        new_state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  v = emit_view("C14", 2, v)
 }
+
+///|
 fn c15() -> Unit {
- let account : @sync.AccountScope = @sync.AccountScope::{service_identity:"trace", account_id:"acc"}
- let limits : @sync.Limits = @sync.Limits::{prefix_limit:3, max_rounds:100, max_bytes:100000, max_objects_per_get:50, max_changes:500}
- let mut v=@sync.open_view(account,@email.ViewSpec::Latest("inbox"),limits,None)
- let mut q=@sync.plan(v).requests[0]
- v=view_of(@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:[],total:0,state:"q1",bytes:1})))
- ignore(emit_view("C15",0,v))
- v.query_required=true; v.query_valid=false; v.query_state=None; v.query_fill_required=false
- q=@sync.plan(v).requests[0]
- v=view_of(@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:["a","b"],total:2,state:"q2",bytes:1})))
- ignore(emit_view("C15",1,v))
- v.query_required=true; v.query_valid=false; v.query_state=None; v.query_fill_required=false
- q=@sync.plan(v).requests[0]
- v=view_of(@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:["a","b","c"],total:3,state:"q3",bytes:1})))
- ignore(emit_view("C15",2,v))
+  let account : @sync.AccountScope = @sync.AccountScope::{
+    service_identity: "trace",
+    account_id: "acc",
+  }
+  let limits : @sync.Limits = @sync.Limits::{
+    prefix_limit: 3,
+    max_rounds: 100,
+    max_bytes: 100000,
+    max_objects_per_get: 50,
+    max_changes: 500,
+  }
+  let mut v = @sync.open_view(
+    account,
+    @email.ViewSpec::Latest("inbox"),
+    limits,
+    None,
+  )
+  let mut q = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryResult({
+        ids: [],
+        total: 0,
+        state: "q1",
+        bytes: 1,
+      }),
+    ),
+  )
+  ignore(emit_view("C15", 0, v))
+  v.query_required = true
+  v.query_valid = false
+  v.query_state = None
+  v.query_fill_required = false
+  q = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryResult({
+        ids: ["a", "b"],
+        total: 2,
+        state: "q2",
+        bytes: 1,
+      }),
+    ),
+  )
+  ignore(emit_view("C15", 1, v))
+  v.query_required = true
+  v.query_valid = false
+  v.query_state = None
+  v.query_fill_required = false
+  q = @sync.plan(v).requests[0]
+  v = view_of(
+    @sync.accept_response(
+      v,
+      q.ticket,
+      @sync.ServerResponse::QueryResult({
+        ids: ["a", "b", "c"],
+        total: 3,
+        state: "q3",
+        bytes: 1,
+      }),
+    ),
+  )
+  ignore(emit_view("C15", 2, v))
 }
+
+///|
 fn main {
- c01(); c02(); c03(); c04(); c05(); c06(); c07(); c08(); c09(); c10(); c11(); c12(); c13(); c14(); c15()
+  c01()
+  c02()
+  c03()
+  c04()
+  c05()
+  c06()
+  c07()
+  c08()
+  c09()
+  c10()
+  c11()
+  c12()
+  c13()
+  c14()
+  c15()
 }

@@ -1,3 +1,4 @@
+///|
 test "typed method response retains account and query capability" {
   let response = @jmap.TypedMethodResponse::new(
     @jmap.MethodName::EmailQuery,
@@ -17,6 +18,7 @@ test "typed method response retains account and query capability" {
   }
 }
 
+///|
 test "typed method response rejects query capability on another method" {
   let response = @jmap.TypedMethodResponse::new(
     @jmap.MethodName::EmailGet,

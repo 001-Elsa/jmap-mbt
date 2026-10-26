@@ -98,11 +98,12 @@ test "typed query capability is not recorded from a forged ticket" {
     ..request.ticket,
     request_id: request.ticket.request_id + 1,
   }
-  let envelope = match @sync.QueryResponseEnvelope::new(
-    "typed-account",
-    @sync.QueryData::{ ids: [], total: 0, state: "q0", bytes: 1 },
-    Some(false),
-  ) {
+  let envelope = match
+    @sync.QueryResponseEnvelope::new(
+      "typed-account",
+      @sync.QueryData::{ ids: [], total: 0, state: "q0", bytes: 1, },
+      Some(false),
+    ) {
     Ok(value) => value
     Err(reason) => fail(reason)
   }
@@ -112,9 +113,8 @@ test "typed query capability is not recorded from a forged ticket" {
     @sync.BoundServerResponse::QueryResult(envelope),
   )
   match result {
-    @sync.Acceptance::ProtocolFailure(reason) => {
+    @sync.Acceptance::ProtocolFailure(reason) =>
       assert_true(reason.view.query_changes_allowed)
-    }
     _ => assert_true(false)
   }
 }

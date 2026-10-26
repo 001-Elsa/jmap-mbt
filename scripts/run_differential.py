@@ -315,6 +315,12 @@ def main() -> int:
     if not MOON.exists():
         print(f"moon executable not found: {MOON}", file=sys.stderr)
         return 2
+    # Keep regenerated adapter sources consistent with the repository's
+    # formatting gate; a successful comparison must not dirty formatted code.
+    formatted = run([str(MOON), "fmt", "cmd/differential"], timeout=30)
+    if formatted.returncode != 0:
+        print(formatted.stdout + formatted.stderr, file=sys.stderr)
+        return formatted.returncode
     result = run([str(MOON), "run", "--target", "wasm", "cmd/differential"], timeout=180)
     text = result.stdout + result.stderr
     traces, malformed = parse_trace(text)

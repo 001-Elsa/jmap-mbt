@@ -17,7 +17,9 @@ from pathlib import Path, PurePosixPath
 
 
 REQUIRED = {
+    "ACCEPTANCE.md",
     "README.md",
+    "README.mbt.md",
     "CHANGELOG.md",
     "LICENSE",
     "moon.mod",

@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [wasm, wasm-gc, js]
+        target: [wasm, wasm-gc, js, native]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,19 +30,20 @@ jobs:
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
       - name: Record toolchain
         run: moon version --all
+      - name: Check formatting
+        if: matrix.target == 'wasm'
+        run: moon fmt --check
       - name: Check
-        run: moon check --target ${{ matrix.target }}
+        run: moon check --target ${{ matrix.target }} --deny-warn
       - name: Build
         run: moon build --target ${{ matrix.target }}
       - name: Test
-        run: moon test --target ${{ matrix.target }}
+        run: moon test --target ${{ matrix.target }} --deny-warn
       - name: Run MoonBit mail view demo
         run: moon run cmd/demo --target ${{ matrix.target }}
-      - name: Native static check and bounded differential comparison
+      - name: Bounded differential comparison
         if: matrix.target == 'wasm'
-        run: |
-          moon check --target native
-          python3 scripts/run_differential.py
+        run: python3 scripts/run_differential.py
 
   evidence:
     runs-on: ubuntu-latest
@@ -71,5 +72,8 @@ jobs:
       - name: Build and check clean source archives
         run: |
           python3 scripts/build_source_archive.py --output-dir dist
-          python3 scripts/release_smoke_test.py dist/moonjmap-0.1.0-src.tar.gz
-          python3 scripts/release_smoke_test.py dist/moonjmap-0.1.0-src.zip
+          package_version=$(python3 -c 'from pathlib import Path; from scripts.build_source_archive import project_metadata; print(project_metadata(Path.cwd())[1])')
+          python3 scripts/release_smoke_test.py "dist/moonjmap-${package_version}-src.tar.gz"
+          python3 scripts/release_smoke_test.py "dist/moonjmap-${package_version}-src.zip"
+      - name: Check Mooncakes package construction
+        run: moon package
