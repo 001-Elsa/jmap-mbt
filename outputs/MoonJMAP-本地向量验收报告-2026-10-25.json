@@ -1,0 +1,131 @@
+{
+  "report_type": "synthetic_vector_replay",
+  "generated_on": "2026-10-25",
+  "fixture": "tests/vectors/incremental_cases.json",
+  "fixture_sha256": "84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf",
+  "cases": 15,
+  "passed": 15,
+  "failed": 0,
+  "command": "python3 examples/replay_vectors.py",
+  "stdout": "PASS C01 status='Ready', ordered_ids=['a', 'b', 'c']\nPASS C02 status='Ready', ordered_ids=['a', 'c', 'd']\nPASS C03 status='Ready', ordered_ids=['b', 'a', 'c']\nPASS C04 status='Ready', ordered_ids=['a', 'b', 'c']\nPASS C05 status='NeedsRefresh', ordered_ids=['a', 'c']\nPASS C06 status='NeedsRefresh', ordered_ids=['a', 'b', 'c']\nPASS C07 status='NeedsRefresh', ordered_ids=['a', 'b', 'c']\nPASS C08 status='Pending', ordered_ids=['x', 'a', 'b']\nPASS C09 status='NeedsRefresh', ordered_ids=['a', 'b', 'c']\nPASS C10 status='Ready', ordered_ids=['a', 'b', 'c']\nPASS C11 status='Ready', ordered_ids=['a', 'b', 'c']\nPASS C12 status='Pending', ordered_ids=['a', 'b']\nPASS C13 status='Unsupported', ordered_ids=['a', 'b', 'c']\nPASS C14 status='Pending', ordered_ids=['y', 'x', 'a']\nPASS C15 status='Ready', ordered_ids=['a', 'b', 'c']\n\n15/15 vectors passed\n",
+  "stderr": "",
+  "independent_oracle": {
+    "command": "python3 tests/verify.py --strict-structure",
+    "returncode": 0,
+    "stdout": "PASS initial_get_order\nPASS attribute_update_without_query_delta\nPASS remove_middle_and_fill_gap\nPASS mixed_state_gap_rejected\nPASS query_history_invalidated\nPASS email_history_invalidated\nPASS email_changes_pagination_and_opaque_tokens\nPASS get_state_gap_requires_changes\nPASS invalid_added_index_rejected\nPASS query_too_many_changes_requires_requery\nPASS not_found_is_not_empty_success\nPASS old_generation_cannot_overwrite\nPASS identity_bound_tokens\nPASS budget_pending_is_resumable\nPASS response_container_preserves_duplicate_call_ids\nPASS malformed_response_and_invalid_reference\nPASS deterministic_delta_fuzz\n{\"oracle_pass\": 17, \"oracle_fail\": 0, \"structure_missing\": 0, \"warnings\": 0}\n",
+    "stderr": ""
+  },
+  "python_wire_tests": {
+    "command": "PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_jmap_wire.py'",
+    "returncode": 0,
+    "tests": 13,
+    "passed": 13,
+    "tail": [
+      ".............",
+      "----------------------------------------------------------------------",
+      "Ran 13 tests in 0.001s",
+      "",
+      "OK"
+    ]
+  },
+  "synthetic_view_metrics": {
+    "command": "python3 scripts/benchmark_metrics.py",
+    "returncode": 0,
+    "report": "outputs/metrics/metrics.json",
+    "stdout": "/Users/hanzhen09/Desktop/jmap/outputs/metrics/metrics.json\nscenarios=15 fixture_sha256=84471c1099c9ee932b7114b9ebd51069b44032a464faa154dac980baac86fabf\nC01: status=Ready accepted=2 dropped=0 bytes=unavailable\nC02: status=Ready accepted=3 dropped=0 bytes=unavailable\nC03: status=Ready accepted=2 dropped=0 bytes=unavailable\nC04: status=Ready accepted=1 dropped=0 bytes=unavailable\nC05: status=NeedsRefresh accepted=2 dropped=0 bytes=unavailable\nC06: status=NeedsRefresh accepted=2 dropped=0 bytes=unavailable\nC07: status=NeedsRefresh accepted=1 dropped=0 bytes=unavailable\nC08: status=Pending accepted=2 dropped=0 bytes=unavailable\nC09: status=NeedsRefresh accepted=1 dropped=0 bytes=unavailable\nC10: status=Ready accepted=0 dropped=1 bytes=unavailable\nC11: status=Ready accepted=0 dropped=0 bytes=unavailable\nC12: status=Pending accepted=0 dropped=0 bytes=unavailable\nC13: status=Unsupported accepted=0 dropped=0 bytes=unavailable\nC14: status=Pending accepted=1 dropped=0 bytes=unavailable\nC15: status=Ready accepted=3 dropped=0 bytes=unavailable\n",
+    "stderr": "",
+    "performance_claim": false,
+    "live_server": false
+  },
+  "cross_implementation_differential": {
+    "command": "python3 scripts/run_differential.py",
+    "returncode": 0,
+    "report": "outputs/MoonJMAP-跨实现逐步对拍-2026-10-25.json",
+    "stdout": "differential trace: 15/15 cases passed\n/Users/hanzhen09/Desktop/jmap/outputs/MoonJMAP-跨实现逐步对拍-2026-10-25.json\nPASS C01 compared=9 issues=0\nPASS C02 compared=13 issues=0\nPASS C03 compared=9 issues=0\nPASS C04 compared=5 issues=0\nPASS C05 compared=9 issues=0\nPASS C06 compared=12 issues=0\nPASS C07 compared=6 issues=0\nPASS C08 compared=11 issues=0\nPASS C09 compared=4 issues=0\nPASS C10 compared=11 issues=0\nPASS C11 compared=1 issues=0\nPASS C12 compared=2 issues=0\nPASS C13 compared=1 issues=0\nPASS C14 compared=13 issues=0\nPASS C15 compared=10 issues=0\n",
+    "stderr": "",
+    "comparison_scope": "bounded common projection and next-plan contract",
+    "full_equivalence_claim": false,
+    "real_server": false
+  },
+  "evidence_boundary": {
+    "real_server_interop": false,
+    "moonbit_cli_verified": true,
+    "moonbit_check": {
+      "native": {
+        "returncode": 0,
+        "tail": [
+          "Finished. moon: ran 2 tasks, now up to date"
+        ]
+      },
+      "js": {
+        "returncode": 0,
+        "tail": [
+          "Finished. moon: ran 2 tasks, now up to date"
+        ]
+      },
+      "wasm-gc": {
+        "returncode": 0,
+        "tail": [
+          "Finished. moon: ran 2 tasks, now up to date"
+        ]
+      }
+    },
+    "moonbit_tests": {
+      "wasm": {
+        "returncode": 0,
+        "summary": [
+          "Total tests: 47, passed: 47, failed: 0."
+        ],
+        "tail": [
+          "Total tests: 47, passed: 47, failed: 0."
+        ]
+      },
+      "wasm-gc": {
+        "returncode": 0,
+        "summary": [
+          "Total tests: 47, passed: 47, failed: 0."
+        ],
+        "tail": [
+          "Total tests: 47, passed: 47, failed: 0."
+        ]
+      },
+      "js": {
+        "returncode": 255,
+        "summary": [],
+        "tail": [
+          "",
+          "Caused by:",
+          "    0: Failed to run test for moonjmap/moonjmap/src/email BlackboxTest",
+          "    1: Failed to spawn command Command { std: cd \"/Users/hanzhen09/Desktop/jmap\" && \"node\" \"--enable-source-maps\" \"/Users/hanzhen09/Desktop/jmap/_build/js/debug/test/src/email/email.blackbox_test.js\" \"{\\\"package\\\":\\\"moonjmap/moonjmap/src/email\\\",\\\"file_and_index\\\":[[\\\"email_test.mbt\\\",[{\\\"start\\\":0,\\\"end\\\":3}]],[\\\"email.mbt\\\",[]],[\\\"email_test.mbt\\\",[]],[\\\"email.mbt\\\",[]],[\\\"email_test.mbt\\\",[]],[\\\"email.mbt\\\",[]],[\\\"email_test.mbt\\\",[]],[\\\"email.mbt\\\",[]]]}\", kill_on_drop: true }",
+          "    2: No such file or directory (os error 2)"
+        ]
+      },
+      "native": {
+        "returncode": 1,
+        "summary": [],
+        "tail": [
+          "/Library/Developer/CommandLineTools/SDKs/MacOSX27.0.sdk/usr/lib/libSystem.B.tbd:4:20: error: unknown architecture",
+          "                   arm64e.x1-macos, arm64e.x1-maccatalyst ]",
+          "                   ^~~~~~~~~~~~~~~",
+          " in '/Library/Developer/CommandLineTools/SDKs/MacOSX27.0.sdk/usr/lib/libSystem.tbd'",
+          "clang: error: linker command failed with exit code 1 (use -v to see invocation)"
+        ]
+      }
+    },
+    "moonbit_tests_with_bundled_runtime": {
+      "js": {
+        "returncode": 0,
+        "summary": [
+          "Total tests: 47, passed: 47, failed: 0."
+        ],
+        "tail": [
+          "Total tests: 47, passed: 47, failed: 0."
+        ]
+      }
+    },
+    "bundled_node": "/Users/hanzhen09/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "moonbit_test_runtime_note": "Direct results preserve the inherited PATH. If the system PATH lacks node, a separately labelled Codex bundled Node run is recorded under moonbit_tests_with_bundled_runtime; it must not be confused with the direct JS result. Native linking is reported separately.",
+    "network_or_authentication_tested": false,
+    "performance_claim": false
+  }
+}
