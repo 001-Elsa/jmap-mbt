@@ -1,0 +1,1496 @@
+{
+  "schema_version": "0.1",
+  "title": "MoonJMAP incremental/recovery vectors",
+  "generated_on": "2026-10-25",
+  "source": "planning document §九；合成数据，不是真实服务器响应",
+  "cases": [
+    {
+      "id": "C01",
+      "title": "顺序不变但 a 的 keywords 改变",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "email_changes",
+          "from_state": "e0",
+          "to_state": "e1",
+          "updated": [
+            "a"
+          ],
+          "changed_properties": {
+            "a": [
+              "keywords"
+            ]
+          }
+        },
+        {
+          "kind": "email_get",
+          "state": "e1",
+          "objects": {
+            "a": {
+              "id": "a",
+              "threadId": "t-a",
+              "mailboxIds": {
+                "mbox-inbox": true
+              },
+              "keywords": {
+                "$seen": true
+              },
+              "receivedAt": "2026-10-25T00:00:00Z",
+              "subject": "Subject a",
+              "from": [
+                {
+                  "email": "a@example.test"
+                }
+              ],
+              "preview": "Preview a"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "query_state": "q0",
+        "email_state": "e1",
+        "updated_ids": [
+          "a"
+        ]
+      }
+    },
+    {
+      "id": "C02",
+      "title": "b 从前缀中移出后按同一个 queryState 补位",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_changes",
+          "from_state": "q0",
+          "to_state": "q1",
+          "removed": [
+            "b"
+          ],
+          "added": [],
+          "total": 4
+        },
+        {
+          "kind": "query_fill",
+          "state": "q1",
+          "position": 2,
+          "ids": [
+            "d"
+          ],
+          "total": 4
+        },
+        {
+          "kind": "email_get",
+          "state": "e0",
+          "objects": {
+            "d": {
+              "id": "d",
+              "threadId": "t-d",
+              "mailboxIds": {
+                "mbox-inbox": true
+              },
+              "keywords": {},
+              "receivedAt": "2026-10-25T00:00:00Z",
+              "subject": "Subject d",
+              "from": [
+                {
+                  "email": "d@example.test"
+                }
+              ],
+              "preview": "Preview d"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "a",
+          "c",
+          "d"
+        ],
+        "query_state": "q1",
+        "email_state": "e0"
+      }
+    },
+    {
+      "id": "C03",
+      "title": "同一个 ID 先 remove 后 add 时按新 index 处理",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_changes",
+          "from_state": "q0",
+          "to_state": "q1",
+          "removed": [
+            "b"
+          ],
+          "added": [
+            {
+              "id": "b",
+              "index": 0
+            }
+          ],
+          "total": 3
+        },
+        {
+          "kind": "email_get",
+          "state": "e0",
+          "objects": {
+            "b": {
+              "id": "b",
+              "threadId": "t-b",
+              "mailboxIds": {
+                "mbox-inbox": true
+              },
+              "keywords": {},
+              "receivedAt": "2026-10-25T00:00:00Z",
+              "subject": "Moved",
+              "from": [
+                {
+                  "email": "b@example.test"
+                }
+              ],
+              "preview": "Preview b"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "b",
+          "a",
+          "c"
+        ],
+        "query_state": "q1",
+        "email_state": "e0"
+      }
+    },
+    {
+      "id": "C04",
+      "title": "removed 包含本地未缓存 ID",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_changes",
+          "from_state": "q0",
+          "to_state": "q1",
+          "removed": [
+            "outside"
+          ],
+          "added": [],
+          "total": 3
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "query_state": "q1",
+        "email_state": "e0"
+      },
+      "notes": "窗口外删除合法，不应把它当协议错误。"
+    },
+    {
+      "id": "C05",
+      "title": "补位返回不同 queryState，拒绝混接",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_changes",
+          "from_state": "q0",
+          "to_state": "q1",
+          "removed": [
+            "b"
+          ],
+          "added": [],
+          "total": 4
+        },
+        {
+          "kind": "query_fill",
+          "state": "q2",
+          "position": 2,
+          "ids": [
+            "d"
+          ],
+          "total": 4
+        }
+      ],
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "fill_query_state_mismatch",
+        "ordered_ids": [
+          "a",
+          "c"
+        ],
+        "query_state": "q1"
+      }
+    },
+    {
+      "id": "C06",
+      "title": "Email changes 历史失效而 queryState 仍有效",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "email_changes_invalid",
+          "from_state": "e0",
+          "error": "cannotCalculateChanges"
+        },
+        {
+          "kind": "email_get",
+          "state": "e2",
+          "objects": {
+            "a": {
+              "id": "a",
+              "threadId": "t-a",
+              "mailboxIds": {
+                "mbox-inbox": true
+              },
+              "keywords": {},
+              "receivedAt": "2026-10-25T00:00:00Z",
+              "subject": "Subject a",
+              "from": [
+                {
+                  "email": "a@example.test"
+                }
+              ],
+              "preview": "Preview a"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "email_history_invalid",
+        "query_state": "q0",
+        "email_state": null
+      }
+    },
+    {
+      "id": "C07",
+      "title": "queryChanges 历史失效而 Email state 仍有效",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_changes_invalid",
+          "from_state": "q0",
+          "error": "cannotCalculateChanges"
+        }
+      ],
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "query_history_invalid",
+        "query_state": null,
+        "email_state": "e0"
+      }
+    },
+    {
+      "id": "C08",
+      "title": "窗口外邮件进入筛选时继续追赶",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_changes",
+          "from_state": "q0",
+          "to_state": "q1",
+          "removed": [],
+          "added": [
+            {
+              "id": "x",
+              "index": 0
+            }
+          ],
+          "requires_reconcile": true,
+          "total": 4
+        },
+        {
+          "kind": "email_get",
+          "state": "e0",
+          "objects": {
+            "x": {
+              "id": "x",
+              "threadId": "t-x",
+              "mailboxIds": {
+                "mbox-inbox": true
+              },
+              "keywords": {},
+              "receivedAt": "2026-10-25T00:00:00Z",
+              "subject": "Subject x",
+              "from": [
+                {
+                  "email": "x@example.test"
+                }
+              ],
+              "preview": "Preview x"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "status": "Pending",
+        "reason": "query_changed_during_refresh",
+        "ordered_ids": [
+          "x",
+          "a",
+          "b"
+        ],
+        "query_state": "q1"
+      },
+      "notes": "调用方应继续追赶，不能因本轮前缀恰好填满而假报 Ready。"
+    },
+    {
+      "id": "C09",
+      "title": "get 观测到超前 Email state，不能跳过 Email changes",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "email_get",
+          "state": "e2",
+          "objects": {
+            "a": {
+              "id": "a",
+              "threadId": "t-a",
+              "mailboxIds": {
+                "mbox-inbox": true
+              },
+              "keywords": {},
+              "receivedAt": "2026-10-25T00:00:00Z",
+              "subject": "Subject a",
+              "from": [
+                {
+                  "email": "a@example.test"
+                }
+              ],
+              "preview": "Preview a"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "status": "NeedsRefresh",
+        "reason": "email_state_gap",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "email_state": "e0"
+      }
+    },
+    {
+      "id": "C10",
+      "title": "旧请求响应晚到时按 generation 丢弃",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "generation_switch",
+          "from_generation": 4,
+          "to_generation": 5,
+          "query_key": "inbox-unread"
+        },
+        {
+          "kind": "stale_response",
+          "generation": 4,
+          "method": "Email/queryChanges",
+          "from_state": "q0",
+          "to_state": "q_old"
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "reason": "stale_response_discarded",
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "generation": 5
+      }
+    },
+    {
+      "id": "C11",
+      "title": "maxCallsInRequest=1 时拆分请求",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "limits",
+          "maxCallsInRequest": 1,
+          "supportsResultReference": false
+        },
+        {
+          "kind": "plan",
+          "methods": [
+            "Email/query",
+            "Email/get"
+          ]
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "plan_calls": [
+          [
+            "Email/query"
+          ],
+          [
+            "Email/get"
+          ]
+        ],
+        "uses_result_reference": false
+      }
+    },
+    {
+      "id": "C12",
+      "title": "maxObjectsInGet 小于前缀时分段并保留 Pending",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "limits",
+          "maxObjectsInGet": 2
+        },
+        {
+          "kind": "budget",
+          "max_calls": 1
+        },
+        {
+          "kind": "plan",
+          "methods": [
+            "Email/get"
+          ],
+          "ids": [
+            "a",
+            "b",
+            "c"
+          ]
+        }
+      ],
+      "expected": {
+        "status": "Pending",
+        "reason": "budget_exhausted",
+        "remaining_ids": [
+          "c"
+        ],
+        "ordered_ids": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "id": "C13",
+      "title": "服务端不支持固定 filter/sort",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "capabilities",
+          "supportsFilter": false,
+          "supportsSort": false
+        }
+      ],
+      "expected": {
+        "status": "Unsupported",
+        "reason": "fixed_query_projection_not_supported"
+      }
+    },
+    {
+      "id": "C14",
+      "title": "持续变化超出轮数预算",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "budget",
+          "max_rounds": 1
+        },
+        {
+          "kind": "query_changes",
+          "from_state": "q0",
+          "to_state": "q1",
+          "removed": [],
+          "added": [
+            {
+              "id": "x",
+              "index": 0
+            }
+          ],
+          "total": 4
+        },
+        {
+          "kind": "query_changes",
+          "from_state": "q1",
+          "to_state": "q2",
+          "removed": [],
+          "added": [
+            {
+              "id": "y",
+              "index": 0
+            }
+          ],
+          "total": 5
+        }
+      ],
+      "expected": {
+        "status": "Pending",
+        "reason": "round_budget_exhausted",
+        "query_state": "q1"
+      }
+    },
+    {
+      "id": "C15",
+      "title": "空列表、短列表和恰好 N 条不制造缺口",
+      "view": {
+        "ordered_ids": [
+          "a",
+          "b",
+          "c"
+        ],
+        "total": 3,
+        "prefix_limit": 3,
+        "query_state": "q0",
+        "email_state": "e0",
+        "objects": {
+          "a": {
+            "id": "a",
+            "threadId": "t-a",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject a",
+            "from": [
+              {
+                "email": "a@example.test"
+              }
+            ],
+            "preview": "Preview a"
+          },
+          "b": {
+            "id": "b",
+            "threadId": "t-b",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject b",
+            "from": [
+              {
+                "email": "b@example.test"
+              }
+            ],
+            "preview": "Preview b"
+          },
+          "c": {
+            "id": "c",
+            "threadId": "t-c",
+            "mailboxIds": {
+              "mbox-inbox": true
+            },
+            "keywords": {},
+            "receivedAt": "2026-10-25T00:00:00Z",
+            "subject": "Subject c",
+            "from": [
+              {
+                "email": "c@example.test"
+              }
+            ],
+            "preview": "Preview c"
+          }
+        }
+      },
+      "events": [
+        {
+          "kind": "query_result",
+          "query_state": "q1",
+          "ids": [],
+          "total": 0
+        },
+        {
+          "kind": "query_result",
+          "query_state": "q2",
+          "ids": [
+            "a",
+            "b"
+          ],
+          "total": 2
+        },
+        {
+          "kind": "query_result",
+          "query_state": "q3",
+          "ids": [
+            "a",
+            "b",
+            "c"
+          ],
+          "total": 3
+        }
+      ],
+      "expected": {
+        "status": "Ready",
+        "length_checks": [
+          {
+            "total": 0,
+            "length": 0
+          },
+          {
+            "total": 2,
+            "length": 2
+          },
+          {
+            "total": 3,
+            "length": 3
+          }
+        ]
+      }
+    }
+  ]
+}

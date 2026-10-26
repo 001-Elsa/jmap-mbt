@@ -1,0 +1,123 @@
+{
+  "schema_version": "0.1",
+  "title": "JMAP Email/query + Email/get minimal semantic vectors",
+  "generated_on": "2026-10-25",
+  "source": "RFC 8620/8621 field semantics; values are synthetic and do not come from a live server",
+  "vectors": [
+    {
+      "id": "RFC-Q-001",
+      "method": "Email/query",
+      "arguments": {
+        "accountId": "u1",
+        "filter": {"inMailbox": "mbox-inbox", "notKeyword": "$seen"},
+        "sort": [{"property": "receivedAt", "isAscending": false}],
+        "collapseThreads": false,
+        "position": 0,
+        "limit": 3
+      },
+      "response": {
+        "accountId": "u1",
+        "queryState": "q0",
+        "canCalculateChanges": true,
+        "position": 0,
+        "ids": ["a", "b", "c"],
+        "total": 3,
+        "limit": 3
+      },
+      "interpretation": {
+        "ordered_ids": ["a", "b", "c"],
+        "query_state": "q0",
+        "complete_prefix": true,
+        "requires_get": ["a", "b", "c"]
+      }
+    },
+    {
+      "id": "RFC-G-001",
+      "method": "Email/get",
+      "arguments": {
+        "accountId": "u1",
+        "ids": ["a", "b", "c"],
+        "properties": ["id", "threadId", "mailboxIds", "keywords", "receivedAt", "subject", "from", "preview"]
+      },
+      "response": {
+        "accountId": "u1",
+        "state": "e0",
+        "list": [
+          {"id": "c", "threadId": "t-c", "mailboxIds": {"mbox-inbox": true}, "keywords": {}, "receivedAt": "2026-10-23T00:00:00Z", "subject": "Subject c", "from": [{"email": "c@example.test"}], "preview": "Preview c"},
+          {"id": "a", "threadId": "t-a", "mailboxIds": {"mbox-inbox": true}, "keywords": {}, "receivedAt": "2026-10-25T00:00:00Z", "subject": "Subject a", "from": [{"email": "a@example.test"}], "preview": "Preview a"},
+          {"id": "b", "threadId": "t-b", "mailboxIds": {"mbox-inbox": true}, "keywords": {}, "receivedAt": "2026-10-24T00:00:00Z", "subject": "Subject b", "from": [{"email": "b@example.test"}], "preview": "Preview b"}
+        ],
+        "notFound": []
+      },
+      "interpretation": {
+        "email_state": "e0",
+        "ordered_ids": ["a", "b", "c"],
+        "reorder_by_query": true,
+        "not_found_is_empty": true
+      },
+      "note": "Email/get 返回顺序故意与 query 顺序不同；实现必须按 id 归位，不能按 list 下标覆盖。"
+    },
+    {
+      "id": "RFC-QC-001",
+      "method": "Email/queryChanges",
+      "arguments": {"accountId": "u1", "sinceQueryState": "q0", "maxChanges": 50},
+      "response": {
+        "accountId": "u1",
+        "oldQueryState": "q0",
+        "newQueryState": "q1",
+        "removed": ["b"],
+        "added": [{"id": "d", "index": 2}],
+        "total": 3
+      },
+      "interpretation": {
+        "ordered_ids_before": ["a", "b", "c"],
+        "ordered_ids_after": ["a", "c", "d"],
+        "query_state": "q1",
+        "must_get": ["d"]
+      }
+    },
+    {
+      "id": "RFC-EC-001",
+      "method": "Email/changes",
+      "arguments": {"accountId": "u1", "sinceState": "e0", "maxChanges": 50},
+      "response": {
+        "accountId": "u1",
+        "oldState": "e0",
+        "newState": "e1",
+        "hasMoreChanges": false,
+        "created": [],
+        "updated": ["a"],
+        "destroyed": []
+      },
+      "interpretation": {
+        "email_state": "e1",
+        "objects_requiring_get": ["a"],
+        "query_order_unchanged": true
+      }
+    },
+    {
+      "id": "RFC-INVALID-001",
+      "method": "Email/queryChanges",
+      "arguments": {"accountId": "u1", "sinceQueryState": "expired-q", "maxChanges": 50},
+      "response": {"type": "cannotCalculateChanges"},
+      "interpretation": {
+        "status": "NeedsRefresh",
+        "invalidate": "QueryProgress",
+        "must_not_advance_query_state": true,
+        "email_progress_reusable": true
+      }
+    },
+    {
+      "id": "RFC-INVALID-002",
+      "method": "Email/changes",
+      "arguments": {"accountId": "u1", "sinceState": "expired-e", "maxChanges": 50},
+      "response": {"type": "cannotCalculateChanges"},
+      "interpretation": {
+        "status": "NeedsRefresh",
+        "invalidate": "EmailProgress",
+        "must_not_advance_email_state": true,
+        "query_progress_reusable": true
+      }
+    }
+  ]
+}
