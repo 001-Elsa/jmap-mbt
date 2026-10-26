@@ -8,7 +8,7 @@
 - [官方十月页面](https://moonbitlang.github.io/Hackathon2026/)：本次直接读取，明确十月赛报名及验收截止为 **2026年10月31日**，十月最多提交3次，取通过审核前最后一次有效提交或修改时间。此公告更新飞书章程保留的9月30日、10月24日旧赛程。
 - 参赛者本次确认：**个人参赛，MoonJMAP此前未参赛**。不将仓库账号自动当作报名实名，不推断已报名、已入群或已获奖。
 
-本轮修补确定缺口：新增 CI 检查/构建/测试流程、可直接运行的 MoonBit 主功能示例、集中来源与许可清单、现状申报说明，并将 CI 和示例纳入源码归档。实际远程 CI 结果见下文验证记录；其余需本人或主办方确认的事项保留开放状态。
+本轮修补确定缺口：新增 CI 检查/构建/测试流程、可直接运行的 MoonBit 主功能示例、集中来源与许可清单、现状申报说明，并将 CI 和示例纳入源码归档。远程CI四个job已通过，见下文验证记录；其余需本人或主办方确认的事项保留开放状态。
 
 ## 5.1 阶段三：九项验收要求
 
@@ -18,7 +18,7 @@
 | 2. GitHub公开且提交清晰 | 公开已核实；开发历史有保留项 | GitHub API返回 `private=false`；已推送原源码。最初20次提交是事后按模块导入，不能证明连续开发。新增工作从现在起按真实修改提交；不得倒填时间或再拆分快照。主办方是否接受历史由其判断。 |
 | 3. 结构清晰并完成声明核心功能 | 当前固定范围通过本地验收 | 双 state、补位、失效恢复、预算、generation、证书有测试；README明确不实现完整邮件客户端。没有将通用工具列为主创新。 |
 | 4. README含目标、安装、用法、可复现示例 | 已补齐 | README有精确Mooncakes安装、导入、边界、验证说明；新增 `moon run cmd/demo --target wasm`。旧测试矩阵中“未逐步对拍”的过时说法已修正。 |
-| 5. CI覆盖检查、构建、测试 | 已补配置，远程状态以验证记录为准 | 新增 `.github/workflows/ci.yml`，push/PR/manual触发，wasm/wasm-gc/JS分别check/build/test/demo；另有native静态检查、C01–C15对拍、Python回归/oracle/归档验收。Node22、Python3.12由Actions配置，MoonBit从官方安装稳定版并记录实际版本。 |
+| 5. CI覆盖检查、构建、测试 | 已补齐且远程四个job通过 | 新增 `.github/workflows/ci.yml`，push/PR/manual触发，wasm/wasm-gc/JS分别check/build/test/demo；另有native静态检查、C01–C15对拍、Python回归/oracle/归档验收。Node22、Python3.12由Actions配置，MoonBit从官方安装稳定版并记录实际版本。 |
 | 6. 至少一个可运行示例 | 已满足本地运行 | `cmd/demo`通过公共MoonBit API建立基线、对乱序对象按ID归位、检查Ready并验证证书；合成输入，无网络和凭据。Python两个旧示例继续可用。 |
 | 7. 完整测试覆盖核心路径 | 已覆盖当前声明范围 | 三后端86项既有核心测试；93,072组排名归并、4,225种证书转移；独立oracle、固定向量和有界对拍。无完整形式化证明、所有服务兼容或生产性能保证。 |
 | 8. 发布Mooncakes | 已核实 | `moon view 001-Elsa/moonjmap@0.1.0 --json`返回成功、未撤回，checksum `3e5f8c151f95d27c26d39b46d0c90b32acf7d3152e3e04ff1f6fd0f1ce759aee`；既有发布与下游安装记录见 `mooncakes-release-0.1.0.md`。本轮CI/示例/文档是发布后改动，不冒充已包含在旧线上ZIP中。 |
@@ -64,7 +64,9 @@
 
 本地工具链：moon `0.1.20261012`，moonc `v0.10.15+943464bfa`。wasm/wasm-gc已各完成check/build、86/86测试、完整demo；native静态检查通过；独立oracle17/17，strict结构缺失0。
 
-JS使用Codex bundled Node完成check/build、86/86测试和demo；Python适配器回归26/26；固定向量15/15；codec round-trip通过；C01–C15有界逐步对拍15/15；tar.gz与ZIP均通过全新目录解包smoke。完整命令与输出保存在本机 `work/contest-compliance-2026-10-26/`。远程Actions结果将在推送后补记；工作流文件存在不等于远程CI成功。未重新连接真实邮箱，没有把历史Stalwart性能或互操作记录更新为本次结果。
+JS使用Codex bundled Node完成check/build、86/86测试和demo；Python适配器回归26/26；固定向量15/15；codec round-trip通过；C01–C15有界逐步对拍15/15；tar.gz与ZIP均通过全新目录解包smoke。完整命令与输出保存在本机 `work/contest-compliance-2026-10-26/`。远程验证已完成：提交 [`94575e9`](https://github.com/001-Elsa/jmap-mbt/commit/94575e9ceefb44d9eff9f731fbb95ddd771908d3) 的 [Actions运行40290718873](https://github.com/001-Elsa/jmap-mbt/actions/runs/40290718873) 中，`moonbit (wasm)`、`moonbit (wasm-gc)`、`moonbit (js)` 和 `evidence` 四个job均为 `completed/success`，包括真正的检查、构建、测试、demo和全新解包对拍。首轮运行的归档job因缺少MoonBit环境失败，已用真实修复提交补齐，不隐藏失败或将其写成成功。
+
+本文和说明材料的后续提交不改变主库及CI逻辑；各提交的当前状态继续以 [Actions列表](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml) 为准。本轮新增CI/demo/文档没有再上传Mooncakes，已发布0.1.0的主库不变。未重新连接真实邮箱，没有把历史Stalwart性能或互操作记录更新为本次结果。
 
 ## 剩余外部事项
 
