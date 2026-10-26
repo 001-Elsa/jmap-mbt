@@ -1,0 +1,6 @@
+import {
+  "001-Elsa/moonjmap/src/email",
+  "001-Elsa/moonjmap/src/sync",
+}
+
+pkgtype(kind: "executable")

@@ -104,6 +104,20 @@ test "open a bounded mail view" {
 
 第三个公共包 `001-Elsa/moonjmap/src/jmap` 提供有限的 MoonBit wire 类型。根包保持为空；Python 探针与审计脚本随源码提供，不属于 MoonBit 公共 API。Mooncakes 包通过 `.moonignore` 排除本地调查、历史输出和构建产物，历史证据从 GitHub 仓库查看。
 
+## 赛事核查与源码来源
+
+[逐项章程核查](docs/contest-compliance-2026-10-26.md)记录代码、开源交付与报名条件的实际状态；[申报说明](docs/contest-proposal.md)解释选题价值、近邻项目和独立建设理由；[源码与数据来源](docs/source-provenance.md)汇总 RFC、外部服务、生成代码和合成夹具的来源及许可边界。[当前官方十月页面](https://moonbitlang.github.io/Hackathon2026/)明确报名和验收截止为2026年10月31日，更新了飞书章程的旧赛程。参赛者已确认个人参赛、项目此前未参赛；报名凭证、进群、提交次数和主办方审核仍需核实。最初20次提交为既有快照导入，不能作为连续开发历史的证明。
+
+GitHub Actions 的 [CI](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml)对 wasm、wasm-gc、JS 分别执行检查、构建、测试和 MoonBit 演示，并检查 Python oracle、适配器与全新解包的源代码交付。工作流从官方安装当前稳定版工具链，日志记录实际版本；远程通过状态以对应提交的 Actions 记录为准。
+
+## MoonBit 可运行演示
+
+```sh
+moon run cmd/demo --target wasm
+```
+
+该演示直接调用公共 MoonBit 包，从合成查询顺序 `[b,a]` 开始建立 Email state 基线，再接纳按 `[a,b]` 返回的对象。它检查最终前缀仍为 `[b,a]`、状态为 Ready，并生成及验证邮件前缀证书。失败会以非零退出码结束；演示不连接真实邮箱。
+
 ## 快速查看
 
 ```sh

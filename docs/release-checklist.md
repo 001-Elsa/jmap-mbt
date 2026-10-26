@@ -131,3 +131,19 @@ version with `moon add 001-Elsa/moonjmap@0.1.0`, and compile and run tests using
 all three public packages (`src/email`, `src/jmap`, `src/sync`). Registry metadata,
 the downloaded ZIP checksum and the independent consumer result are separate
 checks from the local test suite.
+
+## Contest CI and attribution gate (2026-10-26)
+
+The post-0.1.0 source tree adds `.github/workflows/ci.yml`, `cmd/demo` and
+source/data attribution in `docs/source-provenance.md`. The workflow checks,
+builds and tests wasm, wasm-gc and JS, runs the MoonBit demo, native static
+checks and the bounded differential harness, plus independent Python evidence
+and clean source archives. A workflow file is not proof of a remote pass; see
+[the dated clause audit](contest-compliance-2026-10-26.md) for actual results.
+
+The original 20 imports are a source snapshot organization, not a reconstructed
+continuous development history. Preserve that disclosure. Do not mark contest
+registration, entrant identity, final similarity review or awards complete
+from technical checks. The current official October deadline is October 31,
+2026, updating the older charter dates; the entrant confirmed individual entry
+and no previous contest entry for this project.

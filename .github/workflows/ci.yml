@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  moonbit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm, wasm-gc, js]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install official MoonBit toolchain
+        run: |
+          curl --fail --silent --show-error --location https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+          bash /tmp/install-moon.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Record toolchain
+        run: moon version --all
+      - name: Check
+        run: moon check --target ${{ matrix.target }}
+      - name: Build
+        run: moon build --target ${{ matrix.target }}
+      - name: Test
+        run: moon test --target ${{ matrix.target }}
+      - name: Run MoonBit mail view demo
+        run: moon run cmd/demo --target ${{ matrix.target }}
+      - name: Native static check and bounded differential comparison
+        if: matrix.target == 'wasm'
+        run: |
+          moon check --target native
+          python3 scripts/run_differential.py
+
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python adapter regression tests
+        run: python3 -m unittest discover -s tests -p 'test*.py'
+        env:
+          PYTHONPATH: src
+      - name: Independent state oracle
+        run: python3 tests/verify.py --strict-structure
+      - name: Runnable examples
+        run: |
+          python3 examples/replay_vectors.py
+          python3 examples/codec_roundtrip.py
+      - name: Build and check clean source archives
+        run: |
+          python3 scripts/build_source_archive.py --output-dir dist
+          python3 scripts/release_smoke_test.py dist/moonjmap-0.1.0-src.tar.gz
+          python3 scripts/release_smoke_test.py dist/moonjmap-0.1.0-src.zip

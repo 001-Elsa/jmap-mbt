@@ -1,5 +1,7 @@
 # 可运行示例
 
+首选 MoonBit 核心演示：`moon run cmd/demo --target wasm`。入口 `cmd/demo/main.mbt` 通过公共 API 完成合成 Query → Email 基线 → Get → Ready → 证书验证，检查查询顺序不受对象返回顺序影响。无需网络或凭据。
+
 `replay_vectors.py` 是一个不联网的响应回放器。它读取 `tests/vectors/incremental_cases.json`，按事件顺序模拟有序前缀、Email/queryChanges 的增删、Email/changes 的属性更新、补位状态检查、失效恢复、预算和请求代次。运行：
 
 ```sh

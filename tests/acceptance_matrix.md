@@ -1,6 +1,6 @@
 # MoonJMAP v0.1 独立验收矩阵
 
-这份矩阵对应当前收窄后的主交付：**JMAP 邮件查询视图增量一致性与恢复内核**。`tests/verify.py` 是独立 Python oracle，故意不导入 `src/`，避免“实现自己生成期望值再验证自己”。它验证状态转换和不变量；`src/sync/*_test.mbt` 则直接覆盖 MoonBit 公共 API 的请求票据、响应接纳、预算和恢复边界。JSON 向量回放与 MoonBit 测试是两层独立证据，当前没有声称它们逐步自动对拍。
+这份矩阵对应当前收窄后的主交付：**JMAP 邮件查询视图增量一致性与恢复内核**。`tests/verify.py` 是独立 Python oracle，故意不导入 `src/`，避免“实现自己生成期望值再验证自己”。它验证状态转换和不变量；`src/sync/*_test.mbt` 则直接覆盖 MoonBit 公共 API 的请求票据、响应接纳、预算和恢复边界。JSON 向量回放与 MoonBit 测试是两层独立证据，C01–C15 另有 `scripts/run_differential.py` 逐步对拍，比较范围与适配边界见 `docs/differential-harness.md`，不能扩展成完整等价证明。
 
 运行：
 

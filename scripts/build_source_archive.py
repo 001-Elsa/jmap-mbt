@@ -37,7 +37,7 @@ TOP_LEVEL_FILES = (
     "moon.pkg",
     "pkg.generated.mbti",
 )
-TOP_LEVEL_DIRS = ("cmd", "docs", "examples", "python", "scripts", "src", "tests")
+TOP_LEVEL_DIRS = (".github", "cmd", "docs", "examples", "python", "scripts", "src", "tests")
 OPTIONAL_TOP_LEVEL_FILES = (".moonignore",)
 
 
