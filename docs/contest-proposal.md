@@ -1,6 +1,6 @@
 # MoonJMAP 项目申报说明
 
-依据：[MoonBit 黑客松大赛章程](https://bxup9uklfcb.feishu.cn/wiki/Dx4Bwd6D1i3GfHkajQCcF7SznEd)，2026-10-26 查阅，页面标注“10月10日修改”。补充依据：[官方十月赛事页面](https://moonbitlang.github.io/Hackathon2026/)，同日查阅，当前截止为2026年10月31日，十月最多提交3次。本文件为供本人核对的申报材料，未核实报名问卷是否已提交。
+依据：[MoonBit 黑客松大赛章程](https://bxup9uklfcb.feishu.cn/wiki/Dx4Bwd6D1i3GfHkajQCcF7SznEd)，2026-10-26 查阅，页面标注“10月10日修改”。补充依据：[官方十月赛事页面](https://moonbitlang.github.io/Hackathon2026/)，同日查阅，当前截止为2026年10月31日，十月最多提交3次。本文件为供本人核对的申报材料，本人本次确认尚未提交报名/验收问卷，当前提交次数为0；[填写材料](contest-submission.md)已准备。
 
 ## 基本信息
 

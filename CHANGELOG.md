@@ -4,6 +4,14 @@ All notable changes to MoonJMAP are recorded here. The project is currently
 at the `0.1.0` source-delivery stage. The public source repository is
 https://github.com/001-Elsa/jmap-mbt; Mooncakes publication remains separate.
 
+## Unreleased - contest recheck - 2026-10-26
+
+- Run MoonBit wasm check/build/test and the public API demo inside each fresh
+  source-archive extraction, in addition to the existing differential checks.
+- Record the entrant's current unsubmitted status (0 submissions), prepare
+  form-ready project material, and clarify that imported history remains an
+  open substantive requirement rather than a condition repaired by disclosure.
+
 ## Unreleased - contest engineering audit - 2026-10-26
 
 - Add GitHub Actions check/build/test jobs for wasm, wasm-gc and JS, plus

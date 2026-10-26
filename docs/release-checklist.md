@@ -147,3 +147,15 @@ registration, entrant identity, final similarity review or awards complete
 from technical checks. The current official October deadline is October 31,
 2026, updating the older charter dates; the entrant confirmed individual entry
 and no previous contest entry for this project.
+
+## Clean extracted MoonBit delivery gate
+
+The source-archive smoke test now directly runs wasm check/build/test and the
+public API demo from extracted sources before Python/oracle/differential checks.
+This avoids treating the differential adapter alone as proof that the complete
+core suite and reviewer demo are reproducible from the delivered archive.
+
+The entrant confirmed no registration or acceptance form has been submitted
+yet (0 submissions). See [submission material](contest-submission.md).
+Imported history remains a substantive open contest condition; disclosure and
+new real patches do not establish that the organizer accepts the old history.

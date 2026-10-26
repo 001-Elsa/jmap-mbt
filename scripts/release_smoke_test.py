@@ -26,10 +26,12 @@ REQUIRED = {
     "src/jmap/__init__.py",
     "src/jmap/methods.py",
     "src/sync/sync.mbt",
+    "src/sync/certificate.mbt",
     "src/email/email.mbt",
     "cmd/differential/main.mbt",
     "cmd/differential/moon.pkg",
     "cmd/demo/main.mbt",
+    "cmd/demo/moon.pkg",
     ".github/workflows/ci.yml",
     "docs/source-provenance.md",
     "tests/test_jmap_wire.py",
@@ -137,6 +139,14 @@ def smoke(root: Path) -> None:
     if missing:
         raise RuntimeError(f"required archive files missing: {missing}")
     verify_manifest(root)
+    # Build and exercise the actual public library from extracted sources,
+    # without inheriting the checkout's cached MoonBit build products. The
+    # differential adapter alone does not run the full core regression suite
+    # or the public API example delivered to contest reviewers.
+    for step in ("check", "build", "test"):
+        run(["moon", step, "--target", "wasm"], root)
+    run(["moon", "run", "cmd/demo", "--target", "wasm"], root)
+    print("PASS clean MoonBit wasm check/build/test/demo")
     run([sys.executable, "-c", "from jmap import EmailQueryRequest, encode_request; print(EmailQueryRequest)"], root, env={"PYTHONPATH": "src"})
     # Run every packaged Python regression test. The metrics harness writes
     # only under its caller-provided temporary output directory, so this also

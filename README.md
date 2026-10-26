@@ -106,7 +106,7 @@ test "open a bounded mail view" {
 
 ## 赛事核查与源码来源
 
-[逐项章程核查](docs/contest-compliance-2026-10-26.md)记录代码、开源交付与报名条件的实际状态；[申报说明](docs/contest-proposal.md)解释选题价值、近邻项目和独立建设理由；[源码与数据来源](docs/source-provenance.md)汇总 RFC、外部服务、生成代码和合成夹具的来源及许可边界。[当前官方十月页面](https://moonbitlang.github.io/Hackathon2026/)明确报名和验收截止为2026年10月31日，更新了飞书章程的旧赛程。参赛者已确认个人参赛、项目此前未参赛；报名凭证、进群、提交次数和主办方审核仍需核实。最初20次提交为既有快照导入，不能作为连续开发历史的证明。
+[逐项章程核查](docs/contest-compliance-2026-10-26.md)记录代码、开源交付与报名条件的实际状态；[申报说明](docs/contest-proposal.md)解释选题价值、近邻项目和独立建设理由；[源码与数据来源](docs/source-provenance.md)汇总 RFC、外部服务、生成代码和合成夹具的来源及许可边界。[当前官方十月页面](https://moonbitlang.github.io/Hackathon2026/)明确报名和验收截止为2026年10月31日，更新了飞书章程的旧赛程。参赛者已确认个人参赛、项目此前未参赛；本次本人确认尚未提交报名/验收问卷，当前提交次数为0；进群与昵称仍待核实，主办方尚未完成审核。[报名与验收填写材料](docs/contest-submission.md)已备齐。最初20次提交为既有快照导入，不能作为连续开发历史的证明。
 
 GitHub Actions 的 [CI](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml)对 wasm、wasm-gc、JS 分别执行检查、构建、测试和 MoonBit 演示，并检查 Python oracle、适配器与全新解包的源代码交付。工作流从官方安装当前稳定版工具链，日志记录实际版本；远程通过状态以对应提交的 Actions 记录为准。
 
@@ -196,7 +196,7 @@ python3 scripts/release_smoke_test.py dist/moonjmap-0.1.0-src.zip
 归档根目录内的 `RELEASE-MANIFEST.json` 保存每个源文件的字节数和 SHA-256。
 同一源码树重复构建时，tar.gz 和 ZIP 的成员顺序、时间戳和归属字段保持
 稳定；如果其他工作正在修改源码，必须等树冻结后再比较归档哈希。smoke
-测试会在临时目录解包，验证路径安全、清单完整性、Python wire 导入、固定
+测试会在临时目录解包，验证路径安全、清单完整性，直接执行 MoonBit wasm 的检查、构建、完整测试与主演示，再检查 Python wire 导入、固定
 wire 回归、向量回放和 codec round-trip。
 
 ## 证据边界
