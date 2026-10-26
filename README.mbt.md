@@ -6,7 +6,7 @@ MoonJMAP 是 JMAP 邮件查询视图的增量一致性与恢复内核：分别�
 
 ## 安装与最小用法
 
-本次交付目标版本为 `0.1.1`；先按 [验收步骤](ACCEPTANCE.md) 核对注册表实际状态。在已有 MoonBit 工程中添加该版本：
+当前已发布版本为 `0.1.1`，见 [发布记录](docs/mooncakes-release-0.1.1.md)。在已有 MoonBit 工程中添加该版本：
 
 ```sh
 moon add 001-Elsa/moonjmap@0.1.1

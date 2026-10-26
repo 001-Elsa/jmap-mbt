@@ -1,6 +1,6 @@
 # MoonJMAP
 
-Mooncakes：[`001-Elsa/moonjmap@0.1.1`](https://mooncakes.io/docs/001-Elsa/moonjmap)。注册表构建与独立安装验证已通过，见 [发布记录](docs/mooncakes-release-0.1.0.md)。
+Mooncakes：[`001-Elsa/moonjmap@0.1.1`](https://mooncakes.io/docs/001-Elsa/moonjmap)。注册表构建与独立安装验证已通过，见 [0.1.1 发布记录](docs/mooncakes-release-0.1.1.md)。
 
 源码仓库：[001-Elsa/jmap-mbt](https://github.com/001-Elsa/jmap-mbt)。本次将既有源码快照按功能和文件时间线整理为 20 次实质提交；提交时间为实际整理时间。发布范围、历史证据和脱敏说明见 [仓库导入说明](docs/repository-import.md)。
 
@@ -108,7 +108,7 @@ test "open a bounded mail view" {
 
 [逐项章程核查](docs/contest-compliance-2026-10-26.md)记录代码、开源交付与报名条件的实际状态；[申报说明](docs/contest-proposal.md)解释选题价值、近邻项目和独立建设理由；[源码与数据来源](docs/source-provenance.md)汇总 RFC、外部服务、生成代码和合成夹具的来源及许可边界。[当前官方十月页面](https://moonbitlang.github.io/Hackathon2026/)明确报名和验收截止为2026年10月31日，更新了飞书章程的旧赛程。参赛者已确认个人参赛、项目此前未参赛；本次本人确认尚未提交报名/验收问卷，当前提交次数为0；进群与昵称仍待核实，主办方尚未完成审核。[报名与验收填写材料](docs/contest-submission.md)已备齐。最初20次提交为既有快照导入，不能作为连续开发历史的证明。
 
-GitHub Actions 的 [CI](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml)对 wasm、wasm-gc、JS 分别执行检查、构建、测试和 MoonBit 演示，并检查 Python oracle、适配器与全新解包的源代码交付。工作流从官方安装当前稳定版工具链，日志记录实际版本；远程通过状态以对应提交的 Actions 记录为准。
+GitHub Actions 的 [CI](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml)对 wasm、wasm-gc、JS、native 分别执行检查、构建、测试和 MoonBit 演示，并检查格式及拒绝编译警告，并检查 Python oracle、适配器与全新解包的源代码交付。工作流从官方安装当前稳定版工具链，日志记录实际版本；远程通过状态以对应提交的 Actions 记录为准。
 
 ## MoonBit 可运行演示
 
