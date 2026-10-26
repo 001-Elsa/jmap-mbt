@@ -1,0 +1,187 @@
+[
+  {
+    "name": "Yoorkin/example/list",
+    "version": "0.1.4",
+    "checksum": "3778b3e34ad431d83a920a340d2974883d7ec698e81a682bf6fe900b72249e97",
+    "zip_url": "https://download.mooncakes.io/user/Yoorkin/example/list/0.1.4.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": "2024-01-26T07:51:20.491181+00:00",
+    "yanked": null
+  },
+  {
+    "name": "lijunchen/nested/lib1",
+    "version": "0.1.0",
+    "checksum": "9f1c0476f841bbc5fdc7cc2ef0277c4ed21763eec2c59a08b30ba81a9f62a247",
+    "zip_url": "https://download.mooncakes.io/user/lijunchen/nested/lib1/0.1.0.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "lijunchen/nested/nested",
+    "version": "0.1.0",
+    "checksum": "9f3055a3211d814018c2249d301813bd146f3a01bd2c7a4d27874b70616f6f9f",
+    "zip_url": "https://download.mooncakes.io/user/lijunchen/nested/nested/0.1.0.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "lijunchen/nested/root",
+    "version": "0.1.0",
+    "checksum": "1bfc039c2fdadd20d6145d290f00859db4b5b25df167a2eadb78e92637b2c102",
+    "zip_url": "https://download.mooncakes.io/user/lijunchen/nested/root/0.1.0.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "moonbitlang/lex/runtime",
+    "version": "0.1.1",
+    "checksum": "55ebed3eba01244a4ffc8903da6872dfb2adb97a1f92eb561f58de68d4679d78",
+    "zip_url": "https://download.mooncakes.io/user/moonbitlang/lex/runtime/0.1.1.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 200,
+      "content_length": null
+    },
+    "created_at": "2025-03-07T05:09:58.201077+00:00",
+    "yanked": null
+  },
+  {
+    "name": "test/B",
+    "version": "0.1.2",
+    "checksum": "25b4c52edd351bda78b67b469e852922d453410e0a5b5e8ff57a513af9146b9c",
+    "zip_url": "https://download.mooncakes.io/user/test/B/0.1.2.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "test/C",
+    "version": "0.1.3",
+    "checksum": "9e37d307a59d40f338d42fcc07b0688cd65a13133bff54e66479524cc8408567",
+    "zip_url": "https://download.mooncakes.io/user/test/C/0.1.3.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "test/D",
+    "version": "0.1.4",
+    "checksum": "8cda78945e25e0f923e9ec4356e3f287c3286937f08af1f512b0bae11c5f58a9",
+    "zip_url": "https://download.mooncakes.io/user/test/D/0.1.4.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "test/E",
+    "version": "0.1.3",
+    "checksum": "e9c2f019649f7403e4e5a01e1a57987366a52f48af50345cb0fa5bf4b2bf8d18",
+    "zip_url": "https://download.mooncakes.io/user/test/E/0.1.3.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "test/F",
+    "version": "0.1.1",
+    "checksum": "5e80555dac34055674d5ed888ed1cfe6660c4197a7bb1fa79f3b942581b66cfe",
+    "zip_url": "https://download.mooncakes.io/user/test/F/0.1.1.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "test/G",
+    "version": "0.1.1",
+    "checksum": "96367d540d37ed1f1ca3862d984d63f247965db3d717cbe893618211564087d4",
+    "zip_url": "https://download.mooncakes.io/user/test/G/0.1.1.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 404
+    },
+    "created_at": null,
+    "yanked": null
+  },
+  {
+    "name": "tonyfettes/js/test",
+    "version": "0.1.0",
+    "checksum": "8525502452e3c3985f8d4932e7f67c81f27fa97a91e86402498d11f355f5bafb",
+    "zip_url": "https://download.mooncakes.io/user/tonyfettes/js/test/0.1.0.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 200,
+      "content_length": null
+    },
+    "created_at": "2025-02-08T01:44:24.718799+00:00",
+    "yanked": null
+  },
+  {
+    "name": "tonyfettes/tree-sitter/cli",
+    "version": "0.1.0",
+    "checksum": "2686d1940140318ba82a869c63959e329e80bcd314e5c0cb8baa839a4fd29c8a",
+    "zip_url": "https://download.mooncakes.io/user/tonyfettes/tree-sitter/cli/0.1.0.zip",
+    "zip_head": {
+      "status": 404
+    },
+    "manifest_get": {
+      "status": 200,
+      "content_length": null
+    },
+    "created_at": "2025-03-01T07:40:01.901177+00:00",
+    "yanked": null
+  }
+]
