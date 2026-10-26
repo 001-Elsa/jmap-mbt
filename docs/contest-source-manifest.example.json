@@ -1,0 +1,17 @@
+{
+  "contest": "替换为赛事名称和届次",
+  "snapshot_date": "2026-10-26",
+  "expected_count": 1,
+  "roster_source_url": "https://example.invalid/official-roster",
+  "official_roster_verified": false,
+  "projects": [
+    {
+      "name": "team-a-project",
+      "path": "/absolute/path/to/team-a.zip",
+      "source_url": "https://github.com/example/team-a",
+      "commit": "replace-with-full-commit-sha-or-tag",
+      "license": "unknown",
+      "permission": "公开下载或赛事材料授权说明"
+    }
+  ]
+}
