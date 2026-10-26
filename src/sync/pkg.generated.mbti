@@ -1,0 +1,466 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonjmap/moonjmap/src/sync"
+
+import {
+  "moonjmap/moonjmap/src/email",
+}
+
+// Values
+pub fn accept_bound_response(EmailView, RequestTicket, BoundServerResponse) -> Acceptance
+
+pub fn accept_response(EmailView, RequestTicket, ServerResponse) -> Acceptance
+
+pub fn begin_refresh(EmailView) -> RefreshStart
+
+pub fn begin_refresh_checked(EmailView) -> Result[RefreshStart, ReasonResult]
+
+pub fn begin_resume_with_email_state(EmailView, String) -> RefreshStart
+
+pub fn begin_resume_with_email_state_checked(EmailView, String) -> Result[RefreshStart, ReasonResult]
+
+pub fn certificate_from_acceptance(EmailView, Acceptance) -> Result[DecisionCertificate, String]
+
+pub fn certificate_from_views(EmailView, EmailView, Completeness, String) -> Result[DecisionCertificate, String]
+
+pub fn certificate_from_views_with_plan(EmailView, EmailView, Completeness, String, Plan) -> Result[DecisionCertificate, String]
+
+pub fn checked_next_generation(Int) -> Result[Int, String]
+
+pub fn checkpoint(EmailView) -> Checkpoint
+
+pub fn default_capabilities() -> CapabilityProjection
+
+pub fn default_limits() -> Limits
+
+pub fn email_prefix_plan_binding(Plan) -> Result[EmailPrefixPlanBinding, String]
+
+pub fn email_prefix_proof_from_views(EmailView, EmailView, Completeness, String) -> Result[DecisionCertificate, String]
+
+pub fn open_view(AccountScope, @email.ViewSpec, Limits, String?) -> EmailView
+
+pub fn open_view_with_capabilities(AccountScope, @email.ViewSpec, CapabilityProjection, Limits, String?) -> OpenViewResult
+
+pub fn plan(EmailView) -> Plan
+
+pub fn refresh(EmailView) -> RefreshStart
+
+pub fn restore_checkpoint(Checkpoint, Limits) -> Result[EmailView, String]
+
+pub fn resumable(EmailView) -> ResumableProgress
+
+pub fn resume_with_email_state(EmailView, String) -> RefreshStart
+
+pub fn verify_certificate(DecisionCertificate) -> Result[Unit, String]
+
+pub fn verify_email_prefix_proof(DecisionCertificate) -> Result[Unit, String]
+
+pub fn verify_jmap_email_prefix_certificate(DecisionCertificate) -> Result[Unit, String]
+
+// Errors
+
+// Types and methods
+pub(all) enum Acceptance {
+  Continue(ContinueResult)
+  Commit(CommitResult)
+  Pending(PendingResult)
+  NeedsRefresh(NeedsRefreshResult)
+  Unsupported(ReasonResult)
+  ProtocolFailure(ReasonResult)
+  Dropped(ReasonResult)
+}
+
+pub(all) struct AccountScope {
+  service_identity : String
+  account_id : String
+} derive(Eq)
+pub fn AccountScope::equal(Self, Self) -> Bool
+pub fn AccountScope::not_equal(Self, Self) -> Bool
+
+pub(all) struct Added {
+  id : String
+  index : Int
+} derive(Eq)
+pub fn Added::equal(Self, Self) -> Bool
+pub fn Added::not_equal(Self, Self) -> Bool
+
+pub(all) enum BoundServerResponse {
+  QueryResult(QueryResponseEnvelope)
+  QueryChangesResult(QueryChangesResponseEnvelope)
+  GetResult(GetResponseEnvelope)
+  EmailChangesResult(EmailChangesResponseEnvelope)
+  Error(ErrorResponseEnvelope)
+} derive(Eq)
+pub fn BoundServerResponse::equal(Self, Self) -> Bool
+pub fn BoundServerResponse::not_equal(Self, Self) -> Bool
+
+pub(all) struct CapabilityProjection {
+  supports_filter : Bool
+  supports_sort : Bool
+  supports_query_changes : Bool
+  supports_email_changes : Bool
+  supports_result_reference : Bool
+  max_objects_per_get : Int
+  max_calls_in_request : Int
+} derive(Eq)
+pub fn CapabilityProjection::equal(Self, Self) -> Bool
+pub fn CapabilityProjection::not_equal(Self, Self) -> Bool
+
+pub(all) struct Checkpoint {
+  account : AccountScope
+  query : QueryKey
+  capabilities : CapabilityProjection
+  generation : Int
+  next_request_id : Int
+  ordered_ids : Array[String]
+  total : Int
+  objects : Array[@email.EmailRecord]
+  email_state : String?
+  query_state : String?
+  completeness : Completeness
+  pending_reason : String?
+  pending_ids : Array[String]
+  query_required : Bool
+  email_required : Bool
+  query_changes_allowed : Bool
+  changes_seen : Int
+} derive(Eq)
+pub fn Checkpoint::equal(Self, Self) -> Bool
+pub fn Checkpoint::not_equal(Self, Self) -> Bool
+
+pub(all) struct CommitResult {
+  view : EmailView
+  checkpoint : Checkpoint
+} derive(Eq)
+pub fn CommitResult::equal(Self, Self) -> Bool
+pub fn CommitResult::not_equal(Self, Self) -> Bool
+
+pub(all) enum Completeness {
+  Ready
+  Pending
+  NeedsRefresh
+  Unsupported
+  ProtocolFailure
+} derive(Eq)
+pub fn Completeness::equal(Self, Self) -> Bool
+pub fn Completeness::not_equal(Self, Self) -> Bool
+
+pub(all) struct ContinueResult {
+  view : EmailView
+  plan : Plan
+} derive(Eq)
+pub fn ContinueResult::equal(Self, Self) -> Bool
+pub fn ContinueResult::not_equal(Self, Self) -> Bool
+
+#alias(JmapEmailPrefixCertificate)
+pub(all) struct DecisionCertificate {
+  query : QueryKey
+  generation_before : Int
+  generation_after : Int
+  before_ids : Array[String]
+  after_ids : Array[String]
+  before_prefix_limit : Int
+  after_prefix_limit : Int
+  before_total : Int
+  after_total : Int
+  slots : Array[PrefixSlotWitness]
+  query_state_before : String?
+  query_state_after : String?
+  email_state_before : String?
+  email_state_after : String?
+  completeness : Completeness
+  kind : WitnessKind
+  reason : String
+  coverage : PrefixCoverage
+  plan_binding : EmailPrefixPlanBinding?
+} derive(Eq)
+pub fn DecisionCertificate::equal(Self, Self) -> Bool
+pub fn DecisionCertificate::not_equal(Self, Self) -> Bool
+
+pub(all) struct EmailChangesData {
+  created : Array[String]
+  updated : Array[String]
+  destroyed : Array[String]
+  old_state : String
+  new_state : String
+  has_more_changes : Bool
+  bytes : Int
+} derive(Eq)
+pub fn EmailChangesData::equal(Self, Self) -> Bool
+pub fn EmailChangesData::not_equal(Self, Self) -> Bool
+
+pub(all) struct EmailChangesResponseEnvelope {
+  account_id : String
+  data : EmailChangesData
+} derive(Eq)
+pub fn EmailChangesResponseEnvelope::equal(Self, Self) -> Bool
+pub fn EmailChangesResponseEnvelope::new(String, EmailChangesData) -> Result[Self, String]
+pub fn EmailChangesResponseEnvelope::not_equal(Self, Self) -> Bool
+
+pub(all) struct EmailPrefixPlanBinding {
+  request : Request
+} derive(Eq)
+pub fn EmailPrefixPlanBinding::equal(Self, Self) -> Bool
+pub fn EmailPrefixPlanBinding::not_equal(Self, Self) -> Bool
+
+pub(all) struct EmailView {
+  account : AccountScope
+  query : QueryKey
+  capabilities : CapabilityProjection
+  limits : Limits
+  mut ordered_ids : Array[String]
+  mut total : Int
+  mut objects : Array[@email.EmailRecord]
+  mut email_state : String?
+  mut query_state : String?
+  mut email_valid : Bool
+  mut query_valid : Bool
+  mut completeness : Completeness
+  mut generation : Int
+  mut next_request_id : Int
+  mut rounds : Int
+  mut bytes_seen : Int
+  mut query_required : Bool
+  mut email_required : Bool
+  mut query_fill_required : Bool
+  mut query_fill_position : Int
+  mut pending_get : Array[String]
+  mut pending_reason : String?
+  mut query_changes_allowed : Bool
+  mut changes_seen : Int
+} derive(Eq)
+pub fn EmailView::equal(Self, Self) -> Bool
+pub fn EmailView::not_equal(Self, Self) -> Bool
+
+pub(all) struct ErrorResponseEnvelope {
+  account_id : String
+  error : ResponseError
+} derive(Eq)
+pub fn ErrorResponseEnvelope::equal(Self, Self) -> Bool
+pub fn ErrorResponseEnvelope::new(String, ResponseError) -> Result[Self, String]
+pub fn ErrorResponseEnvelope::not_equal(Self, Self) -> Bool
+
+pub(all) struct GetData {
+  list : Array[@email.EmailRecord]
+  not_found : Array[String]
+  state : String
+  bytes : Int
+} derive(Eq)
+pub fn GetData::equal(Self, Self) -> Bool
+pub fn GetData::not_equal(Self, Self) -> Bool
+
+pub(all) struct GetResponseEnvelope {
+  account_id : String
+  data : GetData
+} derive(Eq)
+pub fn GetResponseEnvelope::equal(Self, Self) -> Bool
+pub fn GetResponseEnvelope::new(String, GetData) -> Result[Self, String]
+pub fn GetResponseEnvelope::not_equal(Self, Self) -> Bool
+
+pub(all) struct Limits {
+  prefix_limit : Int
+  max_rounds : Int
+  max_bytes : Int
+  max_objects_per_get : Int
+  max_changes : Int
+} derive(Eq)
+pub fn Limits::equal(Self, Self) -> Bool
+pub fn Limits::not_equal(Self, Self) -> Bool
+
+pub(all) struct NeedsRefreshResult {
+  view : EmailView
+  reason : String
+  progress : ResumableProgress
+} derive(Eq)
+pub fn NeedsRefreshResult::equal(Self, Self) -> Bool
+pub fn NeedsRefreshResult::not_equal(Self, Self) -> Bool
+
+pub(all) enum OpenViewResult {
+  Accepted(EmailView)
+  Unsupported(String)
+  InvalidInput(String)
+} derive(Eq)
+pub fn OpenViewResult::equal(Self, Self) -> Bool
+pub fn OpenViewResult::not_equal(Self, Self) -> Bool
+
+pub(all) struct PendingResult {
+  view : EmailView
+  checkpoint : Checkpoint
+  reason : String
+} derive(Eq)
+pub fn PendingResult::equal(Self, Self) -> Bool
+pub fn PendingResult::not_equal(Self, Self) -> Bool
+
+pub(all) struct Plan {
+  generation : Int
+  reason : String
+  requests : Array[Request]
+} derive(Eq)
+pub fn Plan::equal(Self, Self) -> Bool
+pub fn Plan::not_equal(Self, Self) -> Bool
+
+pub(all) struct PrefixCoverage {
+  start : Int
+  end : Int
+  target_end : Int
+  missing : Int
+  frontier : PrefixFrontier
+  same_query_state_fill : Bool
+  objects_complete : Bool
+} derive(Eq)
+pub fn PrefixCoverage::equal(Self, Self) -> Bool
+pub fn PrefixCoverage::not_equal(Self, Self) -> Bool
+
+pub(all) enum PrefixFrontier {
+  Open
+  Closed
+} derive(Eq)
+pub fn PrefixFrontier::equal(Self, Self) -> Bool
+pub fn PrefixFrontier::not_equal(Self, Self) -> Bool
+
+pub(all) enum PrefixSlotWitness {
+  FromBefore(Int)
+  Introduced(String)
+} derive(Eq)
+pub fn PrefixSlotWitness::equal(Self, Self) -> Bool
+pub fn PrefixSlotWitness::not_equal(Self, Self) -> Bool
+
+pub(all) struct QueryChangesData {
+  removed : Array[String]
+  added : Array[Added]
+  total : Int
+  old_state : String
+  new_state : String
+  bytes : Int
+} derive(Eq)
+pub fn QueryChangesData::equal(Self, Self) -> Bool
+pub fn QueryChangesData::not_equal(Self, Self) -> Bool
+
+pub(all) struct QueryChangesResponseEnvelope {
+  account_id : String
+  data : QueryChangesData
+} derive(Eq)
+pub fn QueryChangesResponseEnvelope::equal(Self, Self) -> Bool
+pub fn QueryChangesResponseEnvelope::new(String, QueryChangesData) -> Result[Self, String]
+pub fn QueryChangesResponseEnvelope::not_equal(Self, Self) -> Bool
+
+pub(all) struct QueryData {
+  ids : Array[String]
+  total : Int
+  state : String
+  bytes : Int
+} derive(Eq)
+pub fn QueryData::equal(Self, Self) -> Bool
+pub fn QueryData::not_equal(Self, Self) -> Bool
+
+pub(all) struct QueryKey {
+  account : AccountScope
+  view : @email.ViewSpec
+  collapse_threads : Bool
+} derive(Eq)
+pub fn QueryKey::canonical(Self) -> String
+pub fn QueryKey::equal(Self, Self) -> Bool
+pub fn QueryKey::not_equal(Self, Self) -> Bool
+
+pub(all) struct QueryResponseEnvelope {
+  account_id : String
+  data : QueryData
+  can_calculate_changes : Bool?
+} derive(Eq)
+pub fn QueryResponseEnvelope::equal(Self, Self) -> Bool
+pub fn QueryResponseEnvelope::new(String, QueryData, Bool?) -> Result[Self, String]
+pub fn QueryResponseEnvelope::not_equal(Self, Self) -> Bool
+
+pub(all) struct ReasonResult {
+  view : EmailView
+  reason : String
+} derive(Eq)
+pub fn ReasonResult::equal(Self, Self) -> Bool
+pub fn ReasonResult::not_equal(Self, Self) -> Bool
+
+pub(all) struct RefreshStart {
+  view : EmailView
+  plan : Plan
+} derive(Eq)
+pub fn RefreshStart::equal(Self, Self) -> Bool
+pub fn RefreshStart::not_equal(Self, Self) -> Bool
+
+pub(all) struct Request {
+  ticket : RequestTicket
+  kind : RequestKind
+  ids : Array[String]
+  position : Int
+  limit : Int
+  max_changes : Int
+  filter : @email.FilterSpec?
+  sort : @email.SortSpec?
+  properties : Array[String]
+} derive(Eq)
+pub fn Request::equal(Self, Self) -> Bool
+pub fn Request::not_equal(Self, Self) -> Bool
+
+pub(all) enum RequestKind {
+  Query
+  QueryChanges
+  Get
+  Changes
+} derive(Eq)
+pub fn RequestKind::equal(Self, Self) -> Bool
+pub fn RequestKind::not_equal(Self, Self) -> Bool
+
+pub(all) struct RequestTicket {
+  generation : Int
+  request_id : Int
+  account : AccountScope
+  query : QueryKey
+  kind : RequestKind
+  expected_query_state : String?
+  expected_email_state : String?
+  requested_ids : Array[String]
+  position : Int
+  limit : Int
+  max_changes : Int
+} derive(Eq)
+pub fn RequestTicket::equal(Self, Self) -> Bool
+pub fn RequestTicket::not_equal(Self, Self) -> Bool
+
+pub(all) enum ResponseError {
+  CannotCalculateChanges
+  TooManyChanges
+  NotFound
+  Unsupported(String)
+  Malformed(String)
+} derive(Eq)
+pub fn ResponseError::equal(Self, Self) -> Bool
+pub fn ResponseError::not_equal(Self, Self) -> Bool
+
+pub(all) struct ResumableProgress {
+  checkpoint : Checkpoint
+  pending_ids : Array[String]
+  query_required : Bool
+  email_required : Bool
+} derive(Eq)
+pub fn ResumableProgress::equal(Self, Self) -> Bool
+pub fn ResumableProgress::not_equal(Self, Self) -> Bool
+
+pub(all) enum ServerResponse {
+  QueryResult(QueryData)
+  QueryChangesResult(QueryChangesData)
+  GetResult(GetData)
+  EmailChangesResult(EmailChangesData)
+  Error(ResponseError)
+} derive(Eq)
+pub fn ServerResponse::equal(Self, Self) -> Bool
+pub fn ServerResponse::not_equal(Self, Self) -> Bool
+
+pub(all) enum WitnessKind {
+  Noop
+  QueryDelta
+  EmailDelta
+  MixedDelta
+} derive(Eq)
+pub fn WitnessKind::equal(Self, Self) -> Bool
+pub fn WitnessKind::not_equal(Self, Self) -> Bool
+
+// Type aliases
+
+// Traits
