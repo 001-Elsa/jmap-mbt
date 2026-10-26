@@ -1,0 +1,84 @@
+{
+  "schema": "moon-jmap-live-performance-v1",
+  "redaction_version": 1,
+  "status": "blocked",
+  "performance_claim": false,
+  "reason": "session request failed; supply a real JMAP session URL and valid token",
+  "started_at": "2026-10-26T01:00:51.242782+00:00",
+  "finished_at": "2026-10-26T01:00:53.181534+00:00",
+  "endpoint": {
+    "scheme": "https",
+    "host": "api.fastmail.com",
+    "port": null,
+    "path": "/jmap/session"
+  },
+  "api_endpoint": null,
+  "authentication": {
+    "scheme": "bearer",
+    "credential_present": false
+  },
+  "account_id_hash": null,
+  "mailbox_id_hash": null,
+  "parameters": {
+    "iterations": 3,
+    "prefix_limit": 50,
+    "max_objects_in_get": 50,
+    "timeout_seconds": 20.0,
+    "measure_prefix_fill": true
+  },
+  "session": {
+    "status": 401,
+    "capabilities": []
+  },
+  "metrics": {
+    "requests_attempted": 1,
+    "responses_2xx": 0,
+    "requests_by_method": {
+      "GET": 1
+    },
+    "request_bytes": 0,
+    "response_bytes": null,
+    "response_bytes_observed": 0,
+    "rtt_ms": {
+      "count": 0,
+      "min": null,
+      "max": null,
+      "mean": null,
+      "p50": null,
+      "p95": null
+    },
+    "objects_received": 0,
+    "query_removed": 0,
+    "query_added": 0,
+    "query_fill_requests": 0,
+    "query_rebuilds": 0,
+    "email_rebuilds": 0
+  },
+  "state_frontiers": {
+    "query_state_hashes": [],
+    "email_state_hashes": []
+  },
+  "failures": [
+    "session request failed; supply a real JMAP session URL and valid token"
+  ],
+  "observations": [
+    {
+      "kind": "session",
+      "method": "GET",
+      "url": {
+        "scheme": "https",
+        "host": "api.fastmail.com",
+        "port": null,
+        "path": "/jmap/session"
+      },
+      "status": 401,
+      "elapsed_ms": 1938.054,
+      "request_bytes": 0,
+      "response_bytes": 24,
+      "request_sha256": "sha256:d0a0586039c78ed882025478c97abe5858ec7a45ce8e499d4bc4efecec95d2fc",
+      "response_sha256": "8dce053d54539fe2fb0c15a9be105217cab148a4ba59d5d9c8099c669ab275a8",
+      "error": "HTTP 401",
+      "response": null
+    }
+  ]
+}

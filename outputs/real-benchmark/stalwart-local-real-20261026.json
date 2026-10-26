@@ -1,0 +1,202 @@
+{
+  "schema": "moon-jmap-live-performance-v1",
+  "redaction_version": 1,
+  "status": "partial",
+  "performance_claim": false,
+  "reason": "one or more live calls failed",
+  "started_at": "2026-10-26T01:08:34.428006+00:00",
+  "finished_at": "2026-10-26T01:08:34.547588+00:00",
+  "endpoint": {
+    "scheme": "http",
+    "host": "127.0.0.1",
+    "port": 8080,
+    "path": "/jmap/session"
+  },
+  "api_endpoint": {
+    "scheme": "https",
+    "host": "localhost",
+    "port": null,
+    "path": "/jmap/"
+  },
+  "authentication": {
+    "scheme": "basic",
+    "credential_present": true
+  },
+  "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+  "mailbox_id_hash": "sha256:ac8d8342bbb2362d13f0a559a3621bb407011368895164b628a54f7fc33fc43c",
+  "parameters": {
+    "iterations": 5,
+    "prefix_limit": 20,
+    "max_objects_in_get": 50,
+    "timeout_seconds": 20.0,
+    "measure_prefix_fill": true
+  },
+  "session": {
+    "status": 200,
+    "capabilities": [
+      "urn:ietf:params:jmap:blob",
+      "urn:ietf:params:jmap:calendars",
+      "urn:ietf:params:jmap:calendars:parse",
+      "urn:ietf:params:jmap:contacts",
+      "urn:ietf:params:jmap:contacts:parse",
+      "urn:ietf:params:jmap:core",
+      "urn:ietf:params:jmap:emailpush",
+      "urn:ietf:params:jmap:filenode",
+      "urn:ietf:params:jmap:mail",
+      "urn:ietf:params:jmap:principals",
+      "urn:ietf:params:jmap:principals:availability",
+      "urn:ietf:params:jmap:quota",
+      "urn:ietf:params:jmap:sieve",
+      "urn:ietf:params:jmap:submission",
+      "urn:ietf:params:jmap:vacationresponse",
+      "urn:ietf:params:jmap:webpush-vapid",
+      "urn:ietf:params:jmap:websocket"
+    ]
+  },
+  "metrics": {
+    "requests_attempted": 6,
+    "responses_2xx": 1,
+    "requests_by_method": {
+      "GET": 1,
+      "Email/query": 5
+    },
+    "request_bytes": 1370,
+    "response_bytes": 4938,
+    "response_bytes_observed": 1,
+    "rtt_ms": {
+      "count": 1,
+      "min": 25.72,
+      "max": 25.72,
+      "mean": 25.72,
+      "p50": 25.72,
+      "p95": 25.72
+    },
+    "objects_received": 0,
+    "query_removed": 0,
+    "query_added": 0,
+    "query_fill_requests": 0,
+    "query_rebuilds": 0,
+    "email_rebuilds": 0
+  },
+  "state_frontiers": {
+    "query_state_hashes": [],
+    "email_state_hashes": []
+  },
+  "failures": [
+    "iteration 0: Email/query failed",
+    "iteration 1: Email/query failed",
+    "iteration 2: Email/query failed",
+    "iteration 3: Email/query failed",
+    "iteration 4: Email/query failed"
+  ],
+  "observations": [
+    {
+      "kind": "session",
+      "method": "GET",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 8080,
+        "path": "/jmap/session"
+      },
+      "status": 200,
+      "elapsed_ms": 25.72,
+      "request_bytes": 0,
+      "response_bytes": 4938,
+      "request_sha256": "sha256:1b33e66b537c0d7ae42d203b5d3bda28991ee481e4005d682af3e1380b29f75d",
+      "response_sha256": "17af4f7306c0717937371455d5ae0f2b2f8093819dbd5e961eb453ffbd941dc4",
+      "error": null,
+      "response": null
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "https",
+        "host": "localhost",
+        "port": null,
+        "path": "/jmap/"
+      },
+      "status": null,
+      "elapsed_ms": 56.608,
+      "request_bytes": 274,
+      "response_bytes": null,
+      "request_sha256": "sha256:95175df5f90536365af73c4d3c38d733df6d2dd0a8577f73ba633eff4f0703d9",
+      "response_sha256": null,
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)>",
+      "response": null
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "https",
+        "host": "localhost",
+        "port": null,
+        "path": "/jmap/"
+      },
+      "status": null,
+      "elapsed_ms": 9.016,
+      "request_bytes": 274,
+      "response_bytes": null,
+      "request_sha256": "sha256:aff78db48fee21de17cf2f18421f11470695598d75f90c425b7517deaa69619d",
+      "response_sha256": null,
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)>",
+      "response": null
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "https",
+        "host": "localhost",
+        "port": null,
+        "path": "/jmap/"
+      },
+      "status": null,
+      "elapsed_ms": 9.107,
+      "request_bytes": 274,
+      "response_bytes": null,
+      "request_sha256": "sha256:11a9b5b9c92b1ac4215c2719dd8d006fbdcca79107d9631a66ea9ddbbc6e69cd",
+      "response_sha256": null,
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)>",
+      "response": null
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "https",
+        "host": "localhost",
+        "port": null,
+        "path": "/jmap/"
+      },
+      "status": null,
+      "elapsed_ms": 8.086,
+      "request_bytes": 274,
+      "response_bytes": null,
+      "request_sha256": "sha256:c8463e872e69d542b3a66c1908a82e8f57f7ea0cba59eef969879c1544196249",
+      "response_sha256": null,
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)>",
+      "response": null
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "https",
+        "host": "localhost",
+        "port": null,
+        "path": "/jmap/"
+      },
+      "status": null,
+      "elapsed_ms": 8.522,
+      "request_bytes": 274,
+      "response_bytes": null,
+      "request_sha256": "sha256:57dda6195046cd8631bd4a2dbac969422a404600314248fc681b2fbdde70bfcd",
+      "response_sha256": null,
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)>",
+      "response": null
+    }
+  ]
+}

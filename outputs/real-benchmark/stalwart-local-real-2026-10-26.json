@@ -1,0 +1,667 @@
+{
+  "schema": "moon-jmap-live-performance-v1",
+  "redaction_version": 1,
+  "status": "complete",
+  "performance_claim": true,
+  "reason": null,
+  "started_at": "2026-10-26T01:11:40.916912+00:00",
+  "finished_at": "2026-10-26T01:11:41.052369+00:00",
+  "endpoint": {
+    "scheme": "http",
+    "host": "127.0.0.1",
+    "port": 18087,
+    "path": "/.well-known/jmap"
+  },
+  "api_endpoint": {
+    "scheme": "http",
+    "host": "127.0.0.1",
+    "port": 18087,
+    "path": "/jmap/"
+  },
+  "service": {
+    "deployment": "local-real-stalwart",
+    "product": "Stalwart",
+    "version": "0.16.27",
+    "mode": "recovery"
+  },
+  "authentication": {
+    "scheme": "basic",
+    "credential_present": true
+  },
+  "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+  "mailbox_id_hash": "sha256:ac8d8342bbb2362d13f0a559a3621bb407011368895164b628a54f7fc33fc43c",
+  "parameters": {
+    "iterations": 5,
+    "prefix_limit": 50,
+    "max_objects_in_get": 50,
+    "timeout_seconds": 20.0,
+    "measure_prefix_fill": true
+  },
+  "session": {
+    "status": 200,
+    "capabilities": [
+      "urn:ietf:params:jmap:blob",
+      "urn:ietf:params:jmap:calendars",
+      "urn:ietf:params:jmap:calendars:parse",
+      "urn:ietf:params:jmap:contacts",
+      "urn:ietf:params:jmap:contacts:parse",
+      "urn:ietf:params:jmap:core",
+      "urn:ietf:params:jmap:emailpush",
+      "urn:ietf:params:jmap:filenode",
+      "urn:ietf:params:jmap:mail",
+      "urn:ietf:params:jmap:principals",
+      "urn:ietf:params:jmap:principals:availability",
+      "urn:ietf:params:jmap:quota",
+      "urn:ietf:params:jmap:sieve",
+      "urn:ietf:params:jmap:submission",
+      "urn:ietf:params:jmap:vacationresponse",
+      "urn:ietf:params:jmap:websocket"
+    ]
+  },
+  "metrics": {
+    "requests_attempted": 20,
+    "responses_2xx": 20,
+    "requests_by_method": {
+      "GET": 1,
+      "Email/query": 5,
+      "Email/get": 5,
+      "Email/changes": 5,
+      "Email/queryChanges": 4
+    },
+    "request_bytes": 4495,
+    "response_bytes": 7867,
+    "response_bytes_observed": 20,
+    "rtt_ms": {
+      "count": 20,
+      "min": 4.349,
+      "max": 16.11,
+      "mean": 6.586500000000001,
+      "p50": 5.769,
+      "p95": 11.876
+    },
+    "objects_received": 0,
+    "query_removed": 0,
+    "query_added": 0,
+    "query_fill_requests": 0,
+    "query_rebuilds": 0,
+    "email_rebuilds": 0
+  },
+  "state_frontiers": {
+    "query_state_hashes": [
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7"
+    ],
+    "email_state_hashes": [
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+      "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+      "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7"
+    ]
+  },
+  "failures": [],
+  "observations": [
+    {
+      "kind": "session",
+      "method": "GET",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/.well-known/jmap"
+      },
+      "status": 200,
+      "elapsed_ms": 16.11,
+      "request_bytes": 0,
+      "response_bytes": 4792,
+      "request_sha256": "sha256:a39d9831579e6d44127488c29bb7ecb9146fe0da46952a0ae72dc0ba78d96bc2",
+      "response_sha256": "4784001e5dbd51162684ceb86ad4db604d2a4ae89dc49744107f9b9721e98c1c",
+      "error": null,
+      "response": null
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 7.568,
+      "request_bytes": 280,
+      "response_bytes": 167,
+      "request_sha256": "sha256:775054ede33ca35c515a451e7228a6cb6c10a587c311255c82eb7def53db1f1f",
+      "response_sha256": "fefda0a82699553471dee5834d427ce624ba8a9c0fce00ea63796c84a5267afe",
+      "error": null,
+      "response": {
+        "method": "Email/query",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "ids_count": 0,
+        "ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "position": 0,
+        "total": 0,
+        "can_calculate_changes": true
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/get",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 6.354,
+      "request_bytes": 232,
+      "response_bytes": 127,
+      "request_sha256": "sha256:498ed53547cbfffdac7dba14ad037fe1e66e2372314e4cd246c8d1af9292f723",
+      "response_sha256": "6ab64c6064f99581f73d520975bde0bc4681b647e88c2c27f3c7ac913c712c43",
+      "error": null,
+      "response": {
+        "method": "Email/get",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "email_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "objects_count": 0,
+        "object_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "not_found_count": 0,
+        "not_found_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "properties": []
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/changes",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 6.275,
+      "request_bytes": 163,
+      "response_bytes": 189,
+      "request_sha256": "sha256:9964ed420f1e1829c96b309316e9bc152e6a1eb4195d8c1489079f6874c7109d",
+      "response_sha256": "2c6d71e87e340e3070db4234c575421664b772608578afca69cfb1d42e2d0d8b",
+      "error": null,
+      "response": {
+        "method": "Email/changes",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "created_count": 0,
+        "updated_count": 0,
+        "destroyed_count": 0,
+        "has_more_changes": false,
+        "created_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "updated_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destroyed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.374,
+      "request_bytes": 280,
+      "response_bytes": 167,
+      "request_sha256": "sha256:9d877ff9439c34223cbeab0d7e189516dfb83603e5cfaeeab79958b981df05b0",
+      "response_sha256": "0560c6a4a7ea9e810f54d11eb67625f54fbb492f7ea4e694df502fefeafa0f1d",
+      "error": null,
+      "response": {
+        "method": "Email/query",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "ids_count": 0,
+        "ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "position": 0,
+        "total": 0,
+        "can_calculate_changes": true
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/queryChanges",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.743,
+      "request_bytes": 280,
+      "response_bytes": 165,
+      "request_sha256": "sha256:e3711ce4267050b6ee1faa2cc4ced1ab8334e49f8453b8aad0a7128497273abe",
+      "response_sha256": "a1a3d94f4f7710c559764ef0a97a009d58ecc03b98d24ecefe890a05634fa2e7",
+      "error": null,
+      "response": {
+        "method": "Email/queryChanges",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_query_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "removed_count": 0,
+        "removed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "added_count": 0,
+        "added_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "total": null
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/get",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 6.258,
+      "request_bytes": 232,
+      "response_bytes": 127,
+      "request_sha256": "sha256:e2aa6e25dc339696750271b649f74fafc35e3418f5a661a224ceaf7b62e448f5",
+      "response_sha256": "26d165e3c2bbaccbaf6d8592db08ac1319d6a7e7f31c8f1f6f961ee11fe197fa",
+      "error": null,
+      "response": {
+        "method": "Email/get",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "email_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "objects_count": 0,
+        "object_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "not_found_count": 0,
+        "not_found_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "properties": []
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/changes",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.111,
+      "request_bytes": 163,
+      "response_bytes": 189,
+      "request_sha256": "sha256:fdea93d23d333106e39c97961a359493de925e169f8f1dcd542ab4c3676ad012",
+      "response_sha256": "4e3412809f76795138631b1bae9935645467a49f4123e448e7733935adbfb694",
+      "error": null,
+      "response": {
+        "method": "Email/changes",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "created_count": 0,
+        "updated_count": 0,
+        "destroyed_count": 0,
+        "has_more_changes": false,
+        "created_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "updated_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destroyed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.309,
+      "request_bytes": 280,
+      "response_bytes": 167,
+      "request_sha256": "sha256:5d62ddf208cc6275f73432f7760877283878fddc4f42fec48da5e7a6f908ceaf",
+      "response_sha256": "7fbff0978bab3f8042cd3c355223770bb2e13e8268f4b15579039d31e020c044",
+      "error": null,
+      "response": {
+        "method": "Email/query",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "ids_count": 0,
+        "ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "position": 0,
+        "total": 0,
+        "can_calculate_changes": true
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/queryChanges",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.645,
+      "request_bytes": 280,
+      "response_bytes": 165,
+      "request_sha256": "sha256:18b3f49c3a6d959b35d8984d69c09bd1a16e145713afd37b9e28b1be825fae5f",
+      "response_sha256": "b6dd859b2b33bc756fe48c2739836833270c091e771d9f74337a7b59aaafaab2",
+      "error": null,
+      "response": {
+        "method": "Email/queryChanges",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_query_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "removed_count": 0,
+        "removed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "added_count": 0,
+        "added_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "total": null
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/get",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.52,
+      "request_bytes": 232,
+      "response_bytes": 127,
+      "request_sha256": "sha256:5d518606dc829566b5508ecbde73caeafe534636b4326623905b3ac998a81e5f",
+      "response_sha256": "c8464176c765f6aec1a1e1eb8eb0ed7f188d3027eda9bbd14329f2c3192c4aa4",
+      "error": null,
+      "response": {
+        "method": "Email/get",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "email_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "objects_count": 0,
+        "object_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "not_found_count": 0,
+        "not_found_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "properties": []
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/changes",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.69,
+      "request_bytes": 163,
+      "response_bytes": 189,
+      "request_sha256": "sha256:1d514abbb40ee32be67a345e0f5923125bede44e78085e791fc09755b5e3e1b6",
+      "response_sha256": "a682e339996566f2be8b2205196c43dc4515324803eb75e0e2728d5d57121c29",
+      "error": null,
+      "response": {
+        "method": "Email/changes",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "created_count": 0,
+        "updated_count": 0,
+        "destroyed_count": 0,
+        "has_more_changes": false,
+        "created_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "updated_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destroyed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 4.935,
+      "request_bytes": 280,
+      "response_bytes": 167,
+      "request_sha256": "sha256:3294bcdf8dfe4f3d69e0f5819a469d523e60123a4be0c000fb562a3f4797de27",
+      "response_sha256": "8b86aafb990f85a3b3bba050924e556cc3f6049a7c0463fbab87986bfb9cbad3",
+      "error": null,
+      "response": {
+        "method": "Email/query",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "ids_count": 0,
+        "ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "position": 0,
+        "total": 0,
+        "can_calculate_changes": true
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/queryChanges",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 4.349,
+      "request_bytes": 280,
+      "response_bytes": 165,
+      "request_sha256": "sha256:9e287e8a1f7d1a168c4bcaf8d75399fe01935e0527c38a71360adc230c2e02d5",
+      "response_sha256": "5a94e341829cea6c272c52ecfeac1cc0d1872f80f879a70109a9a75f88d3c332",
+      "error": null,
+      "response": {
+        "method": "Email/queryChanges",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_query_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "removed_count": 0,
+        "removed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "added_count": 0,
+        "added_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "total": null
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/get",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 11.876,
+      "request_bytes": 232,
+      "response_bytes": 127,
+      "request_sha256": "sha256:adf0f48b21cc96ec9fc88c09f00db972779e740cb8948e49173f8d782475f41b",
+      "response_sha256": "e1b735e8d59f8980f34b490bfd1911f1f6c15680f8d7330215c0e385c2539460",
+      "error": null,
+      "response": {
+        "method": "Email/get",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "email_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "objects_count": 0,
+        "object_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "not_found_count": 0,
+        "not_found_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "properties": []
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/changes",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.976,
+      "request_bytes": 163,
+      "response_bytes": 189,
+      "request_sha256": "sha256:6fe1e3de195dc4b7f56a5be97c09e01b0b758eba1af4e9c369916c8d7f41716a",
+      "response_sha256": "e59417a3b4dacdcae938670d491253ba7f394560166133525e062ea4ad97e74f",
+      "error": null,
+      "response": {
+        "method": "Email/changes",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "created_count": 0,
+        "updated_count": 0,
+        "destroyed_count": 0,
+        "has_more_changes": false,
+        "created_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "updated_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destroyed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/query",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.346,
+      "request_bytes": 280,
+      "response_bytes": 167,
+      "request_sha256": "sha256:9adde37889d0257fe1040c666c9e46fd07bcc2cb5d587add9096b0cc3de1fa58",
+      "response_sha256": "2fb8ad5baf7453cbadc641b16e5db0ccbbad2bc16a944cb321f25880b7857b9c",
+      "error": null,
+      "response": {
+        "method": "Email/query",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "ids_count": 0,
+        "ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "position": 0,
+        "total": 0,
+        "can_calculate_changes": true
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/queryChanges",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 6.305,
+      "request_bytes": 280,
+      "response_bytes": 165,
+      "request_sha256": "sha256:4b3ea5a4025ea80550991de98e435373778efbf007b8e6530e1bccb48b59d955",
+      "response_sha256": "b8aea8545937a26c2322d0ad4ddbf8e8f54afd7a6ab493752b4e59b71daef939",
+      "error": null,
+      "response": {
+        "method": "Email/queryChanges",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_query_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_query_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "removed_count": 0,
+        "removed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "added_count": 0,
+        "added_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "total": null
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/get",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 5.769,
+      "request_bytes": 232,
+      "response_bytes": 127,
+      "request_sha256": "sha256:980e0056a39e966d034c78eed03896fa4d15e3ae59fbfde8550febf1f99c2358",
+      "response_sha256": "4ab0b38461e7f1b162fafd1587bccb3ed5a6d643aacf01876e9311b02812492b",
+      "error": null,
+      "response": {
+        "method": "Email/get",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "email_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "objects_count": 0,
+        "object_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "not_found_count": 0,
+        "not_found_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "properties": []
+      }
+    },
+    {
+      "kind": "jmap",
+      "method": "Email/changes",
+      "url": {
+        "scheme": "http",
+        "host": "127.0.0.1",
+        "port": 18087,
+        "path": "/jmap/"
+      },
+      "status": 200,
+      "elapsed_ms": 6.217,
+      "request_bytes": 163,
+      "response_bytes": 189,
+      "request_sha256": "sha256:c6d2834faf2e2205dfbfdd6830e69d51af25053e68ac25feae4d763a5eff4da6",
+      "response_sha256": "1f5d67d9e0990bee02bd9d89a2c26f404d007f029c037a636d988dc8c8e812be",
+      "error": null,
+      "response": {
+        "method": "Email/changes",
+        "account_id_hash": "sha256:d3296367d0423daa153de00c3bdb487bfb6aa8d352201381c7a3fc39dcf93305",
+        "old_state_hash": "sha256:46a3ae93aa7a8b988080d6c9a03adc15d0518284b1fc2e498db412676d201d5a",
+        "new_state_hash": "sha256:7784b60c69926315ab4174324f46710bf5a7c918a6619f0fb55e485e3d6ca7a7",
+        "created_count": 0,
+        "updated_count": 0,
+        "destroyed_count": 0,
+        "has_more_changes": false,
+        "created_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "updated_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destroyed_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  ]
+}

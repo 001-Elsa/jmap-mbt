@@ -1,0 +1,535 @@
+{
+  "events": [
+    {
+      "durationMs": 18,
+      "error": null,
+      "operation": "Session",
+      "request": {
+        "body": null,
+        "headers": {},
+        "method": "GET",
+        "url": "http://service.invalid/sha256:624862def1f9fb8d/sha256:3f3af1ecebbd1410"
+      },
+      "response": {
+        "body": {
+          "accounts": {
+            "sha256:3e23e8160039594a": {
+              "accountCapabilities": {
+                "urn:ietf:params:jmap:blob": {
+                  "maxDataSources": 16,
+                  "maxSizeBlobSet": 7499488,
+                  "supportedDigestAlgorithms": [
+                    "sha",
+                    "sha-256",
+                    "sha-512"
+                  ],
+                  "supportedTypeNames": [
+                    "Email",
+                    "Thread",
+                    "SieveScript"
+                  ]
+                },
+                "urn:ietf:params:jmap:calendars": {
+                  "maxCalendarsPerEvent": null,
+                  "maxDateTime": "9999-12-31T23:59:59Z",
+                  "maxExpandedQueryDuration": "P52W1D",
+                  "maxParticipantsPerEvent": 20,
+                  "mayCreateCalendar": true,
+                  "minDateTime": "0001-01-01T00:00:00Z"
+                },
+                "urn:ietf:params:jmap:calendars:parse": {},
+                "urn:ietf:params:jmap:contacts": {
+                  "maxAddressBooksPerCard": null,
+                  "mayCreateAddressBook": true
+                },
+                "urn:ietf:params:jmap:contacts:parse": {},
+                "urn:ietf:params:jmap:emailpush": {},
+                "urn:ietf:params:jmap:filenode": {
+                  "caseInsensitiveNames": false,
+                  "fileNodeQuerySortOptions": [
+                    "name",
+                    "size",
+                    "nodeType"
+                  ],
+                  "forbiddenNameChars": "/<>:\"\\|?*",
+                  "forbiddenNodeNames": [
+                    ".",
+                    "..",
+                    "CON",
+                    "PRN",
+                    "AUX",
+                    "NUL",
+                    "COM0",
+                    "COM1",
+                    "COM2",
+                    "COM3",
+                    "COM4",
+                    "COM5",
+                    "COM6",
+                    "COM7",
+                    "COM8",
+                    "COM9",
+                    "LPT0",
+                    "LPT1",
+                    "LPT2",
+                    "LPT3",
+                    "LPT4",
+                    "LPT5",
+                    "LPT6",
+                    "LPT7",
+                    "LPT8",
+                    "LPT9"
+                  ],
+                  "maxFileNodeDepth": null,
+                  "maxSizeFileNodeName": 255,
+                  "mayCreateTopLevelFileNode": true,
+                  "webTrashUrl": null,
+                  "webUrlTemplate": null,
+                  "webWriteUrlTemplate": null
+                },
+                "urn:ietf:params:jmap:mail": {
+                  "emailQuerySortOptions": [
+                    "receivedAt",
+                    "size",
+                    "from",
+                    "to",
+                    "subject",
+                    "sentAt",
+                    "hasKeyword",
+                    "allInThreadHaveKeyword",
+                    "someInThreadHaveKeyword"
+                  ],
+                  "maxMailboxDepth": 10,
+                  "maxMailboxesPerEmail": null,
+                  "maxSizeAttachmentsPerEmail": 50000000,
+                  "maxSizeMailboxName": 255,
+                  "mayCreateTopLevelMailbox": true
+                },
+                "urn:ietf:params:jmap:mail:share": {},
+                "urn:ietf:params:jmap:principals": {
+                  "currentUserPrincipalId": "b"
+                },
+                "urn:ietf:params:jmap:principals:availability": {
+                  "maxAvailabilityDuration": "P52W1D"
+                },
+                "urn:ietf:params:jmap:quota": {},
+                "urn:ietf:params:jmap:sieve": {
+                  "externalLists": null,
+                  "maxNumberRedirects": 1,
+                  "maxNumberScripts": 100,
+                  "maxSizeScript": 102400,
+                  "maxSizeScriptName": 512,
+                  "notificationMethods": [
+                    "mailto"
+                  ],
+                  "sieveExtensions": [
+                    "body",
+                    "comparator-elbonia",
+                    "comparator-i;ascii-casemap",
+                    "comparator-i;ascii-numeric",
+                    "comparator-i;octet",
+                    "convert",
+                    "copy",
+                    "date",
+                    "duplicate",
+                    "editheader",
+                    "enclose",
+                    "encoded-character",
+                    "enotify",
+                    "envelope",
+                    "envelope-deliverby",
+                    "envelope-dsn",
+                    "environment",
+                    "ereject",
+                    "extlists",
+                    "extracttext",
+                    "fcc",
+                    "fileinto",
+                    "foreverypart",
+                    "ihave",
+                    "imap4flags",
+                    "imapsieve",
+                    "include",
+                    "index",
+                    "mailbox",
+                    "mailboxid",
+                    "mboxmetadata",
+                    "mime",
+                    "redirect-deliverby",
+                    "redirect-dsn",
+                    "regex",
+                    "reject",
+                    "relational",
+                    "replace",
+                    "servermetadata",
+                    "spamtest",
+                    "spamtestplus",
+                    "special-use",
+                    "subaddress",
+                    "vacation",
+                    "vacation-seconds",
+                    "variables",
+                    "virustest"
+                  ]
+                },
+                "urn:ietf:params:jmap:submission": {
+                  "maxDelayedSend": 2592000,
+                  "submissionExtensions": {
+                    "DELIVERYBY": [],
+                    "DSN": [],
+                    "FUTURERELEASE": [],
+                    "MT-PRIORITY": [
+                      "MIXER"
+                    ],
+                    "REQUIRETLS": [],
+                    "SIZE": []
+                  }
+                },
+                "urn:ietf:params:jmap:vacationresponse": {},
+                "urn:ietf:params:jmap:websocket": {},
+                "urn:stalwart:jmap": {}
+              },
+              "isPersonal": true,
+              "isReadOnly": false,
+              "name": "<redacted>"
+            }
+          },
+          "apiUrl": "https://service.invalid/sha256:624862def1f9fb8d/",
+          "capabilities": {
+            "urn:ietf:params:jmap:blob": {},
+            "urn:ietf:params:jmap:calendars": {},
+            "urn:ietf:params:jmap:calendars:parse": {},
+            "urn:ietf:params:jmap:contacts": {},
+            "urn:ietf:params:jmap:contacts:parse": {},
+            "urn:ietf:params:jmap:core": {
+              "collationAlgorithms": [
+                "i;ascii-numeric",
+                "i;ascii-casemap",
+                "i;unicode-casemap"
+              ],
+              "maxCallsInRequest": 16,
+              "maxConcurrentRequests": 4,
+              "maxConcurrentUpload": 4,
+              "maxObjectsInGet": 500,
+              "maxObjectsInSet": 500,
+              "maxSizeRequest": 10000000,
+              "maxSizeUpload": 50000000
+            },
+            "urn:ietf:params:jmap:emailpush": {},
+            "urn:ietf:params:jmap:filenode": {},
+            "urn:ietf:params:jmap:mail": {},
+            "urn:ietf:params:jmap:principals": {},
+            "urn:ietf:params:jmap:principals:availability": {},
+            "urn:ietf:params:jmap:quota": {},
+            "urn:ietf:params:jmap:sieve": {
+              "implementation": "Stalwart v1.0.0"
+            },
+            "urn:ietf:params:jmap:submission": {},
+            "urn:ietf:params:jmap:vacationresponse": {},
+            "urn:ietf:params:jmap:webpush-vapid": {
+              "applicationServerKey": "BKlj36Fn0RMpqgT1y_eJ9zCVy2pKHYmFL6G5EWr5y823GQWYKyGadFpIJAR-HsO_ARFzgCjmmFXFfAjFpuBqOmc"
+            },
+            "urn:ietf:params:jmap:websocket": {
+              "supportsPush": true,
+              "url": "<invalid-url>"
+            }
+          },
+          "downloadUrl": "https://service.invalid/sha256:624862def1f9fb8d/sha256:68ff63fb82e0e5df/sha256:85a88e3a99bf9ceb/sha256:fbe238edbf0f5add/sha256:5e291d7bcb2dd847",
+          "eventSourceUrl": "https://service.invalid/sha256:624862def1f9fb8d/sha256:98619d19b912de2e/",
+          "primaryAccounts": {
+            "sha256:329a78048c952df7": "sha256:3e23e8160039594a",
+            "sha256:42df22123528feb9": "sha256:3e23e8160039594a",
+            "sha256:4bd0d56b9174c41a": "sha256:3e23e8160039594a",
+            "sha256:4cb6204c8c476ff2": "sha256:3e23e8160039594a",
+            "sha256:506dbcef0d6ebb35": "sha256:3e23e8160039594a",
+            "sha256:5d1259c71e6d7770": "sha256:3e23e8160039594a",
+            "sha256:7722d21e26e02750": "sha256:3e23e8160039594a",
+            "sha256:7a54f7b962999481": "sha256:3e23e8160039594a",
+            "sha256:7bd1731951eb9c6c": "sha256:3e23e8160039594a",
+            "sha256:7cee9faeb57366e2": "sha256:3e23e8160039594a",
+            "sha256:8734a75ad9fdf230": "sha256:3e23e8160039594a",
+            "sha256:a77b27ecf2c249bc": "sha256:3e23e8160039594a",
+            "sha256:bf93e8129d7f3c1d": "sha256:3e23e8160039594a",
+            "sha256:c110f81172fa0a1c": "sha256:3e23e8160039594a",
+            "sha256:c3a3b20035b28d2f": "sha256:3e23e8160039594a",
+            "sha256:dac0f434bf89ce19": "sha256:3e23e8160039594a",
+            "sha256:e18d16827ecebbde": "sha256:3e23e8160039594a"
+          },
+          "state": "sha256:897d98b892c709a0",
+          "uploadUrl": "https://service.invalid/sha256:624862def1f9fb8d/sha256:ff4085ad157354dc/sha256:85a88e3a99bf9ceb/",
+          "username": "<redacted>"
+        },
+        "headers": {
+          "content-length": "4938",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Mon, 26 Oct 2026 01:08:25 GMT"
+        },
+        "sha256": "17af4f7306c0717937371455d5ae0f2b2f8093819dbd5e961eb453ffbd941dc4",
+        "status": 200
+      },
+      "startedAt": "2026-10-26T01:08:25.141752Z"
+    },
+    {
+      "durationMs": 7,
+      "error": null,
+      "operation": "Email/query",
+      "request": {
+        "body": {
+          "methodCalls": [
+            [
+              "Email/query",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "calculateTotal": true,
+                "collapseThreads": false,
+                "filter": {
+                  "inMailbox": "sha256:ca978112ca1bbdca"
+                },
+                "limit": 20,
+                "position": 0,
+                "sort": [
+                  {
+                    "isAscending": false,
+                    "property": "receivedAt"
+                  }
+                ]
+              },
+              "q1"
+            ]
+          ],
+          "using": [
+            "urn:ietf:params:jmap:core",
+            "urn:ietf:params:jmap:mail"
+          ]
+        },
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "method": "POST",
+        "url": "https://service.invalid/sha256:624862def1f9fb8d/"
+      },
+      "response": {
+        "body": {
+          "methodResponses": [
+            [
+              "Email/query",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "canCalculateChanges": true,
+                "ids": [],
+                "position": 0,
+                "queryState": "sha256:988d09baad353fcf",
+                "total": 0
+              },
+              "q1"
+            ]
+          ],
+          "sessionState": "a375abda"
+        },
+        "headers": {
+          "content-length": "164",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Mon, 26 Oct 2026 01:08:25 GMT"
+        },
+        "sha256": "7aa1076e7c11008ead2c6320625ec3b55f4a51806d7b243731300d7ef3973410",
+        "status": 200
+      },
+      "startedAt": "2026-10-26T01:08:25.162057Z"
+    },
+    {
+      "durationMs": 7,
+      "error": null,
+      "operation": "Email/get",
+      "request": {
+        "body": {
+          "methodCalls": [
+            [
+              "Email/get",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "ids": [],
+                "properties": [
+                  "id",
+                  "threadId",
+                  "mailboxIds",
+                  "keywords",
+                  "receivedAt",
+                  "subject",
+                  "from",
+                  "preview"
+                ]
+              },
+              "g1"
+            ]
+          ],
+          "using": [
+            "urn:ietf:params:jmap:core",
+            "urn:ietf:params:jmap:mail"
+          ]
+        },
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "method": "POST",
+        "url": "https://service.invalid/sha256:624862def1f9fb8d/"
+      },
+      "response": {
+        "body": {
+          "methodResponses": [
+            [
+              "Email/get",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "list": [],
+                "notFound": [],
+                "state": "sha256:988d09baad353fcf"
+              },
+              "g1"
+            ]
+          ],
+          "sessionState": "a375abda"
+        },
+        "headers": {
+          "content-length": "122",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Mon, 26 Oct 2026 01:08:25 GMT"
+        },
+        "sha256": "1fe4a394b6e3b0c0060ef8842fa7a57093c5531b46947eab482230ba1147326a",
+        "status": 200
+      },
+      "startedAt": "2026-10-26T01:08:25.169316Z"
+    },
+    {
+      "durationMs": 7,
+      "error": null,
+      "operation": "Email/changes",
+      "request": {
+        "body": {
+          "methodCalls": [
+            [
+              "Email/changes",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "maxChanges": 50,
+                "sinceState": "sha256:988d09baad353fcf"
+              },
+              "c1"
+            ]
+          ],
+          "using": [
+            "urn:ietf:params:jmap:core",
+            "urn:ietf:params:jmap:mail"
+          ]
+        },
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "method": "POST",
+        "url": "https://service.invalid/sha256:624862def1f9fb8d/"
+      },
+      "response": {
+        "body": {
+          "methodResponses": [
+            [
+              "Email/changes",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "created": [],
+                "destroyed": [],
+                "hasMoreChanges": false,
+                "newState": "sha256:988d09baad353fcf",
+                "oldState": "sha256:988d09baad353fcf",
+                "updated": []
+              },
+              "c1"
+            ]
+          ],
+          "sessionState": "a375abda"
+        },
+        "headers": {
+          "content-length": "186",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Mon, 26 Oct 2026 01:08:25 GMT"
+        },
+        "sha256": "35a11d71ce7c25c66f26ea35d847a49d0a55ea16a225f95f1c560de4e1b9642f",
+        "status": 200
+      },
+      "startedAt": "2026-10-26T01:08:25.176295Z"
+    },
+    {
+      "durationMs": 6,
+      "error": null,
+      "operation": "Email/queryChanges",
+      "request": {
+        "body": {
+          "methodCalls": [
+            [
+              "Email/queryChanges",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "collapseThreads": false,
+                "filter": {
+                  "inMailbox": "sha256:ca978112ca1bbdca"
+                },
+                "maxChanges": 50,
+                "sinceQueryState": "sha256:988d09baad353fcf",
+                "sort": [
+                  {
+                    "isAscending": false,
+                    "property": "receivedAt"
+                  }
+                ]
+              },
+              "qc1"
+            ]
+          ],
+          "using": [
+            "urn:ietf:params:jmap:core",
+            "urn:ietf:params:jmap:mail"
+          ]
+        },
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "method": "POST",
+        "url": "https://service.invalid/sha256:624862def1f9fb8d/"
+      },
+      "response": {
+        "body": {
+          "methodResponses": [
+            [
+              "Email/queryChanges",
+              {
+                "accountId": "sha256:3e23e8160039594a",
+                "added": [],
+                "newQueryState": "sha256:988d09baad353fcf",
+                "oldQueryState": "sha256:988d09baad353fcf",
+                "removed": []
+              },
+              "qc1"
+            ]
+          ],
+          "sessionState": "a375abda"
+        },
+        "headers": {
+          "content-length": "162",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Mon, 26 Oct 2026 01:08:25 GMT"
+        },
+        "sha256": "ae3cb068552b41a5a853c841c98c8add8f932f9566227cd19ce4163c8f004fbf",
+        "status": 200
+      },
+      "startedAt": "2026-10-26T01:08:25.183188Z"
+    }
+  ],
+  "generatedAt": "2026-10-26T01:08:25.189142Z",
+  "metadata": {
+    "accountSelection": "explicit or primary Mail account",
+    "apiUrl": "https://service.invalid/sha256:7e2d07469c3de9b1/",
+    "authSource": "basic-env:JMAP_BASIC",
+    "probe": "read-only",
+    "sessionUrl": "http://service.invalid/sha256:7e2d07469c3de9b1/sha256:a9e9b80085a08043",
+    "status": "ok"
+  },
+  "schema": "moonjmap.real-interop.v1"
+}
