@@ -107,7 +107,8 @@ archive smoke test alone:
   official contest roster is not public, so the audit is not a full-entrant
   comparison and does not decide contest eligibility or judging.
 - [x] public source repository: https://github.com/001-Elsa/jmap-mbt.
-- Mooncakes upload: run the separate registry procedure below and verify the live result.
+- [x] Mooncakes upload: `001-Elsa/moonjmap@0.1.0`, successful server build and
+  independent exact-version installation; see [release record](mooncakes-release-0.1.0.md).
 - a version tag or contest submission, if requested separately.
 
 ## Registry publication procedure

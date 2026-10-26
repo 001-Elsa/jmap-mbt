@@ -1,5 +1,7 @@
 # MoonJMAP
 
+Mooncakes：[`001-Elsa/moonjmap@0.1.0`](https://mooncakes.io/docs/001-Elsa/moonjmap)。注册表构建与独立安装验证已通过，见 [发布记录](docs/mooncakes-release-0.1.0.md)。
+
 源码仓库：[001-Elsa/jmap-mbt](https://github.com/001-Elsa/jmap-mbt)。本次将既有源码快照按功能和文件时间线整理为 20 次实质提交；提交时间为实际整理时间。发布范围、历史证据和脱敏说明见 [仓库导入说明](docs/repository-import.md)。
 
 MoonJMAP 的主交付是：**把 JMAP 邮件查询的两条变化链，收敛成满足本地同步契约的有序前缀**。它接收调用方已经取得的 JMAP 响应，输出新的有序邮件前缀、下一批明确的 JMAP 请求，或者带有待办工作的恢复状态。核心包不建立网络连接，也不实现 SMTP、IMAP、MIME、SSE 或通用 JSON/RPC。
