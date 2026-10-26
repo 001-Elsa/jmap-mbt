@@ -10,15 +10,17 @@
 
 沿用已有公开仓库 https://github.com/001-Elsa/jmap-mbt ，没有创建重复仓库或通过网页初始化文件。新增`github` remote指向同一地址，保留`origin`。本地分支改为master并执行`git push -u github master`，GitHub默认分支已改为master；`git remote show github`及网页均确认。原main保留，不重写、删除原始历史。
 
-新增README.mbt.md、ACCEPTANCE.md，仓库页面可见LICENSE、CI、源码和完整现有历史。交付源码提交`53ee81a`时为27次提交（含最初20次快照导入）；后续仅追加实际发布记录，不以总次数证明历史有效。该源码的[CI 40295024732](https://github.com/001-Elsa/jmap-mbt/actions/runs/40295024732)五个job全部success，包括native实际测试。
+新增README.mbt.md、ACCEPTANCE.md，仓库页面可见LICENSE、CI、源码和完整现有历史。交付源码提交`53ee81a`时为27次提交（含最初20次快照导入）；后续仅追加实际发布和同步核查记录，不以总次数证明历史有效。该源码的[CI 40295024732](https://github.com/001-Elsa/jmap-mbt/actions/runs/40295024732)五个job全部success，包括native实际测试。后续文档提交`62c9a4b`的[CI 40298145978](https://github.com/001-Elsa/jmap-mbt/actions/runs/40298145978)也已成功。
 
 ## 2. Gitlink
 
 已有公开项目 https://www.gitlink.org.cn/Hzhhhh/jmap-mbt ，设置页面明确显示导入自上述GitHub项目，满足曾从GitHub导入的事实。
 
-**尚未满足两端当前一致和默认master。** 本次读取Gitlink HEAD仍为main、提交6069ca1；GitHub已向前更新。本机没有Gitlink HTTPS推送凭据，已有SSH身份也被拒绝。内置浏览器已登录并可管理项目，但浏览器登录不是Git协议凭据。
+**已完成两端同步和默认master设置。** 改用本次临时SSH公钥完成实际Git推送，新建Gitlink的master并将保留的main快进到GitHub同名分支。两端`git ls-remote --symref`均确认默认HEAD指向master、master为`62c9a4b548a194ae8873fb72b6123867ef369f16`、main为`5c9a4687c060e39730e886697ea0eefcbbb21abb`。本记录随后追加的文档提交也需同步两端，不将上述固定核验提交冒充永远不变的最新HEAD。
 
-本人随后明确授权配置这一个仓库的同步权限。已创建仅选择`001-Elsa/jmap-mbt`的fine-grained token，Contents和Webhooks为读写、Metadata为必需只读，有效期至2026-11-25；已保存给Gitlink Reposyncer，不将凭据写入源码、日志或截图。GitHub已配置仅push事件的HTTPS webhook，证书校验开启，测试ping返回204。Gitlink已绑定两端master，首次同步方向为GitHub→Gitlink；任务结果尚待核实。应在实际同步完成后设Gitlink默认master，并用`git ls-remote --symref`比对HEAD、分支尖端和本地提交。
+独立核验禁用credential.helper、交互提示和askpass，从公开HTTPS地址重新clone Gitlink。默认分支、29条完整提交历史的顺序与集合、tree `6efeffbacbe0077bdb05a7b7ed015d4201ebda96`均与上述固定本机提交一致；README.mbt.md、LICENSE、ACCEPTANCE.md、CI和核心源码blob逐项一致。证据保存在本机`gitlink-public-clone-verification.json`。
+
+Reposyncer曾按本人授权保存仅选择`001-Elsa/jmap-mbt`的fine-grained token（Contents/Webhooks读写、Metadata必需只读）。GitHub webhook测试ping返回204，但Gitlink服务端clone GitHub时连接中断，报`Encountered end of file`，且错误日志回显令牌。因此该令牌已撤销（GitHub刷新后无fine-grained token），Reposyncer已中止，GitHub对应webhook已停用。本次最终交付采用实际Git推送，不宣称持续自动双向同步可用。临时SSH认证仅用于本轮推送，撤销状态另记本机最终核验记录。未在公开源码、截图或本机核查证据中保留令牌值。
 
 ## 3. Mooncakes
 
@@ -38,7 +40,7 @@ SDKROOT只影响该shell及子进程，不修改系统配置，其他机器应�
 
 ## 4. 最终核验与申报入口
 
-本地严格命令已通过，GitHub公开/master/当前源码CI绿色，Mooncakes已发布；Gitlink仍需上节认证同步，因此不能把本项整体标为完成。源代码的实际Git历史已保留；最初快照导入的合理性和相似性仍须赛事组判断。
+本地严格命令已通过，GitHub与Gitlink均公开、默认master、已同步完整历史与文件，GitHub源码及上述文档提交CI绿色，Mooncakes 0.1.1已发布并独立安装验证。申报材料已备齐；实际报名和申报仍按本人“暂不提交”的要求保留未提交状态。源代码的实际Git历史已保留；最初快照导入的合理性和相似性仍须赛事组判断。
 
 本人本次指定的两个入口均只查看，未填写/上传个人信息或提交：
 
