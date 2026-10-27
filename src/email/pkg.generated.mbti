@@ -74,6 +74,7 @@ pub(all) enum ViewSpec {
 pub fn ViewSpec::equal(Self, Self) -> Bool
 pub fn ViewSpec::filter(Self) -> String
 pub fn ViewSpec::filter_spec(Self) -> FilterSpec
+pub fn ViewSpec::matches_record(Self, EmailRecord) -> Bool
 pub fn ViewSpec::name(Self) -> String
 pub fn ViewSpec::not_equal(Self, Self) -> Bool
 pub fn ViewSpec::sort(Self) -> String

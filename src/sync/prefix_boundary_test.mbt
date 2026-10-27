@@ -88,7 +88,7 @@ test "same queryState fill cannot change the snapshot total" {
 }
 
 ///|
-test "queryChanges result growth retains the newly appended prefix ID" {
+test "queryChanges result growth reads the appended suffix from its queryState" {
   let view = boundary_view(["a"], 1, 3)
   view.query_required = true
   let request = @sync.plan(view).requests[0]
@@ -106,17 +106,29 @@ test "queryChanges result growth retains the newly appended prefix ID" {
       }),
     ) {
     @sync.Acceptance::Continue(next) => {
-      assert_eq(next.view.ordered_ids, ["a", "b"])
+      assert_eq(next.view.ordered_ids, ["a"])
       assert_eq(next.view.total, 2)
-      assert_false(next.view.query_fill_required)
-      assert_true(next.plan.requests[0].kind == @sync.RequestKind::Get)
+      assert_true(next.view.query_fill_required)
+      let fill = next.plan.requests[0]
+      assert_true(fill.kind == @sync.RequestKind::Query)
+      assert_eq(fill.position, 1)
+      assert_eq(fill.ticket.expected_query_state, Some("q1"))
+      match
+        @sync.accept_response(
+          next.view,
+          fill.ticket,
+          @sync.QueryResult({ ids: ["b"], total: 2, state: "q1", bytes: 1, }),
+        ) {
+        @sync.Continue(filled) => assert_eq(filled.view.ordered_ids, ["a", "b"])
+        _ => fail("server-confirmed append should schedule object fetch")
+      }
     }
     _ => fail("growing query should fetch its complete two-ID prefix")
   }
 }
 
 ///|
-test "queryChanges permits a removed cached ID to be reinserted at its final index" {
+test "queryChanges movement rereads the affected suffix without local reinsertion" {
   let view = boundary_view(["a", "b"], 2, 3)
   view.query_required = true
   let request = @sync.plan(view).requests[0]
@@ -133,8 +145,26 @@ test "queryChanges permits a removed cached ID to be reinserted at its final ind
         bytes: 1,
       }),
     ) {
-    @sync.Acceptance::Continue(next) =>
-      assert_eq(next.view.ordered_ids, ["b", "a"])
+    @sync.Acceptance::Continue(next) => {
+      assert_eq(next.view.ordered_ids, [])
+      let fill = next.plan.requests[0]
+      assert_eq(fill.position, 0)
+      assert_eq(fill.ticket.expected_query_state, Some("q1"))
+      match
+        @sync.accept_response(
+          next.view,
+          fill.ticket,
+          @sync.QueryResult({
+            ids: ["b", "a"],
+            total: 2,
+            state: "q1",
+            bytes: 1,
+          }),
+        ) {
+        @sync.Continue(filled) => assert_eq(filled.view.ordered_ids, ["b", "a"])
+        _ => fail("movement must be supplied by the matching server query")
+      }
+    }
     _ => fail("RFC remove/reinsert movement should remain supported")
   }
 }

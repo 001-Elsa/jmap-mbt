@@ -517,8 +517,8 @@ class JmapHttpProbe:
         request = JmapRequest((EmailQueryRequest(account_id, filter, position=position, limit=limit, call_id=call_id).to_call(),))
         return self.call_one(request, operation="Email/query").decode_typed()
 
-    def email_query_changes(self, account_id: str, filter: Mapping[str, Any], since_query_state: str, *, max_changes: int | None = None, call_id: str = "qc1") -> Any:
-        request = JmapRequest((EmailQueryChangesRequest(account_id, filter, since_query_state, max_changes=max_changes, call_id=call_id).to_call(),))
+    def email_query_changes(self, account_id: str, filter: Mapping[str, Any], since_query_state: str, *, max_changes: int | None = None, call_id: str = "qc1", calculate_total: bool = False) -> Any:
+        request = JmapRequest((EmailQueryChangesRequest(account_id, filter, since_query_state, max_changes=max_changes, call_id=call_id, calculate_total=calculate_total).to_call(),))
         return self.call_one(request, operation="Email/queryChanges").decode_typed()
 
     def email_get(self, account_id: str, ids: Sequence[str], *, call_id: str = "g1") -> Any:

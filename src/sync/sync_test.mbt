@@ -1045,7 +1045,7 @@ test "restore upgrades a budget-pending complete checkpoint to Ready" {
   let record : @email.EmailRecord = {
     id: "a",
     thread_id: "thread-a",
-    mailbox_ids: Some([]),
+    mailbox_ids: Some([{ key: "inbox", value: true, }]),
     keywords: Some([]),
     received_at: Some("2026-10-25T00:00:00Z"),
     subject: Some("subject"),

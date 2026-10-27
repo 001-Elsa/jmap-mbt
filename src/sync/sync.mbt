@@ -833,6 +833,11 @@ pub fn restore_checkpoint(
           return Err("Ready checkpoint contains an incomplete object")
         }
       }
+      for record in saved.objects {
+        if !saved.query.view.matches_record(record) {
+          return Err("Ready checkpoint contradicts its mailbox/unread view")
+        }
+      }
     }
     Pending | NeedsRefresh => ()
   }
@@ -898,6 +903,33 @@ pub fn resumable(view : EmailView) -> ResumableProgress {
     query_required: view.query_required || view.query_fill_required,
     email_required: view.email_required,
   }
+}
+
+///|
+/// Return display records in the server's query order only after the fixed
+/// mailbox window is Ready. Pending/invalidated cache entries are never a
+/// readable mail snapshot. Copy nested collections so UI changes cannot
+/// mutate a subsequent checkpoint through the returned values.
+pub fn committed_emails(
+  view : EmailView,
+) -> Result[Array[@email.EmailRecord], String] {
+  if view.completeness != Ready || !ready(view) {
+    return Err("mailbox prefix is not Ready for display")
+  }
+  let records : Array[@email.EmailRecord] = []
+  for id in view.ordered_ids {
+    for record in view.objects {
+      if record.id == id {
+        records.push({
+          ..record,
+          mailbox_ids: record.mailbox_ids.map(fn(entries) { entries.copy() }),
+          keywords: record.keywords.map(fn(entries) { entries.copy() }),
+          from: record.from.map(fn(entries) { entries.copy() }),
+        })
+      }
+    }
+  }
+  Ok(records)
 }
 
 ///|
@@ -1389,7 +1421,7 @@ fn has_full_prefix(view : EmailView) -> Bool {
 }
 
 ///|
-fn ready(view : EmailView) -> Bool {
+fn ready_progress(view : EmailView) -> Bool {
   view.query_valid &&
   view.email_valid &&
   !view.query_required &&
@@ -1398,6 +1430,19 @@ fn ready(view : EmailView) -> Bool {
   view.pending_get.length() == 0 &&
   has_full_prefix(view) &&
   missing_object_ids(view).length() == 0
+}
+
+///|
+fn prefix_matches_view(view : EmailView) -> Bool {
+  view.objects.all(fn(record) {
+    !view.ordered_ids.contains(record.id) ||
+    view.query.view.matches_record(record)
+  })
+}
+
+///|
+fn ready(view : EmailView) -> Bool {
+  ready_progress(view) && prefix_matches_view(view)
 }
 
 ///|
@@ -1442,9 +1487,15 @@ fn finish_or_continue(view : EmailView) -> Acceptance {
       checkpoint: checkpoint(next),
       reason: "Email/changes budget exhausted",
     })
-  } else if ready(next) {
-    next.completeness = Ready
-    Commit(CommitResult::{ view: next, checkpoint: checkpoint(next), })
+  } else if ready_progress(next) {
+    if !prefix_matches_view(next) {
+      needs_refresh(
+        next, "Email/get projection contradicts its mailbox/unread query",
+      )
+    } else {
+      next.completeness = Ready
+      Commit(CommitResult::{ view: next, checkpoint: checkpoint(next), })
+    }
   } else {
     next.completeness = Pending
     let next_plan = make_next_plan(next)
@@ -1604,23 +1655,9 @@ fn ticket_shape_valid(
           view.limits.max_objects_per_get,
         )
         let expected_ids = prefix_strings(view.pending_get, count)
-        same_strings(ticket.requested_ids, expected_ids) &&
-        ticket.limit == count
+        ticket.requested_ids == expected_ids && ticket.limit == count
       }
   }
-}
-
-///|
-fn same_strings(left : Array[String], right : Array[String]) -> Bool {
-  if left.length() != right.length() {
-    return false
-  }
-  for index in 0..<left.length() {
-    if left[index] != right[index] {
-      return false
-    }
-  }
-  true
 }
 
 ///|
@@ -2048,56 +2085,28 @@ fn accept_query(
 }
 
 ///|
-/// An Email/queryChanges rank can be outside the retained query prefix even
-/// when it is legal in the server's full result. Such a rank has no locally
-/// provable predecessor and must not be clamped to the cached tail.
-priv enum QueryRankPrefix {
-  ProvenPrefix(Array[String])
-  UnknownRank
-}
-
-///|
-/// Reconstruct only a JMAP query's continuous known prefix. RFC 8620 section
-/// 5.6 assigns each addition its final rank; the old IDs that survive removal
-/// keep their relative order and occupy the remaining ranks. No general
-/// mutable sequence patch is needed here.
-///
-/// The caller has checked unique IDs and strictly increasing, nonnegative
-/// addition ranks. Check every rank before bounding the output: an addition
-/// beyond `target` can still expose a gap in the locally known query result.
-fn query_rank_prefix(
+/// Keep only the leading IDs that a query delta cannot affect. Do not
+/// insert, move or reconstruct IDs locally. The first removed cached slot
+/// or added final rank cuts the trusted prefix; Email/query then reads the
+/// entire uncertain suffix under the newly accepted queryState.
+fn unchanged_query_cut(
   cached_ids : Array[String],
   removed : Array[String],
   added : Array[Added],
   target : Int32,
-) -> QueryRankPrefix {
-  let survivors = cached_ids.filter(fn(id) { !contains_string(removed, id) })
-  for ordinal, addition in added {
-    // There are `ordinal` earlier additions. The other predecessors must
-    // all come from the retained old prefix. Subtracting avoids overflowing
-    // a length sum for large wire-decoded arrays.
-    if addition.index - ordinal > survivors.length() {
-      return UnknownRank
+) -> Int32 {
+  let mut cut = min_int(target, cached_ids.length())
+  for index, id in cached_ids {
+    if index < cut && removed.contains(id) {
+      cut = index
     }
   }
-  let prefix : Array[String] = []
-  let mut old_cursor = 0
-  let mut added_cursor = 0
-  while prefix.length() < target {
-    let final_rank = prefix.length()
-    if added_cursor < added.length() && added[added_cursor].index == final_rank {
-      prefix.push(added[added_cursor].id)
-      added_cursor = added_cursor + 1
-    } else if old_cursor < survivors.length() {
-      prefix.push(survivors[old_cursor])
-      old_cursor = old_cursor + 1
-    } else {
-      // The continuous known prefix ended. A same-queryState fill will
-      // supply the missing tail; no unknown server ID is invented here.
-      break
+  for addition in added {
+    if addition.index < cut {
+      cut = addition.index
     }
   }
-  ProvenPrefix(prefix)
+  cut
 }
 
 ///|
@@ -2159,25 +2168,40 @@ fn accept_query_changes(
       )
     }
   }
-  // Use the new total: retaining the old bound would lose a newly appended
-  // result when the query grows. The rank merge retains only this prefix.
   let new_target = min_int(view.limits.prefix_limit, data.total)
-  let updated_ids = match
-    query_rank_prefix(view.ordered_ids, data.removed, data.added, new_target) {
-    ProvenPrefix(ids) => ids
-    UnknownRank =>
-      return needs_refresh(
-        view, "query delta index is outside the cached prefix",
+  // Equal queryState can conservatively remove/re-add an unchanged ID at
+  // its existing rank. Reject contradictions that are visible in our old
+  // prefix without running a general sequence reconstruction algorithm.
+  let same_state = data.old_state == data.new_state
+  if same_state {
+    if data.total != view.total {
+      return protocol_failure(
+        view, "queryChanges changed total without changing queryState",
       )
+    }
+    for position, id in view.ordered_ids {
+      if data.removed.contains(id) &&
+        !data.added.any(fn(item) { item.id == id && item.index == position }) {
+        return protocol_failure(
+          view, "queryChanges changed the known result without changing queryState",
+        )
+      }
+    }
+    for item in data.added {
+      if item.index < view.ordered_ids.length() &&
+        view.ordered_ids[item.index] != item.id {
+        return protocol_failure(
+          view, "queryChanges changed the known result without changing queryState",
+        )
+      }
+    }
   }
-  // A server may conservatively remove and re-add an unchanged ID, so only
-  // reject equal tokens when the reconstructed known result really changes.
-  if data.old_state == data.new_state &&
-    (data.total != view.total || updated_ids != view.ordered_ids) {
-    return protocol_failure(
-      view, "queryChanges changed the known result without changing queryState",
-    )
+  let cut = if same_state {
+    min_int(new_target, view.ordered_ids.length())
+  } else {
+    unchanged_query_cut(view.ordered_ids, data.removed, data.added, new_target)
   }
+  let updated_ids = prefix_strings(view.ordered_ids, cut)
   let next = view
   next.ordered_ids = updated_ids
   for id in data.removed {
@@ -2189,13 +2213,12 @@ fn accept_query_changes(
   next.query_required = false
   next.query_fill_required = next.ordered_ids.length() < target_length(next)
   next.query_fill_position = next.ordered_ids.length()
-  next.pending_get = remove_strings(next.pending_get, data.removed)
-  for added in data.added {
-    if contains_string(next.ordered_ids, added.id) &&
-      !contains_string(next.pending_get, added.id) {
-      next.pending_get.push(added.id)
-    }
-  }
+  // Cache and fetch obligations are confined to the confirmed leading
+  // prefix. Suffix IDs are admitted only after the server returns them.
+  next.objects = next.objects.filter(fn(record) {
+    updated_ids.contains(record.id)
+  })
+  next.pending_get = next.pending_get.filter(fn(id) { updated_ids.contains(id) })
   next.rounds = next.rounds + 1
   next.bytes_seen = next.bytes_seen + data.bytes
   finish_or_continue(next)
@@ -2297,6 +2320,13 @@ fn accept_email_changes(
   next.pending_get = remove_strings(next.pending_get, data.destroyed)
   let live_updated = data.updated.filter(fn(id) {
     !contains_string(data.destroyed, id)
+  })
+  // A changed prefix member is no longer a displayable old payload. Retain
+  // its query position until queryChanges decides membership, but remove
+  // its stale fields immediately. Off-prefix creations/updates never become
+  // cache entries or direct Email/get obligations in this bounded view.
+  next.objects = next.objects.filter(fn(record) {
+    !contains_string(live_updated, record.id)
   })
   for id in live_updated {
     if contains_string(next.ordered_ids, id) &&

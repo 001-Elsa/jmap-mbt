@@ -274,6 +274,40 @@ fn force_get(v : @sync.EmailView, ids : Array[String]) -> @sync.EmailView {
 }
 
 ///|
+fn confirm_suffix(
+  v : @sync.EmailView,
+  server_ids : Array[String],
+) -> @sync.EmailView {
+  if !v.query_fill_required {
+    return v
+  }
+  let request = @sync.plan(v).requests[0]
+  guard request.kind == @sync.RequestKind::Query else {
+    abort("suffix must use Email/query")
+  }
+  let tail : Array[String] = []
+  for rank = request.position
+      rank < server_ids.length() && tail.length() < request.limit
+      rank = rank + 1 {
+    tail.push(server_ids[rank])
+  }
+  // This is an extra synthetic server observation, not local patching. The
+  // fixed server lists come from each scenario, independently of the cut.
+  view_of(
+    @sync.accept_response(
+      v,
+      request.ticket,
+      @sync.ServerResponse::QueryResult({
+        ids: tail,
+        total: v.total,
+        state: v.query_state.unwrap(),
+        bytes: 1,
+      }),
+    ),
+  )
+}
+
+///|
 fn c01() -> Unit {
   let mut v = seed(["a", "b", "c"], 3, "q0", "e0")
   v.email_required = true
@@ -357,7 +391,7 @@ fn c02() -> Unit {
       v,
       q.ticket,
       @sync.ServerResponse::QueryResult({
-        ids: ["d"],
+        ids: ["c", "d"],
         total: 4,
         state: "q1",
         bytes: 1,
@@ -372,7 +406,7 @@ fn c02() -> Unit {
       v,
       g.ticket,
       @sync.ServerResponse::GetResult({
-        list: [complete_record("d")],
+        list: [complete_record("c"), complete_record("d")],
         not_found: [],
         state: "e0",
         bytes: 1,
@@ -385,9 +419,7 @@ fn c02() -> Unit {
 fn c03() -> Unit {
   let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
   let t = @sync.plan(v).requests[0]
-  v = emit(
-    "C03",
-    0,
+  v = view_of(
     @sync.accept_response(
       v,
       t.ticket,
@@ -401,6 +433,8 @@ fn c03() -> Unit {
       }),
     ),
   )
+  v = confirm_suffix(v, ["b", "a", "c"])
+  v = emit_view("C03", 0, v)
   let g = @sync.plan(v).requests[0]
   v = emit(
     "C03",
@@ -409,7 +443,7 @@ fn c03() -> Unit {
       v,
       g.ticket,
       @sync.ServerResponse::GetResult({
-        list: [complete_record("b")],
+        list: [complete_record("b"), complete_record("a"), complete_record("c")],
         not_found: [],
         state: "e0",
         bytes: 1,
@@ -515,9 +549,7 @@ fn c07() -> Unit {
 fn c08() -> Unit {
   let mut v = force_query_changes(seed(["a", "b", "c"], 3, "q0", "e0"))
   let t = @sync.plan(v).requests[0]
-  v = emit(
-    "C08",
-    0,
+  v = view_of(
     @sync.accept_response(
       v,
       t.ticket,
@@ -531,13 +563,15 @@ fn c08() -> Unit {
       }),
     ),
   )
+  v = confirm_suffix(v, ["x", "a", "b"])
+  v = emit_view("C08", 0, v)
   let g = @sync.plan(v).requests[0]
   v = view_of(
     @sync.accept_response(
       v,
       g.ticket,
       @sync.ServerResponse::GetResult({
-        list: [complete_record("x")],
+        list: [complete_record("x"), complete_record("a"), complete_record("b")],
         not_found: [],
         state: "e0",
         bytes: 1,

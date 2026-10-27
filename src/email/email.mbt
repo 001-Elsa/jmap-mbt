@@ -1,7 +1,7 @@
 ///|
 /// The two intentionally small query projections supported by MoonJMAP v0.1.
-/// This package only describes the projection. It does not perform filtering,
-/// sorting, JSON encoding, or network I/O.
+/// This package describes the projection and checks fetched membership. It
+/// does not sort records, encode JSON, or perform network I/O.
 pub(all) enum ViewSpec {
   Latest(String)
   Unread(String)
@@ -216,6 +216,34 @@ pub fn EmailRecord::is_complete(self : EmailRecord) -> Bool {
   self.from is Some(addresses) &&
   valid_addresses(addresses) &&
   self.preview is Some(_)
+}
+
+///|
+/// A complete object can still contradict the Email/query that named it:
+/// mailbox membership or $seen may have changed between the two calls.
+/// This is a consistency check for our two fixed views, not a local query
+/// engine. Incomplete objects remain fetch obligations in the synchronizer.
+pub fn ViewSpec::matches_record(self : ViewSpec, record : EmailRecord) -> Bool {
+  if !record.is_complete() {
+    return false
+  }
+  let mailbox = match self {
+    Latest(mailbox) | Unread(mailbox) => mailbox
+  }
+  let in_mailbox = record.mailbox_ids
+    .unwrap()
+    .any(fn(entry) { entry.key == mailbox && entry.value })
+  let seen = record.keywords
+    .unwrap()
+    .any(fn(entry) { entry.key == "$seen" && entry.value })
+  if !in_mailbox {
+    false
+  } else {
+    match self {
+      Latest(_) => true
+      Unread(_) => !seen
+    }
+  }
 }
 
 ///|

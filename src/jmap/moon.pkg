@@ -2,4 +2,6 @@
 // packages; this package contains the four read-only JMAP method envelopes.
 import {
   "moonbitlang/core/debug",
+  "001-Elsa/moonjmap/src/sync",
+  "001-Elsa/moonjmap/src/email",
 }

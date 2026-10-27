@@ -32,7 +32,7 @@ if str(ROOT) not in sys.path:
 FIXTURE = ROOT / "tests" / "vectors" / "incremental_cases.json"
 GENERATOR = ROOT / "scripts" / "generate_differential_adapter.py"
 MOON = Path(os.environ.get("MOON") or shutil.which("moon") or Path.home() / ".moon" / "bin" / "moon")
-REPORT = ROOT / "outputs" / "MoonJMAP-跨实现逐步对拍-2026-10-25.json"
+REPORT = ROOT / "outputs" / "MoonJMAP-后缀确认跨实现对拍-2026-10-26.json"
 
 # The core intentionally emits a richer plan than the language-neutral vector
 # model.  These are expected method kinds from the generated adapter, indexed
@@ -50,7 +50,7 @@ PLAN_METHODS: dict[str, list[list[str]]] = {
     "C09": [["Email/changes"]],
     "C10": [[]],
     "C12": [["Email/get"], ["Email/get"]],
-    "C14": [["Email/queryChanges"], ["Email/get"], ["Email/get"]],
+    "C14": [["Email/queryChanges"], ["Email/query"], ["Email/query"]],
     "C15": [["Email/get"], ["Email/get"], ["Email/get"]],
 }
 
@@ -248,6 +248,16 @@ def compare_case(case: dict[str, Any], actual: list[dict[str, str]]) -> dict[str
     if len(m_records) != len(expected):
         issues.append({"field": "trace_length", "expected": len(expected), "actual": len(m_records)})
 
+    # v0.2 deliberately publishes only the server-confirmed leading prefix
+    # while a suffix read is outstanding. Explicit per-scenario expectations
+    # check those intermediate states; the oracle still checks final lists.
+    confirmed_prefix_steps = {
+        ("C02", 0): ["a"],
+        ("C05", 0): ["a"],
+        ("C05", 1): ["a"],
+        ("C14", 1): [],
+        ("C14", 2): [],
+    }
     for idx, want in enumerate(expected):
         if idx >= len(m_records):
             break
@@ -255,7 +265,7 @@ def compare_case(case: dict[str, Any], actual: list[dict[str, str]]) -> dict[str
         # The language-neutral oracle only publishes fields it knows. Empty
         # optional strings in the MoonBit projection correspond to None.
         fields: list[tuple[str, Any]] = [
-            ("ordered_ids", ",".join(want.get("ordered_ids", []))),
+            ("ordered_ids", ",".join(confirmed_prefix_steps.get((cid, idx), want.get("ordered_ids", [])))),
             ("query_state", want.get("query_state", "") or ""),
             ("email_state", want.get("email_state", "") or ""),
         ]
@@ -276,7 +286,7 @@ def compare_case(case: dict[str, Any], actual: list[dict[str, str]]) -> dict[str
             }
             fields.append(("reason", reason_map.get(want["reason"], want["reason"])))
         for field, expected_value in fields:
-            if boundary_for(cid, idx, field):
+            if boundary_for(cid, idx, field) and not (field == "ordered_ids" and (cid, idx) in confirmed_prefix_steps):
                 continue
             actual_value = got.get({"ordered_ids": "ids", "query_state": "q", "email_state": "e", "generation": "gen"}.get(field, field), "")
             if actual_value != expected_value:
@@ -329,7 +339,7 @@ def main() -> int:
     passed = sum(1 for item in results if item["passed"])
     report = {
         "report_type": "cross_implementation_incremental_trace",
-        "generated_on": "2026-10-25",
+        "generated_on": "2026-10-26",
         "fixture": str(FIXTURE.relative_to(ROOT)),
         "fixture_sha256": hashlib.sha256(FIXTURE.read_bytes()).hexdigest(),
         "adapter": "cmd/differential/main.mbt",
@@ -341,6 +351,7 @@ def main() -> int:
         "malformed_trace_lines": malformed,
         "cases": results,
         "known_boundaries": KNOWN_BOUNDARIES,
+        "server_suffix_contract": "C02/C05/C14 intermediate prefixes are explicitly checked under the v0.2 contract. C03/C08 perform an additional same-queryState synthetic server read before comparison. Final oracle lists are still checked; this is not equal per-event behavior to the old local-splice implementation.",
         "evidence_boundary": {
             "compares": ["ordered_ids", "opaque query/email states", "generation", "next-plan method and payload projection", "C15 query length checks"],
             "does_not_prove": ["full cross-language state equivalence", "real-server interoperability", "HTTP/TLS/OAuth", "performance", "wire decoder equivalence"],

@@ -96,6 +96,20 @@ fn force_get(v : @sync.EmailView, ids : Array[String]) -> @sync.EmailView {
  v.pending_get = ids
  v
 }
+fn confirm_suffix(v : @sync.EmailView, server_ids : Array[String]) -> @sync.EmailView {
+ if !v.query_fill_required { return v }
+ let request=@sync.plan(v).requests[0]
+ guard request.kind == @sync.RequestKind::Query else { abort("suffix must use Email/query") }
+ let tail : Array[String] = []
+ for rank=request.position; rank<server_ids.length() && tail.length()<request.limit; rank=rank+1 {
+  tail.push(server_ids[rank])
+ }
+ // This is an extra synthetic server observation, not local patching. The
+ // fixed server lists come from each scenario, independently of the cut.
+ view_of(@sync.accept_response(v,request.ticket,@sync.ServerResponse::QueryResult({
+  ids:tail,total:v.total,state:v.query_state.unwrap(),bytes:1
+ })))
+}
 '''
 # helper case functions
 cases=r'''
@@ -116,16 +130,18 @@ fn c02() -> Unit {
  let t=@sync.plan(v).requests[0]
  v=emit("C02",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["b"],added:[],total:4,old_state:"q0",new_state:"q1",bytes:1})))
  let q=@sync.plan(v).requests[0]
- v=emit("C02",1,@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:["d"],total:4,state:"q1",bytes:1})))
+ v=emit("C02",1,@sync.accept_response(v,q.ticket,@sync.ServerResponse::QueryResult({ids:["c","d"],total:4,state:"q1",bytes:1})))
  let g=@sync.plan(v).requests[0]
- v=emit("C02",2,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("d")],not_found:[],state:"e0",bytes:1})))
+ v=emit("C02",2,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("c"),complete_record("d")],not_found:[],state:"e0",bytes:1})))
 }
 fn c03() -> Unit {
  let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
  let t=@sync.plan(v).requests[0]
- v=emit("C03",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["b"],added:[@sync.Added::{id:"b",index:0}],total:3,old_state:"q0",new_state:"q1",bytes:1})))
+ v=view_of(@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:["b"],added:[@sync.Added::{id:"b",index:0}],total:3,old_state:"q0",new_state:"q1",bytes:1})))
+ v=confirm_suffix(v,["b","a","c"])
+ v=emit_view("C03",0,v)
  let g=@sync.plan(v).requests[0]
- v=emit("C03",1,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("b")],not_found:[],state:"e0",bytes:1})))
+ v=emit("C03",1,@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("b"),complete_record("a"),complete_record("c")],not_found:[],state:"e0",bytes:1})))
 }
 fn c04() -> Unit {
  let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
@@ -156,9 +172,11 @@ fn c07() -> Unit {
 fn c08() -> Unit {
  let mut v=force_query_changes(seed(["a","b","c"],3,"q0","e0"))
  let t=@sync.plan(v).requests[0]
- v=emit("C08",0,@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:[],added:[@sync.Added::{id:"x",index:0}],total:4,old_state:"q0",new_state:"q1",bytes:1})))
+ v=view_of(@sync.accept_response(v,t.ticket,@sync.ServerResponse::QueryChangesResult({removed:[],added:[@sync.Added::{id:"x",index:0}],total:4,old_state:"q0",new_state:"q1",bytes:1})))
+ v=confirm_suffix(v,["x","a","b"])
+ v=emit_view("C08",0,v)
  let g=@sync.plan(v).requests[0]
- v=view_of(@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("x")],not_found:[],state:"e0",bytes:1})))
+ v=view_of(@sync.accept_response(v,g.ticket,@sync.ServerResponse::GetResult({list:[complete_record("x"),complete_record("a"),complete_record("b")],not_found:[],state:"e0",bytes:1})))
  v.query_required=true
  v.completeness=@sync.Completeness::Pending
  v.pending_reason=Some("query_changed_during_refresh")

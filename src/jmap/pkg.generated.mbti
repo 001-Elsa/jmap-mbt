@@ -2,10 +2,12 @@
 package "001-Elsa/moonjmap/src/jmap"
 
 import {
+  "001-Elsa/moonjmap/src/sync",
   "moonbitlang/core/debug",
 }
 
 // Values
+pub fn encode_planned_request(@sync.Request, String) -> Result[Request, String]
 
 // Errors
 

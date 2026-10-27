@@ -14,6 +14,7 @@ from jmap import (
     EmailGetResponse,
     EmailObject,
     EmailQueryChangesResponse,
+    EmailQueryChangesRequest,
     EmailQueryRequest,
     JmapRequest,
     JmapResponse,
@@ -42,6 +43,17 @@ class JmapWireTests(unittest.TestCase):
             JmapRequest((get.to_method_call(), query.to_method_call()))
         with self.assertRaises(InvalidJmapInput):
             JmapRequest((get.to_method_call(),))
+
+    def test_query_changes_total_is_explicit_and_roundtrips(self) -> None:
+        request = EmailQueryChangesRequest("u1", {"inMailbox": "inbox"}, "q0", calculate_total=True)
+        call = request.to_call()
+        self.assertIs(call.arguments["calculateTotal"], True)
+        decoded = decode_request_calls(JmapRequest((call,)))[0]
+        self.assertIs(decoded.calculate_total, True)
+        self.assertEqual(decoded.to_arguments(), request.to_arguments())
+        self.assertNotIn("calculateTotal", EmailQueryChangesRequest("u1", {"inMailbox": "inbox"}, "q0").to_arguments())
+        with self.assertRaises(InvalidJmapInput):
+            EmailQueryChangesRequest("u1", {"inMailbox": "inbox"}, "q0", calculate_total=1)
 
     def test_query_changes_removed_are_string_ids(self) -> None:
         response = EmailQueryChangesResponse(

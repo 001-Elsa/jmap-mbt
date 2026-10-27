@@ -58,12 +58,6 @@ fn main {
     record
   })
   println("2. Email/get: response objects arrive in [a, b] order")
-  // Response acceptance updates the view. Keep an independent before-state
-  // for the certificate instead of passing the already-updated object twice.
-  let before_get = @sync.restore_checkpoint(
-    @sync.checkpoint(next.view),
-    @sync.default_limits(),
-  ).unwrap()
   let acceptance = @sync.accept_response(
     next.view,
     get.ticket,
@@ -82,10 +76,12 @@ fn main {
       guard done.view.completeness == @sync.Completeness::Ready else {
         abort("complete initial view should be Ready")
       }
-      let proof = @sync.certificate_from_acceptance(before_get, acceptance).unwrap()
-      @sync.verify_jmap_email_prefix_certificate(proof).unwrap()
+      let records = @sync.committed_emails(done.view).unwrap()
+      guard records.map(fn(record) { record.id }) == ["b", "a"] else {
+        abort("display records must follow the confirmed query prefix")
+      }
       println("3. Ready: ordered_ids=[b, a], queryState=q0, emailState=e0")
-      println("4. JMAP email prefix certificate verified")
+      println("4. Ready mailbox records returned in query order")
     }
     _ => abort("expected a complete committed view")
   }

@@ -430,6 +430,7 @@ class EmailQueryChangesRequest:
     collapse_threads: bool = False
     max_changes: int | None = None
     call_id: str = "qc1"
+    calculate_total: bool = False
 
     METHOD: ClassVar[str] = "Email/queryChanges"
 
@@ -442,6 +443,8 @@ class EmailQueryChangesRequest:
             raise InvalidJmapInput("v0.1 requires collapse_threads=false")
         if self.max_changes is not None and (not isinstance(self.max_changes, int) or isinstance(self.max_changes, bool) or self.max_changes < 0):
             raise InvalidJmapInput("max_changes must be null or an integer >= 0")
+        if not isinstance(self.calculate_total, bool):
+            raise InvalidJmapInput("calculate_total must be a boolean")
         if not isinstance(self.call_id, str) or not self.call_id:
             raise InvalidJmapInput("call_id must be a non-empty string")
 
@@ -455,6 +458,8 @@ class EmailQueryChangesRequest:
         }
         if self.max_changes is not None:
             result["maxChanges"] = self.max_changes
+        if self.calculate_total:
+            result["calculateTotal"] = True
         return result
 
     def to_call(self) -> MethodCall:
@@ -570,6 +575,7 @@ def decode_request_call(call: MethodCall) -> EmailQueryRequest | EmailQueryChang
                 collapse_threads=args.get("collapseThreads", False),
                 max_changes=None if "maxChanges" not in args else expect_int(args["maxChanges"], path="arguments.maxChanges", minimum=0),
                 call_id=call.call_id,
+                calculate_total=expect_bool(args.get("calculateTotal", False), path="arguments.calculateTotal"),
             )
         if call.name == "Email/get":
             if "ids" in args and "#ids" in args:

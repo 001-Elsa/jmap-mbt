@@ -28,7 +28,7 @@ REQUIRED = {
     "src/jmap/__init__.py",
     "src/jmap/methods.py",
     "src/sync/sync.mbt",
-    "src/sync/certificate.mbt",
+    "src/sync/mailbox_consistency_test.mbt",
     "src/email/email.mbt",
     "cmd/differential/main.mbt",
     "cmd/differential/moon.pkg",

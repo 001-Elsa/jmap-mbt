@@ -299,3 +299,136 @@ pub fn Response::to_json(self : Self) -> Json {
     ),
   }
 }
+
+///|
+/// Encode exactly one request emitted by the fixed mailbox planner. Both
+/// query methods explicitly request total: the core's prefix coverage uses
+/// it, whereas RFC 8620 otherwise permits its omission. No generic method
+/// dispatch, arbitrary filter JSON, or cross-request result reference is used.
+pub fn encode_planned_request(
+  planned : @sync.Request,
+  call_id : String,
+) -> Result[Request, String] {
+  let ticket = planned.ticket
+  if call_id == "" ||
+    ticket.request_id <= 0 ||
+    ticket.generation < 0 ||
+    ticket.account.service_identity == "" ||
+    ticket.account.account_id == "" ||
+    ticket.query.account != ticket.account ||
+    ticket.query.collapse_threads {
+    return Err("invalid fixed-mailbox request identity")
+  }
+  if planned.kind != ticket.kind ||
+    planned.ids != ticket.requested_ids ||
+    planned.position != ticket.position ||
+    planned.limit != ticket.limit ||
+    planned.max_changes != ticket.max_changes ||
+    planned.position < 0 ||
+    planned.limit < 0 ||
+    planned.max_changes < 0 ||
+    planned.properties != @email.default_properties() {
+    return Err("request payload differs from its fixed-mailbox ticket")
+  }
+  let seen : Array[String] = []
+  for id in planned.ids {
+    if id == "" || seen.contains(id) {
+      return Err("invalid Email/get ID projection")
+    }
+    seen.push(id)
+  }
+  let arguments : Map[String, Json] = {
+    "accountId": Json::string(ticket.account.account_id),
+  }
+  let wire_method = match planned.kind {
+    @sync.Query | @sync.QueryChanges => {
+      if planned.filter != Some(ticket.query.view.filter_spec()) ||
+        planned.sort != Some(ticket.query.view.sort_spec()) ||
+        planned.limit <= 0 ||
+        planned.ids.length() != 0 ||
+        planned.max_changes != 0 {
+        return Err("query fields differ from the fixed mailbox projection")
+      }
+      let mailbox = match ticket.query.view {
+        @email.Latest(mailbox) | @email.Unread(mailbox) => mailbox
+      }
+      if mailbox == "" {
+        return Err("mailbox must be non-empty")
+      }
+      arguments["filter"] = match ticket.query.view {
+        @email.Latest(_) => { "inMailbox": Json::string(mailbox) }
+        @email.Unread(_) =>
+          {
+            "operator": Json::string("AND"),
+            "conditions": Json::array([
+              { "inMailbox": Json::string(mailbox) },
+              { "notKeyword": Json::string("$seen") },
+            ]),
+          }
+      }
+      arguments["sort"] = Json::array([
+        {
+          "property": Json::string("receivedAt"),
+          "isAscending": Json::boolean(false),
+        },
+      ])
+      arguments["collapseThreads"] = Json::boolean(false)
+      arguments["calculateTotal"] = Json::boolean(true)
+      if planned.kind == @sync.Query {
+        arguments["position"] = Json::number(planned.position.to_double())
+        arguments["limit"] = Json::number(planned.limit.to_double())
+        MethodName::EmailQuery
+      } else {
+        if planned.position != 0 ||
+          ticket.expected_query_state is None ||
+          ticket.expected_query_state == Some("") {
+          return Err("queryChanges requires its existing queryState")
+        }
+        arguments["sinceQueryState"] = Json::string(
+          ticket.expected_query_state.unwrap(),
+        )
+        // Both supported filters use mutable properties. RFC 8620 says
+        // upToId is ignored in this case; do not promise a bounded delta by
+        // emitting a cached tail ID. Round/byte/error gates still apply.
+        MethodName::EmailQueryChanges
+      }
+    }
+    @sync.Get | @sync.Changes => {
+      if planned.position != 0 ||
+        planned.filter is Some(_) ||
+        planned.sort is Some(_) {
+        return Err("object request contains query-only fields")
+      }
+      if planned.kind == @sync.Get {
+        if planned.limit != planned.ids.length() || planned.max_changes != 0 {
+          return Err("Email/get limit differs from explicit IDs")
+        }
+        arguments["ids"] = Json::array(
+          planned.ids.map(fn(id) { Json::string(id) }),
+        )
+        arguments["properties"] = Json::array(
+          planned.properties.map(fn(name) { Json::string(name) }),
+        )
+        MethodName::EmailGet
+      } else {
+        if planned.ids.length() != 0 ||
+          planned.max_changes <= 0 ||
+          planned.limit != planned.max_changes ||
+          ticket.expected_email_state is None ||
+          ticket.expected_email_state == Some("") {
+          return Err("Email/changes requires its state and positive maxChanges")
+        }
+        arguments["sinceState"] = Json::string(
+          ticket.expected_email_state.unwrap(),
+        )
+        arguments["maxChanges"] = Json::number(planned.max_changes.to_double())
+        MethodName::EmailChanges
+      }
+    }
+  }
+  Ok({
+    method_calls: [
+      { method_name: wire_method, arguments: Json::object(arguments), call_id, },
+    ],
+  })
+}

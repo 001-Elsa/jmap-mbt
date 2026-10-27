@@ -18,23 +18,15 @@ pub fn begin_resume_with_email_state(EmailView, String) -> RefreshStart
 
 pub fn begin_resume_with_email_state_checked(EmailView, String) -> Result[RefreshStart, ReasonResult]
 
-pub fn certificate_from_acceptance(EmailView, Acceptance) -> Result[DecisionCertificate, String]
-
-pub fn certificate_from_views(EmailView, EmailView, Completeness, String) -> Result[DecisionCertificate, String]
-
-pub fn certificate_from_views_with_plan(EmailView, EmailView, Completeness, String, Plan) -> Result[DecisionCertificate, String]
-
 pub fn checked_next_generation(Int) -> Result[Int, String]
 
 pub fn checkpoint(EmailView) -> Checkpoint
 
+pub fn committed_emails(EmailView) -> Result[Array[@email.EmailRecord], String]
+
 pub fn default_capabilities() -> CapabilityProjection
 
 pub fn default_limits() -> Limits
-
-pub fn email_prefix_plan_binding(Plan) -> Result[EmailPrefixPlanBinding, String]
-
-pub fn email_prefix_proof_from_views(EmailView, EmailView, Completeness, String) -> Result[DecisionCertificate, String]
 
 pub fn open_view(AccountScope, @email.ViewSpec, Limits, String?) -> EmailView
 
@@ -49,12 +41,6 @@ pub fn restore_checkpoint(Checkpoint, Limits) -> Result[EmailView, String]
 pub fn resumable(EmailView) -> ResumableProgress
 
 pub fn resume_with_email_state(EmailView, String) -> RefreshStart
-
-pub fn verify_certificate(DecisionCertificate) -> Result[Unit, String]
-
-pub fn verify_email_prefix_proof(DecisionCertificate) -> Result[Unit, String]
-
-pub fn verify_jmap_email_prefix_certificate(DecisionCertificate) -> Result[Unit, String]
 
 // Errors
 
@@ -151,31 +137,6 @@ pub(all) struct ContinueResult {
 pub fn ContinueResult::equal(Self, Self) -> Bool
 pub fn ContinueResult::not_equal(Self, Self) -> Bool
 
-#alias(JmapEmailPrefixCertificate)
-pub(all) struct DecisionCertificate {
-  query : QueryKey
-  generation_before : Int
-  generation_after : Int
-  before_ids : Array[String]
-  after_ids : Array[String]
-  before_prefix_limit : Int
-  after_prefix_limit : Int
-  before_total : Int
-  after_total : Int
-  slots : Array[PrefixSlotWitness]
-  query_state_before : String?
-  query_state_after : String?
-  email_state_before : String?
-  email_state_after : String?
-  completeness : Completeness
-  kind : WitnessKind
-  reason : String
-  coverage : PrefixCoverage
-  plan_binding : EmailPrefixPlanBinding?
-} derive(Eq)
-pub fn DecisionCertificate::equal(Self, Self) -> Bool
-pub fn DecisionCertificate::not_equal(Self, Self) -> Bool
-
 pub(all) struct EmailChangesData {
   created : Array[String]
   updated : Array[String]
@@ -195,12 +156,6 @@ pub(all) struct EmailChangesResponseEnvelope {
 pub fn EmailChangesResponseEnvelope::equal(Self, Self) -> Bool
 pub fn EmailChangesResponseEnvelope::new(String, EmailChangesData) -> Result[Self, String]
 pub fn EmailChangesResponseEnvelope::not_equal(Self, Self) -> Bool
-
-pub(all) struct EmailPrefixPlanBinding {
-  request : Request
-} derive(Eq)
-pub fn EmailPrefixPlanBinding::equal(Self, Self) -> Bool
-pub fn EmailPrefixPlanBinding::not_equal(Self, Self) -> Bool
 
 pub(all) struct EmailView {
   account : AccountScope
@@ -297,32 +252,6 @@ pub(all) struct Plan {
 } derive(Eq)
 pub fn Plan::equal(Self, Self) -> Bool
 pub fn Plan::not_equal(Self, Self) -> Bool
-
-pub(all) struct PrefixCoverage {
-  start : Int
-  end : Int
-  target_end : Int
-  missing : Int
-  frontier : PrefixFrontier
-  same_query_state_fill : Bool
-  objects_complete : Bool
-} derive(Eq)
-pub fn PrefixCoverage::equal(Self, Self) -> Bool
-pub fn PrefixCoverage::not_equal(Self, Self) -> Bool
-
-pub(all) enum PrefixFrontier {
-  Open
-  Closed
-} derive(Eq)
-pub fn PrefixFrontier::equal(Self, Self) -> Bool
-pub fn PrefixFrontier::not_equal(Self, Self) -> Bool
-
-pub(all) enum PrefixSlotWitness {
-  FromBefore(Int)
-  Introduced(String)
-} derive(Eq)
-pub fn PrefixSlotWitness::equal(Self, Self) -> Bool
-pub fn PrefixSlotWitness::not_equal(Self, Self) -> Bool
 
 pub(all) struct QueryChangesData {
   removed : Array[String]
@@ -451,15 +380,6 @@ pub(all) enum ServerResponse {
 } derive(Eq)
 pub fn ServerResponse::equal(Self, Self) -> Bool
 pub fn ServerResponse::not_equal(Self, Self) -> Bool
-
-pub(all) enum WitnessKind {
-  Noop
-  QueryDelta
-  EmailDelta
-  MixedDelta
-} derive(Eq)
-pub fn WitnessKind::equal(Self, Self) -> Bool
-pub fn WitnessKind::not_equal(Self, Self) -> Bool
 
 // Type aliases
 
