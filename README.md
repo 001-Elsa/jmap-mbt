@@ -25,7 +25,7 @@ python3 scripts/run_differential.py
 PYTHONPATH=src python3 -m unittest discover -s tests -p 'test*.py'
 ```
 
-测试覆盖固定视图竞态、对象失效、同状态补位、旧代次与预算边界。`rank_prefix_test.mbt` 用完整服务器新旧列表及所有可保留公共子序列构造合法变化，检查 75,140 种转移；其中 70,952 种实际执行合成后缀查询。对拍保留 15 个有界场景，报告中列出旧向量与新后缀协议的中间状态差别。测试不证明实服互操作或性能，本轮没有连接真实邮箱。
+测试覆盖固定视图竞态、对象失效、同状态补位、旧代次与预算边界。`rank_prefix_test.mbt` 用完整服务器新旧列表及所有可保留公共子序列构造合法变化，检查 75,140 种转移；其中 70,952 种实际执行合成后缀查询。对拍保留 15 个有界场景，报告中列出旧向量与新后缀协议的中间状态差别。另可运行 `python3 scripts/run_real_mutation_scenario.py`，在临时本机 Stalwart 上复现 5 封邮件的真实四方法突变记录；脱敏结果见 [mutation-scenario.md](outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md)。
 
 ## 使用核心包
 

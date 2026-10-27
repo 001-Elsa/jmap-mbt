@@ -35,6 +35,8 @@ venv/
 /outputs/real-benchmark/*
 !/outputs/real-interop-stalwart-v0.16.27/
 /outputs/real-interop-stalwart-v0.16.27/*
+!/outputs/real-interop-stalwart-v0.16.27/mutation-scenario.json
+!/outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md
 !/outputs/source-comparison-audit-2026-10-26/
 /outputs/source-comparison-audit-2026-10-26/*
 !/outputs/source-comparison-audit-2026-10-26-v2/

@@ -4,7 +4,7 @@
 
 本页定义可重复的本地验收方法。当前向量和回放不等于真实服务器互操作；后者已在 [互操作记录模板](interop-record-template.md) 的基础上形成 [Stalwart v0.16.27 真实服务验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md)。
 
-验收顺序按项目主线解释：先看 JMAP 邮件查询的双 frontier、有序前缀补位、对象 ID 归位和完整性门禁，再看 `JmapEmailPrefixCertificate`（兼容 API 名 `DecisionCertificate`） 是否能复核同一状态转移。预算、checkpoint、wire、trace 和对拍通过只说明这些主功能有安全边界和可复现证据，不把项目扩大为通用同步、通用 RPC 或完整邮件客户端。
+验收顺序按本期三个交付件解释：先看 JMAP 有界邮件视图内核的双 frontier、有序前缀补位、对象 ID 归位和完整性门禁；再看四方法 wire 适配与能力降级；最后看边界测试和真实 Stalwart 互操作记录。预算、checkpoint、Python 参考和对拍只是这些交付件的验证工具，不把项目扩大为通用同步、通用 RPC、通用 replay/trace 或完整邮件客户端。
 
 ## 三层证据
 
@@ -63,7 +63,7 @@ python3 tests/verify.py
 * MoonBit 静态检查：`/Users/hanzhen09/.moon/bin/moon check --target native`、`--target js`、`--target wasm-gc` 均返回 rc0、0 errors（本次 warning 数量见机器可读报告，可能随源码/编译器版本变化）。
 * Python JMAP wire 与真实探针 harness 回归：`PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_*.py'` 当前 26/26 通过，覆盖固定四方法的 RFC 三元组、结果引用、过滤器、响应顺序、固定数组和 JSON 对象键的严格性、malformed 输入边界，以及真实探针的字节/RTT/脱敏与失败分支。
 * MoonBit 目标测试的直接结果使用 `/Users/hanzhen09/.moon/bin/moon` 和当前系统 `PATH`：`moon test --target wasm` 与 `moon test --target wasm-gc` 各 47/47 通过；`moon test --target js` 未能启动，原因是当前 `PATH` 没有 `node`（进程启动返回 `No such file or directory`）；`moon test --target native` 未完成，原因是本机 macOS SDK 的 `.tbd` 文件触发 linker `tapi error: malformed file` / `unknown architecture arm64e.x1-*`。同一报告另外显式使用 Codex bundled Node `/Users/hanzhen09/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node` 运行 JS，结果为 47/47；这项结果单独标记，不能改写成系统 PATH 直跑通过。Python 回放是独立 oracle，不合并计算为 MoonBit 测试覆盖率。
-* 真实 JMAP 服务：已取得并脱敏保存 Stalwart Server v0.16.27 的真实响应，覆盖 Session、`Email/query`、`Email/get`、`Email/changes` 和 `Email/queryChanges`；非空 Email 对象证据见 [真实服务验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md) 及 `outputs/real-interop-stalwart-v0.16.27/record-seeded-object-level-20261026.json`。`record-complete-20261026.json` 是较早的空邮箱探针记录。该证据只覆盖记录的 Stalwart 版本、只读方法和本机临时部署，不扩展为所有服务或写操作兼容。
+* 真实 JMAP 服务：当前 0.2.0 已重新取得并脱敏保存 Stalwart Server v0.16.27 的真实变更响应，覆盖 Session、`Email/query`、`Email/get`、`Email/changes` 和 `Email/queryChanges`；5 封邮件中窗口内对象变为已读后，旧对象未发布为 Ready，受影响前缀保留 1 个，新 queryState 的 position=1 后缀被重取，最终 2 个对象仍满足 Inbox/Unread。证据见 `outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md` 与同目录 JSON。它只覆盖记录的 Stalwart 版本、该只读方法链和本机临时部署，不扩展为所有服务或全部写操作兼容。
 * 性能：已完成同一 Stalwart 实例、5 封合成邮件、5 轮固定只读序列的真实性能基准；20/20 请求返回 2xx。完整指标见 `outputs/real-benchmark/stalwart-local-real-20261026-seeded.json`。这些数据是 loopback 工程基准，不是公网吞吐、容量或生产 SLO。
 * Email/changes 变更预算：MoonBit 计划和状态机已实现独立的 `Limits.max_changes`，并
   在 `Request.max_changes`、`RequestTicket.max_changes` 与 `Checkpoint.changes_seen`

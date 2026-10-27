@@ -6,7 +6,7 @@
 
 ## 0.2.0 当前口径补充
 
-下方早先表格保留了 0.1.x 的验收记录，不能直接套用于当前本地未发布的 0.2.0。当前版本已经删除位置证书、本地序列重建和证书演示；当前工作区验证为 MoonBit wasm 75/75、Python 27/27。当前贡献、行为边界和测试入口以 [JMAP 有界邮件视图契约](jmap-bounded-view-contract.md)、[本期实质贡献记录](contest-period-contribution-2026-10.md)、README 和 ACCEPTANCE.md 为准。
+下方早先表格保留了 0.1.x 的验收记录，不能直接套用于当前本地未发布的 0.2.0。当前版本已经删除位置证书、本地序列重建和证书演示；本期申报只展示三个交付件：JMAP 有界邮件视图内核、可运行的四方法 wire 适配和能力降级、可复现的边界测试与真实服务互操作记录。当前工作区验证为 MoonBit wasm 75/75、Python 27/27；Stalwart 真实变更记录见 `outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md`。当前贡献、行为边界和测试入口以 [JMAP 有界邮件视图契约](jmap-bounded-view-contract.md)、[本期实质贡献记录](contest-period-contribution-2026-10.md)、README 和 ACCEPTANCE.md 为准。
 
 当前仍然存在两项不能由代码补齐的风险：最初 20 个提交是同一时间整理的既有快照，不能伪装成连续开发；0.2.0 尚未推送、发布或提交赛事。后续只保留真实修改的提交，不回填历史、不拆分空提交，最终是否满足赛事历史要求由主办方判断。
 
@@ -43,13 +43,13 @@
 
 | 条款 | 当前判断 | 证据、修补与边界 |
 | --- | --- | --- |
-| 1. MoonBit 为主要实现语言 | 核心实现满足 | 邮件模型、typed JMAP、同步算法、证书为 `src/email`、`src/jmap`、`src/sync` 下4个生产 `.mbt` 文件，共3,827行；对应 Python wire适配器5文件2,044行。整个仓库还含大量 Python 调查与测试工具，GitHub 语言标签可能为Python；不通过改后缀或统计配置隐藏它们。主算法可直接由 MoonBit 示例运行。行数只辅助说明责任边界。 |
+| 1. MoonBit 为主要实现语言 | 核心实现满足 | 邮件模型、typed JMAP、同步算法为 `src/email`、`src/jmap`、`src/sync` 下生产 `.mbt` 文件；对应 Python wire 适配器和测试工具用于第二、第三交付件。整个仓库还含调查脚本和测试工具，GitHub 语言标签可能为 Python；不通过改后缀或统计配置隐藏它们。主算法可直接由 MoonBit 示例运行。行数只辅助说明责任边界。 |
 | 2. GitHub公开且提交清晰 | 公开已核实；开发历史有保留项 | GitHub API返回 `private=false`；已推送原源码。最初20次提交是事后按模块导入，不能证明连续开发。新增工作从现在起按真实修改提交；不得倒填时间或再拆分快照。主办方是否接受历史由其判断。 |
-| 3. 结构清晰并完成声明核心功能 | 当前固定范围通过本地验收 | 双 state、补位、失效恢复、预算、generation、证书有测试；README明确不实现完整邮件客户端。没有将通用工具列为主创新。 |
+| 3. 结构清晰并完成声明核心功能 | 当前固定范围通过本地验收 | 双 state、补位、失效恢复、预算、generation 和四方法 wire 有测试；真实记录验证当前 Stalwart 变更序列。README明确不实现完整邮件客户端，也不把通用工具列为本期成果。 |
 | 4. README含目标、安装、用法、可复现示例 | 已补齐 | README有精确Mooncakes安装、导入、边界、验证说明；新增 `moon run cmd/demo --target wasm`。旧测试矩阵中“未逐步对拍”的过时说法已修正。 |
 | 5. CI覆盖检查、构建、测试 | 已补齐且远程四个job通过 | 新增 `.github/workflows/ci.yml`，push/PR/manual触发，wasm/wasm-gc/JS分别check/build/test/demo；另有native静态检查、C01–C15对拍、Python回归/oracle/归档验收。Node22、Python3.12由Actions配置，MoonBit从官方安装稳定版并记录实际版本。 |
-| 6. 至少一个可运行示例 | 已满足本地运行 | `cmd/demo`通过公共MoonBit API建立基线、对乱序对象按ID归位、检查Ready并验证证书；合成输入，无网络和凭据。Python两个旧示例继续可用。 |
-| 7. 完整测试覆盖核心路径 | 已覆盖当前声明范围 | 三后端86项既有核心测试；93,072组排名归并、4,225种证书转移；独立oracle、固定向量和有界对拍。无完整形式化证明、所有服务兼容或生产性能保证。 |
+| 6. 至少一个可运行示例 | 已满足本地运行 | `cmd/demo`通过公共MoonBit API建立基线、对乱序对象按ID归位并检查Ready；合成输入，无网络和凭据。真实互操作另由 Stalwart 脚本复现。 |
+| 7. 完整测试覆盖核心路径 | 已覆盖当前声明范围 | 当前声明范围的 MoonBit/Python 边界测试、独立 oracle、固定向量和有界对拍；真实记录覆盖一次 Stalwart 变更。无完整形式化证明、所有服务兼容或生产性能保证。 |
 | 8. 发布Mooncakes | 已核实 | `moon view 001-Elsa/moonjmap@0.1.0 --json`返回成功、未撤回，checksum `3e5f8c151f95d27c26d39b46d0c90b32acf7d3152e3e04ff1f6fd0f1ce759aee`；既有发布与下游安装记录见 `mooncakes-release-0.1.0.md`。本轮CI/示例/文档是发布后改动，不冒充已包含在旧线上ZIP中。 |
 | 9. OSI许可证并遵守上游许可 | 当前可见分发已补齐来源说明 | Apache-2.0，LICENSE与模块元数据一致；新增 `source-provenance.md`区分RFC语义、外部Stalwart服务、标准库、近邻调查和合成数据。未分发被调查项目的实现或Stalwart服务；法律授权事实仍由贡献者负责。 |
 
@@ -95,7 +95,7 @@
 
 JS使用Codex bundled Node完成check/build、86/86测试和demo；Python适配器回归26/26；固定向量15/15；codec round-trip通过；C01–C15有界逐步对拍15/15；tar.gz与ZIP均通过全新目录解包smoke。完整命令与输出保存在本机 `work/contest-compliance-2026-10-26/`。远程验证已完成：提交 [`94575e9`](https://github.com/001-Elsa/jmap-mbt/commit/94575e9ceefb44d9eff9f731fbb95ddd771908d3) 的 [Actions运行40290718873](https://github.com/001-Elsa/jmap-mbt/actions/runs/40290718873) 中，`moonbit (wasm)`、`moonbit (wasm-gc)`、`moonbit (js)` 和 `evidence` 四个job均为 `completed/success`，包括真正的检查、构建、测试、demo和全新解包对拍。首轮运行的归档job因缺少MoonBit环境失败，已用真实修复提交补齐，不隐藏失败或将其写成成功。
 
-本文和说明材料的后续提交不改变主库及CI逻辑；各提交的当前状态继续以 [Actions列表](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml) 为准。本轮新增CI/demo/文档没有再上传Mooncakes，已发布0.1.0的主库不变。未重新连接真实邮箱，没有把历史Stalwart性能或互操作记录更新为本次结果。
+本文和说明材料的后续提交不改变主库及CI逻辑；各提交的当前状态继续以 [Actions列表](https://github.com/001-Elsa/jmap-mbt/actions/workflows/ci.yml) 为准。本轮新增CI/demo/文档没有再上传Mooncakes，已发布0.1.0的主库不变。当前 0.2.0 已在本机临时 Stalwart 上重新完成真实变更场景，记录见 `outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md`；该记录不扩展为所有服务兼容。
 
 ## 剩余外部事项
 

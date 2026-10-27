@@ -2,16 +2,24 @@
 
 本文件用于向评审解释当前 0.2.0 相对已发布 0.1.1 的实际变化。它不把旧的 20 个快照导入提交当作连续开发历史，也不通过拆分提交制造开发记录。
 
+## 本期只交付三个可展示件
+
+1. **JMAP 有界邮件视图内核**：`src/email` 与 `src/sync` 实现固定邮箱/未读视图、两条状态 frontier、窗口内对象失效、受影响位置前缀保留、同一新 `queryState` 后缀重取和 Ready-only 展示出口。
+2. **可运行的四方法 wire 适配和能力降级**：`src/jmap/api.mbt` 与 Python wire 适配覆盖 `Email/query`、`Email/get`、`Email/changes`、`Email/queryChanges`，绑定账号、查询、排序、ticket、显式 ID 和 `calculateTotal`；`canCalculateChanges=false` 时完整查询降级。
+3. **可复现的边界测试与真实服务互操作记录**：MoonBit/Python 边界测试和 `scripts/run_real_mutation_scenario.py`；当前 Stalwart 记录见 [mutation-scenario.md](../outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md)，包含 5 封邮件、窗口内变已读、四方法响应摘要、旧 Ready 阻断、前缀截断、同新 queryState 后缀补位和最终成员资格检查。
+
+本期材料不把通用 replay、通用证书、通用 trace、通用 CDC、通用邮件客户端或更多协议支持列为成果。
+
 ## 可核对的源码变化
 
 当前工作区的真实改动包括：
 
-- 删除 `src/sync/certificate.mbt` 和 `src/sync/certificate_test.mbt`，撤回通用位置证书、来源槽和独立 verifier；
 - 在 `src/sync/sync.mbt` 中增加邮箱/未读视图的对象资格检查、窗口内字段失效、服务器确认后缀和 Ready-only 展示出口；
 - 在 `src/jmap/api.mbt` 中增加固定四方法的 typed wire encoder，并绑定 account、ticket、查询过滤器、排序、`calculateTotal` 和显式 ID；
 - 在同步核心中实现并验证 `canCalculateChanges=false` 的完整查询降级；
 - 增加 JMAP wire、邮箱/未读竞态、同 queryState 补位、旧 generation、响应字段和预算边界测试；
-- 更新支持范围、迁移说明、来源说明、CI 和干净归档验收，使当前发布材料不再把已撤回的证书层列为 0.2.0 能力。
+- 删除 `src/sync/certificate.mbt` 和 `src/sync/certificate_test.mbt`，撤回通用位置证书、来源槽和独立 verifier；
+- 增加真实 Stalwart 变更脚本和脱敏记录；更新支持范围、迁移说明、来源说明、CI 和干净归档验收。
 
 ## 用户可观察的行为变化
 
@@ -27,7 +35,7 @@ SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk moon test --targ
 PYTHONPATH=src python3 -m unittest discover -s tests -p 'test*.py'
 ```
 
-结果为 MoonBit wasm **75/75**、Python **27/27**。这是真实的本地工程证据；它不等于公网服务兼容、Mooncakes 0.2.0 发布或赛事验收通过。
+结果为 MoonBit wasm **75/75**、Python **27/27**。本机 Stalwart v0.16.27 的 0.2.0 真实变更记录也已完成：5 封邮件，四方法链全部 HTTP 2xx，旧对象未发布为 Ready，最终 `committed_emails` 为 2 个仍属于 Inbox 且未读的对象。这些是本地工程和一次实服证据；不等于所有公网服务兼容、Mooncakes 0.2.0 发布或赛事验收通过。
 
 ## 开发历史边界
 

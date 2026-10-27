@@ -1,0 +1,140 @@
+{
+  "schema": "moon-jmap-real-mutation-v1",
+  "captured_at": "2026-10-27T12:38:35.070861+00:00",
+  "version_under_test": "0.2.0",
+  "service": {
+    "product": "Stalwart Server",
+    "version": "v0.16.27",
+    "deployment": "local-loopback",
+    "binary_sha256": "9496e7529893a668507b353a8694c01740854b785d9c819b141439fb26caa164",
+    "endpoint": "http://127.0.0.1:8080/jmap/"
+  },
+  "scenario": {
+    "view": "Unread(inbox)",
+    "seeded_messages": 5,
+    "initial_prefix_limit": 2,
+    "mutation": "mark the second visible prefix object as $seen=true",
+    "target_position": 1,
+    "final_total": 4
+  },
+  "wire": {
+    "http_status": "2xx for every target call",
+    "method_counts": {
+      "Email/query": 2,
+      "Email/get": 3,
+      "Email/changes": 1,
+      "Email/queryChanges": 1
+    },
+    "responses": {
+      "initial_query": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "query_state_hash": "sha256:379ebf3d3b26552bd3b787137fea6a8055f742055e2ce6d22c85b4b4a55872d1",
+        "ids_count": 2,
+        "ids_hash": "sha256:31bcccc7ef3531072de82e8cf590681a681b4598253899878662ddb77886a3c1",
+        "position": 0,
+        "limit": 2,
+        "total": 5,
+        "can_calculate_changes": true
+      },
+      "baseline_get": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "email_state_hash": "sha256:379ebf3d3b26552bd3b787137fea6a8055f742055e2ce6d22c85b4b4a55872d1",
+        "objects_count": 0,
+        "object_ids_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "not_found_count": 0,
+        "properties": []
+      },
+      "initial_get": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "email_state_hash": "sha256:379ebf3d3b26552bd3b787137fea6a8055f742055e2ce6d22c85b4b4a55872d1",
+        "objects_count": 2,
+        "object_ids_hash": "sha256:31bcccc7ef3531072de82e8cf590681a681b4598253899878662ddb77886a3c1",
+        "not_found_count": 0,
+        "properties": [
+          "from",
+          "id",
+          "keywords",
+          "mailboxIds",
+          "preview",
+          "receivedAt",
+          "subject",
+          "threadId"
+        ]
+      },
+      "email_changes": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "created_count": 0,
+        "created_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "updated_count": 1,
+        "updated_hash": "sha256:cbe107803a4a7131db852b5d0eddbb408c84520e8a6cb10738e9d0e2cf7660ff",
+        "destroyed_count": 0,
+        "destroyed_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "old_state_hash": "sha256:379ebf3d3b26552bd3b787137fea6a8055f742055e2ce6d22c85b4b4a55872d1",
+        "new_state_hash": "sha256:29e5a944dbbf75ef7a66c774f3bbd91ec6810950d02a8a9ebeb1986e331785eb",
+        "has_more_changes": false
+      },
+      "query_changes": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "old_query_state_hash": "sha256:379ebf3d3b26552bd3b787137fea6a8055f742055e2ce6d22c85b4b4a55872d1",
+        "new_query_state_hash": "sha256:29e5a944dbbf75ef7a66c774f3bbd91ec6810950d02a8a9ebeb1986e331785eb",
+        "removed_count": 1,
+        "removed_hash": "sha256:cbe107803a4a7131db852b5d0eddbb408c84520e8a6cb10738e9d0e2cf7660ff",
+        "added_count": 0,
+        "added_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "added_indexes": [],
+        "total": 4
+      },
+      "suffix_query": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "query_state_hash": "sha256:29e5a944dbbf75ef7a66c774f3bbd91ec6810950d02a8a9ebeb1986e331785eb",
+        "ids_count": 1,
+        "ids_hash": "sha256:dbf3c78e8b4ec02d3acd38793cb408a2fb97d63257a2882b0506c48af03b4b86",
+        "position": 1,
+        "limit": 1,
+        "total": 4,
+        "can_calculate_changes": true
+      },
+      "suffix_get": {
+        "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed",
+        "email_state_hash": "sha256:29e5a944dbbf75ef7a66c774f3bbd91ec6810950d02a8a9ebeb1986e331785eb",
+        "objects_count": 1,
+        "object_ids_hash": "sha256:dbf3c78e8b4ec02d3acd38793cb408a2fb97d63257a2882b0506c48af03b4b86",
+        "not_found_count": 0,
+        "properties": [
+          "from",
+          "id",
+          "keywords",
+          "mailboxIds",
+          "preview",
+          "receivedAt",
+          "subject",
+          "threadId"
+        ]
+      }
+    },
+    "mutation_new_email_state_hash": "sha256:29e5a944dbbf75ef7a66c774f3bbd91ec6810950d02a8a9ebeb1986e331785eb",
+    "account_id_hash": "sha256:c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed"
+  },
+  "checks": {
+    "stale_ready_blocked": true,
+    "retained_prefix_length": 1,
+    "affected_position": 1,
+    "suffix_position": 1,
+    "suffix_uses_new_query_state": true,
+    "final_committed_count": 2,
+    "final_membership_safe": true,
+    "old_target_absent": true,
+    "final_unread_only": true,
+    "final_inbox_only": true
+  },
+  "moonbit_driver": {
+    "status": "complete",
+    "command": "moon run cmd/real-interop --target wasm --deny-warn",
+    "output": "MOONJMAP_REAL_MUTATION status=complete\ninitial_ready=true stale_ready=false retained_prefix=1 suffix_position=1 final_committed=2"
+  },
+  "limitations": [
+    "Five synthetic messages were created in a temporary local Stalwart account.",
+    "The record proves this mutation sequence on Stalwart v0.16.27; it is not a claim for every JMAP implementation.",
+    "Raw IDs, state tokens, content, addresses, usernames and credentials are not retained."
+  ]
+}

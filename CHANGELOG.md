@@ -1,12 +1,14 @@
 # Changelog
 
-## 0.2.0（本地未发布，2026-10-26）
+## 0.2.0（本地未发布，2026-10-27）
 
 - Ready 与恢复增加邮箱/未读谓词检查，矛盾时重建查询。
 - 窗口内更新立即移除旧字段；committed_emails 只返回 Ready 的有序分离记录。
 - 移除本地序列归并，改为同 queryState 读取受影响后缀，增加服务器请求成本。
 - 删除位置证书、before/after 构造器及 verifier，属于 API 不兼容修改。
 - 每项改动后独立捕获完整 Mooncakes 目录并比较；不宣称零相似。
+- 本期申报范围收敛为三个交付件：JMAP 有界邮件视图内核、四方法 wire 适配和能力降级、可复现边界测试与真实服务互操作记录。
+- 使用本机 Stalwart v0.16.27 重新验证 5 封邮件的已读突变；旧对象未发布为 Ready，受影响前缀保留并在新 queryState 下补取后缀。
 
 
 All notable changes to MoonJMAP are recorded here. The project is currently

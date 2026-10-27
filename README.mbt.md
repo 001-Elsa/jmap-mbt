@@ -49,4 +49,4 @@ test "open a bounded mail view" {
 moon run cmd/demo --target wasm
 ```
 
-演示通过公共 MoonBit API 接纳合成 JMAP 响应，检查对象返回顺序 `[a,b]` 不会改变查询前缀 `[b,a]`，再从 `committed_emails` 取得按查询顺序排列的 Ready 记录。断言失败时以非零状态退出。历史真实服务记录不代表本轮新协议已完成实服验证。
+演示通过公共 MoonBit API 接纳合成 JMAP 响应，检查对象返回顺序 `[a,b]` 不会改变查询前缀 `[b,a]`，再从 `committed_emails` 取得按查询顺序排列的 Ready 记录。断言失败时以非零状态退出。当前 0.2.0 的真实服务记录见 `outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md`；它只覆盖该次本机 Stalwart 变更序列。

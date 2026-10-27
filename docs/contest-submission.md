@@ -16,7 +16,9 @@
 - 逐项核查：[章程核查](contest-compliance-2026-10-26.md)。
 - 来源与许可：[来源清单](source-provenance.md)。
 
-项目简介：MoonJMAP以MoonBit实现只读JMAP邮件查询列表的同步内核，协调Email/changes与Email/queryChanges两条独立state，处理同queryState后缀补位、邮件对象ID归位、邮箱/未读条件失效、能力降级、预算及旧响应隔离，输出可恢复待办、下一请求或满足契约的有序前缀。主库不建立网络连接，不实现完整邮件客户端，也不提供通用证书或审计平台；通用状态机、恢复和CDC已有相关生态项目，另建理由集中于JMAP可变查询的固定协议语义和错误安全边界。
+项目简介：MoonJMAP以MoonBit实现只读JMAP邮件查询列表的同步内核，协调Email/changes与Email/queryChanges两条独立state，处理同queryState后缀补位、邮件对象ID归位、邮箱/未读条件失效、能力降级、预算及旧响应隔离，输出可恢复待办、下一请求或满足契约的有序前缀。申报材料只展示三个交付件：JMAP有界邮件视图内核；可运行的四方法 wire 适配和能力降级；可复现的边界测试与真实服务互操作记录。主库不建立网络连接，不实现完整邮件客户端，也不提供通用证书、replay、trace、CDC或更多协议支持；另建理由集中于JMAP可变查询的固定协议语义和错误安全边界。
+
+本期成果的复现证据：本机 Stalwart v0.16.27 上创建 5 封合成邮件，将初始前缀第 2 封标为已读；`Email/changes` 与 `Email/queryChanges` 均报告变化，旧对象不能发布为 Ready，只保留受影响位置前的 1 个对象，并在新 `queryState` 下从 position=1 重取后缀，最终提交 2 个仍属于 Inbox 且未读的对象。详见 [真实互操作记录](../outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md)。
 
 ## 评审复现入口
 
@@ -32,7 +34,7 @@ python3 tests/verify.py --strict-structure
 python3 scripts/run_differential.py
 ```
 
-主示例应输出固定查询、对象按ID归位、服务器确认后缀和Ready四步；当前本地MoonBit wasm测试为75/75，Python回归为27/27。独立oracle、固定向量及有界对拍仍是有限输入证据。真实服务证据仅为此前本机Stalwart的有限记录，不能替代当前0.2.0的实服互操作验收。
+主示例应输出固定查询、对象按ID归位、服务器确认后缀和Ready四步；当前本地MoonBit wasm测试为75/75，Python回归为27/27。独立oracle、固定向量及有界对拍仍是有限输入证据。当前0.2.0的真实服务证据见 `outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md`，不能替代所有JMAP服务或赛事验收。
 
 源码压缩包验证：
 
