@@ -1,3 +1,5 @@
+> 版本边界：以下记录针对此前 0.1.x。当前本地未发布 0.2.0 已移除位置证书和本地序列归并；现行行为以 README、state-contract.md 及本轮改造报告为准，旧数量和通过项不自动适用。
+
 # 验收矩阵与证据记录
 
 本页定义可重复的本地验收方法。当前向量和回放不等于真实服务器互操作；后者已在 [互操作记录模板](interop-record-template.md) 的基础上形成 [Stalwart v0.16.27 真实服务验证报告](https://github.com/001-Elsa/jmap-mbt/blob/main/outputs/MoonJMAP-%E7%9C%9F%E5%AE%9E%E6%9C%8D%E5%8A%A1%E4%BA%92%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81-2026-10-26.md)。

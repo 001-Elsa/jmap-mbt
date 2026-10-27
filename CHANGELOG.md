@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0（本地未发布，2026-10-26）
+
+- Ready 与恢复增加邮箱/未读谓词检查，矛盾时重建查询。
+- 窗口内更新立即移除旧字段；committed_emails 只返回 Ready 的有序分离记录。
+- 移除本地序列归并，改为同 queryState 读取受影响后缀，增加服务器请求成本。
+- 删除位置证书、before/after 构造器及 verifier，属于 API 不兼容修改。
+- 每项改动后独立捕获完整 Mooncakes 目录并比较；不宣称零相似。
+
+
 All notable changes to MoonJMAP are recorded here. The project is currently
 at the `0.1.0` source-delivery stage. The public source repository is
 https://github.com/001-Elsa/jmap-mbt; Mooncakes publication remains separate.

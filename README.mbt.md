@@ -1,12 +1,12 @@
 # MoonJMAP · MoonBit 入口
 
-MoonJMAP 是 JMAP 邮件查询视图的增量一致性与恢复内核：分别跟踪邮件对象和查询顺序的 state，生成有序前缀、下一批请求和可离线验证的邮件前缀证书。网络传输由调用方负责。
+当前工作区为本地未发布的 0.2.0。MoonJMAP 为固定邮箱的最新或未读邮件维护有界连续窗口，分别跟踪邮件对象和查询顺序的 state，输出下一条请求或 Ready 的有序邮件记录。受影响后缀由服务器在同一 queryState 下重新确认；位置证书与本地序列归并已移除。网络传输由调用方负责。
 
 完整功能、支持边界、来源和证据以 [README.md](README.md) 为准；按提交指引复现请看 [ACCEPTANCE.md](ACCEPTANCE.md)。
 
 ## 安装与最小用法
 
-当前已发布版本为 `0.1.1`，见 [发布记录](docs/mooncakes-release-0.1.1.md)。在已有 MoonBit 工程中添加该版本：
+下面的新行为应从当前源码复现。Mooncakes 当前已发布的 `0.1.1` 是历史版本，见 [发布记录](docs/mooncakes-release-0.1.1.md)；以下安装命令仅用于取得该历史版本：
 
 ```sh
 moon add 001-Elsa/moonjmap@0.1.1
@@ -49,4 +49,4 @@ test "open a bounded mail view" {
 moon run cmd/demo --target wasm
 ```
 
-演示通过公共 MoonBit API 接纳合成 JMAP 响应，检查对象返回顺序 `[a,b]` 不会改变查询前缀 `[b,a]`，再检查 `Ready` 和邮件前缀证书。断言失败时以非零状态退出。真实服务兼容性及其适用范围见完整 README 中的外部记录。
+演示通过公共 MoonBit API 接纳合成 JMAP 响应，检查对象返回顺序 `[a,b]` 不会改变查询前缀 `[b,a]`，再从 `committed_emails` 取得按查询顺序排列的 Ready 记录。断言失败时以非零状态退出。历史真实服务记录不代表本轮新协议已完成实服验证。
