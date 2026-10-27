@@ -21,6 +21,7 @@ import hashlib
 import json
 import pathlib
 import re
+import subprocess
 import tarfile
 import time
 import urllib.error
@@ -60,6 +61,21 @@ def sha256_file(path: pathlib.Path) -> str:
         for block in iter(lambda: fh.read(1024 * 1024), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def current_commit() -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    value = result.stdout.strip()
+    return value or None
 
 
 def fetch(url: str, timeout: float = 120.0) -> bytes:
@@ -258,6 +274,7 @@ def write_report(out_dir: pathlib.Path, report: dict[str, Any], records: list[di
         "# MoonJMAP 0.2.0 Mooncakes.io 当前目录冻结与源码审计",
         "",
         f"- 捕获时间（UTC）：`{report['captured_at']}`",
+        f"- 被审计仓库提交：`{report['repository_commit'] or 'unknown'}`",
         f"- 目录原始 JSON：`{report['catalog']['raw_path']}`",
         f"- 目录 SHA-256：`{report['catalog']['raw_sha256']}`",
         f"- 当前发布坐标：`{report['catalog']['module_count']}` 个 `(name, version)`",
@@ -367,6 +384,7 @@ def main() -> int:
     report = {
         "schema": "moon-jmap-mooncakes-freeze-v1",
         "captured_at": now,
+        "repository_commit": current_commit(),
         "scope": "Mooncakes.io public published registry; not an official contest roster",
         "catalog": {"endpoint": MODULES_URL, "raw_path": str(raw_path), "raw_sha256": sha256(raw), "module_count": len(modules)},
         "target": target,

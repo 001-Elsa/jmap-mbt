@@ -31,6 +31,11 @@ venv/
 /outputs/mooncakes-delta-source-similarity-2026-10-26/*
 !/outputs/mooncakes-public-comparison-2026-10-26/
 /outputs/mooncakes-public-comparison-2026-10-26/*
+!/outputs/mooncakes-public-comparison-2026-10-27/
+!/outputs/mooncakes-public-comparison-2026-10-27/catalog-modules.json
+!/outputs/mooncakes-public-comparison-2026-10-27/snapshot.json
+!/outputs/mooncakes-public-comparison-2026-10-27/source-audit.jsonl
+!/outputs/mooncakes-public-comparison-2026-10-27/audit.md
 !/outputs/real-benchmark/
 /outputs/real-benchmark/*
 !/outputs/real-interop-stalwart-v0.16.27/
