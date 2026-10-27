@@ -1,0 +1,67 @@
+{
+  "schema": "moon-jmap-mooncakes-freeze-v1",
+  "captured_at": "2026-10-27T13:14:32.882415+00:00",
+  "repository_commit": "a5e3f8e3c8d37c5bb8d49bc0a17c983a009f2ef0",
+  "scope": "Mooncakes.io public published registry; not an official contest roster",
+  "catalog": {
+    "endpoint": "https://mooncakes.io/api/v0/modules/",
+    "raw_path": "/Users/hanzhen09/Desktop/jmap/work/mooncakes-snapshot-2026-10-27/modules.json",
+    "raw_sha256": "ee999eb162cbf9b3e6268fdc6b1cb076dcaa710e14edfb841d57969497afccd9",
+    "module_count": 3354
+  },
+  "target": {
+    "files": [
+      {
+        "path": "src/email/email.mbt",
+        "bytes": 7500,
+        "sha256": "6f6841c21e2c1217b882a9af186f9ae3b8503eae03d0b19dbce461406023b917"
+      },
+      {
+        "path": "src/jmap/api.mbt",
+        "bytes": 12403,
+        "sha256": "6bd95c568b2c966f0971efd5e3796eb2fe3919f18bf5a6f4a1f936be60bf012e"
+      },
+      {
+        "path": "src/sync/sync.mbt",
+        "bytes": 77311,
+        "sha256": "a40a4d22be900404564d2bf489bfc0a03f9d7dc2960326f6e17209d3ea01198a"
+      }
+    ],
+    "tree_sha256": "5adbd6f3f8356f39afe75e7c733d4e190524cbd7e9de1c87e31ddcb229836a72",
+    "bytes": 97214
+  },
+  "artifacts": {
+    "download_ok": 3354,
+    "download_errors": 0,
+    "archive_bytes": 1411077119,
+    "manifest_matches": 100,
+    "manifest_mismatches": 0,
+    "manifest_errors": 0,
+    "manifest_not_requested": 3254,
+    "source_ok": 3354,
+    "source_errors": 0,
+    "source_files": 251496,
+    "source_bytes": 3565408515,
+    "nested_container_total": 124
+  },
+  "method": {
+    "source_files": [
+      "src/email/email.mbt",
+      "src/jmap/api.mbt",
+      "src/sync/sync.mbt"
+    ],
+    "signals": [
+      "per-file SHA-256",
+      "canonical source lines",
+      "20-token exact shingles",
+      "20-token shape shingles"
+    ],
+    "manifest_refresh_scope": "first 100 coordinates by frozen catalog order; all downloaded ZIPs have local SHA-256",
+    "third_party_execution": false
+  },
+  "limitations": [
+    "Public Mooncakes coordinates are not an official contest roster.",
+    "Unreadable, unavailable and nested-container source is not represented as inspected source.",
+    "Lexical and hash evidence cannot establish semantic equivalence, plagiarism, originality or eligibility."
+  ]
+}
