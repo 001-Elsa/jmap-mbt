@@ -45,6 +45,8 @@ PYTHONPATH=src python3 -m unittest discover -s tests -p 'test*.py'
 
 每项改动后重新取得官方完整目录，对当前核心与每个发布包做静态代码比较；精确版本及整包 SHA 一致时才复用固定功能特征证据。候选语义核读与代码词法结果分别记录。不能把扫描覆盖率当赛事通过率。历史报告只描述其各自快照。
 
+当前 0.2.0 冻结报告见 [`outputs/mooncakes-public-comparison-2026-10-27/audit.md`](outputs/mooncakes-public-comparison-2026-10-27/audit.md)，机器摘要见 [`snapshot.json`](outputs/mooncakes-public-comparison-2026-10-27/snapshot.json)。该快照绑定提交 `a5e3f8e3c8d37c5bb8d49bc0a17c983a009f2ef0`，覆盖 3,354 个当前发布坐标；嵌套容器未展开部分已单独计数。
+
 [源码来源](docs/source-provenance.md)记录 RFC、标准库、合成夹具与 AI 辅助范围。[仓库导入说明](docs/repository-import.md)说明原有 20 次提交是快照导入，不能当连续开发历史。许可证为 Apache-2.0。0.1.1 的 [发布记录](docs/mooncakes-release-0.1.1.md)及此前实服记录保留历史含义。
 
 ## 固定 wire 请求与 total

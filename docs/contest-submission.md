@@ -15,6 +15,7 @@
 - 一页说明：[项目概览](contest-one-page.md)。
 - 逐项核查：[章程核查](contest-compliance-2026-10-26.md)。
 - 来源与许可：[来源清单](source-provenance.md)。
+- 当前目录与源码审计：[Mooncakes 2026-10-27 冻结报告](../outputs/mooncakes-public-comparison-2026-10-27/audit.md)。
 
 项目简介：MoonJMAP以MoonBit实现只读JMAP邮件查询列表的同步内核，协调Email/changes与Email/queryChanges两条独立state，处理同queryState后缀补位、邮件对象ID归位、邮箱/未读条件失效、能力降级、预算及旧响应隔离，输出可恢复待办、下一请求或满足契约的有序前缀。申报材料只展示三个交付件：JMAP有界邮件视图内核；可运行的四方法 wire 适配和能力降级；可复现的边界测试与真实服务互操作记录。主库不建立网络连接，不实现完整邮件客户端，也不提供通用证书、replay、trace、CDC或更多协议支持；另建理由集中于JMAP可变查询的固定协议语义和错误安全边界。
 

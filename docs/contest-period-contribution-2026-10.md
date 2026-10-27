@@ -10,6 +10,8 @@
 
 本期材料不把通用 replay、通用证书、通用 trace、通用 CDC、通用邮件客户端或更多协议支持列为成果。
 
+对应的当前 Mooncakes 目录冻结与源码审计见 [2026-10-27 报告](../outputs/mooncakes-public-comparison-2026-10-27/audit.md) 和 [机器摘要](../outputs/mooncakes-public-comparison-2026-10-27/snapshot.json)：3,354 个发布坐标、3,354/3,354 ZIP 可读、0 下载/读取错误、124 个未展开嵌套容器；生产源码哈希和审计提交写在报告中。
+
 ## 可核对的源码变化
 
 当前工作区的真实改动包括：
