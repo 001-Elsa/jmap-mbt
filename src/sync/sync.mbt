@@ -2,20 +2,22 @@
 /// MoonJMAP's stateful core.  The package is deliberately transport agnostic:
 /// a caller turns `Request` into a JMAP call and feeds the decoded response
 /// back to `accept_response`.
+#derive(Eq)
 pub(all) struct AccountScope {
   service_identity : String
   account_id : String
-} derive(Eq)
+}
 
 ///|
 pub extend AccountScope with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct QueryKey {
   account : AccountScope
   view : @email.ViewSpec
   collapse_threads : Bool
-} derive(Eq)
+}
 
 ///|
 pub extend QueryKey with Eq::{not_equal, equal}
@@ -36,6 +38,7 @@ pub fn QueryKey::canonical(self : QueryKey) -> String {
 }
 
 ///|
+#derive(Eq)
 pub(all) struct Limits {
   prefix_limit : Int32
   max_rounds : Int32
@@ -44,7 +47,7 @@ pub(all) struct Limits {
   /// Cumulative number of Email/changes entries accepted in one generation.
   /// A rounds or byte budget alone cannot bound a server-paginated change set.
   max_changes : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend Limits with Eq::{not_equal, equal}
@@ -53,6 +56,7 @@ pub extend Limits with Eq::{not_equal, equal}
 /// A caller-owned projection of the server capabilities needed by this
 /// bounded, read-only view. It contains no session URL, credentials,
 /// transport handle, or generic capability map.
+#derive(Eq)
 pub(all) struct CapabilityProjection {
   supports_filter : Bool
   supports_sort : Bool
@@ -61,7 +65,7 @@ pub(all) struct CapabilityProjection {
   supports_result_reference : Bool
   max_objects_per_get : Int32
   max_calls_in_request : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend CapabilityProjection with Eq::{not_equal, equal}
@@ -109,29 +113,32 @@ pub fn default_limits() -> Limits {
 }
 
 ///|
+#derive(Eq)
 pub(all) enum Completeness {
   Ready
   Pending
   NeedsRefresh
   Unsupported
   ProtocolFailure
-} derive(Eq)
+}
 
 ///|
 pub extend Completeness with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) enum RequestKind {
   Query
   QueryChanges
   Get
   Changes
-} derive(Eq)
+}
 
 ///|
 pub extend RequestKind with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct RequestTicket {
   generation : Int32
   request_id : Int32
@@ -145,12 +152,13 @@ pub(all) struct RequestTicket {
   limit : Int32
   /// Exact maxChanges for Email/changes, or zero for other methods.
   max_changes : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend RequestTicket with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct Request {
   ticket : RequestTicket
   kind : RequestKind
@@ -165,37 +173,40 @@ pub(all) struct Request {
   filter : @email.FilterSpec?
   sort : @email.SortSpec?
   properties : Array[String]
-} derive(Eq)
+}
 
 ///|
 pub extend Request with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct Plan {
   generation : Int32
   reason : String
   requests : Array[Request]
-} derive(Eq)
+}
 
 ///|
 pub extend Plan with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct Added {
   id : String
   index : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend Added with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct QueryData {
   ids : Array[String]
   total : Int32
   state : String
   bytes : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend QueryData with Eq::{not_equal, equal}
@@ -209,11 +220,12 @@ pub extend QueryData with Eq::{not_equal, equal}
 /// `can_calculate_changes` is the optional RFC `canCalculateChanges` member;
 /// `Some(false)` is a valid server answer and makes this query use full query
 /// rebuilds instead of queryChanges.
+#derive(Eq)
 pub(all) struct QueryResponseEnvelope {
   account_id : String
   data : QueryData
   can_calculate_changes : Bool?
-} derive(Eq)
+}
 
 ///|
 pub extend QueryResponseEnvelope with Eq::{not_equal, equal}
@@ -232,6 +244,7 @@ pub fn QueryResponseEnvelope::new(
 }
 
 ///|
+#derive(Eq)
 pub(all) struct QueryChangesData {
   removed : Array[String]
   added : Array[Added]
@@ -239,7 +252,7 @@ pub(all) struct QueryChangesData {
   old_state : String
   new_state : String
   bytes : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend QueryChangesData with Eq::{not_equal, equal}
@@ -248,10 +261,11 @@ pub extend QueryChangesData with Eq::{not_equal, equal}
 /// Account-bound form of Email/queryChanges.  Keeping `old_query_state` and
 /// `new_query_state` in `QueryChangesData` lets the core apply the same strict
 /// state checks as legacy fixtures while this envelope checks account scope.
+#derive(Eq)
 pub(all) struct QueryChangesResponseEnvelope {
   account_id : String
   data : QueryChangesData
-} derive(Eq)
+}
 
 ///|
 pub extend QueryChangesResponseEnvelope with Eq::{not_equal, equal}
@@ -269,12 +283,13 @@ pub fn QueryChangesResponseEnvelope::new(
 }
 
 ///|
+#derive(Eq)
 pub(all) struct GetData {
   list : Array[@email.EmailRecord]
   not_found : Array[String]
   state : String
   bytes : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend GetData with Eq::{not_equal, equal}
@@ -282,10 +297,11 @@ pub extend GetData with Eq::{not_equal, equal}
 ///|
 /// Account-bound form of Email/get.  The response state is retained in the
 /// nested legacy shape so adapters can migrate without rebuilding records.
+#derive(Eq)
 pub(all) struct GetResponseEnvelope {
   account_id : String
   data : GetData
-} derive(Eq)
+}
 
 ///|
 pub extend GetResponseEnvelope with Eq::{not_equal, equal}
@@ -305,6 +321,7 @@ pub fn GetResponseEnvelope::new(
 ///|
 /// RFC 8621 Email/changes retains all three change sets. Created objects can
 /// enter a query even if their IDs have never appeared in the cached prefix.
+#derive(Eq)
 pub(all) struct EmailChangesData {
   created : Array[String]
   updated : Array[String]
@@ -313,17 +330,18 @@ pub(all) struct EmailChangesData {
   new_state : String
   has_more_changes : Bool
   bytes : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend EmailChangesData with Eq::{not_equal, equal}
 
 ///|
 /// Account-bound RFC-shaped form of Email/changes.
+#derive(Eq)
 pub(all) struct EmailChangesResponseEnvelope {
   account_id : String
   data : EmailChangesData
-} derive(Eq)
+}
 
 ///|
 pub extend EmailChangesResponseEnvelope with Eq::{not_equal, equal}
@@ -341,13 +359,14 @@ pub fn EmailChangesResponseEnvelope::new(
 }
 
 ///|
+#derive(Eq)
 pub(all) enum ResponseError {
   CannotCalculateChanges
   TooManyChanges
   NotFound
   Unsupported(String)
   Malformed(String)
-} derive(Eq)
+}
 
 ///|
 pub extend ResponseError with Eq::{not_equal, equal}
@@ -356,10 +375,11 @@ pub extend ResponseError with Eq::{not_equal, equal}
 /// Account-bound server error.  JMAP method errors normally carry an
 /// `accountId`; preserving it at the typed boundary prevents an error from a
 /// second account being applied to this view.
+#derive(Eq)
 pub(all) struct ErrorResponseEnvelope {
   account_id : String
   error : ResponseError
-} derive(Eq)
+}
 
 ///|
 pub extend ErrorResponseEnvelope with Eq::{not_equal, equal}
@@ -377,13 +397,14 @@ pub fn ErrorResponseEnvelope::new(
 }
 
 ///|
+#derive(Eq)
 pub(all) enum ServerResponse {
   QueryResult(QueryData)
   QueryChangesResult(QueryChangesData)
   GetResult(GetData)
   EmailChangesResult(EmailChangesData)
   Error(ResponseError)
-} derive(Eq)
+}
 
 ///|
 pub extend ServerResponse with Eq::{not_equal, equal}
@@ -392,18 +413,20 @@ pub extend ServerResponse with Eq::{not_equal, equal}
 /// Typed wire response variants.  The original `ServerResponse` remains the
 /// compatibility/replay boundary; this enum is the strict boundary produced
 /// by an adapter that decoded accountId and canCalculateChanges.
+#derive(Eq)
 pub(all) enum BoundServerResponse {
   QueryResult(QueryResponseEnvelope)
   QueryChangesResult(QueryChangesResponseEnvelope)
   GetResult(GetResponseEnvelope)
   EmailChangesResult(EmailChangesResponseEnvelope)
   Error(ErrorResponseEnvelope)
-} derive(Eq)
+}
 
 ///|
 pub extend BoundServerResponse with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct Checkpoint {
   account : AccountScope
   query : QueryKey
@@ -425,12 +448,13 @@ pub(all) struct Checkpoint {
   query_changes_allowed : Bool
   /// Number of Email/changes entries accepted in this generation.
   changes_seen : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend Checkpoint with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct EmailView {
   account : AccountScope
   query : QueryKey
@@ -456,84 +480,92 @@ pub(all) struct EmailView {
   mut pending_reason : String?
   mut query_changes_allowed : Bool
   mut changes_seen : Int32
-} derive(Eq)
+}
 
 ///|
 pub extend EmailView with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) enum OpenViewResult {
   Accepted(EmailView)
   Unsupported(String)
   InvalidInput(String)
-} derive(Eq)
+}
 
 ///|
 pub extend OpenViewResult with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct ResumableProgress {
   checkpoint : Checkpoint
   pending_ids : Array[String]
   query_required : Bool
   email_required : Bool
-} derive(Eq)
+}
 
 ///|
 pub extend ResumableProgress with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct RefreshStart {
   view : EmailView
   plan : Plan
-} derive(Eq)
+}
 
 ///|
 pub extend RefreshStart with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct ContinueResult {
   view : EmailView
   plan : Plan
-} derive(Eq)
+}
 
 ///|
 pub extend ContinueResult with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct CommitResult {
   view : EmailView
   checkpoint : Checkpoint
-} derive(Eq)
+}
 
 ///|
 pub extend CommitResult with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct PendingResult {
   view : EmailView
   checkpoint : Checkpoint
   reason : String
-} derive(Eq)
+}
 
 ///|
 pub extend PendingResult with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct NeedsRefreshResult {
   view : EmailView
   reason : String
   progress : ResumableProgress
-} derive(Eq)
+}
 
 ///|
 pub extend NeedsRefreshResult with Eq::{not_equal, equal}
 
 ///|
+#derive(Eq)
 pub(all) struct ReasonResult {
   view : EmailView
   reason : String
-} derive(Eq)
+}
 
 ///|
 pub extend ReasonResult with Eq::{not_equal, equal}

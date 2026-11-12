@@ -9,6 +9,7 @@ dist/
 work/
 inputs/
 outputs/
+output/
 .DS_Store
 __pycache__/
 *.py[cod]

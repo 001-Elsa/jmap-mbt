@@ -2,10 +2,11 @@
 /// The two intentionally small query projections supported by MoonJMAP v0.1.
 /// This package describes the projection and checks fetched membership. It
 /// does not sort records, encode JSON, or perform network I/O.
+#derive(Eq)
 pub(all) enum ViewSpec {
   Latest(String)
   Unread(String)
-} derive(Eq)
+}
 
 ///|
 pub extend ViewSpec with Eq::{not_equal, equal}
@@ -15,10 +16,11 @@ pub extend ViewSpec with Eq::{not_equal, equal}
 /// as a closed type prevents a caller from accidentally treating the
 /// human-readable canonical string returned by `ViewSpec::filter` as JMAP
 /// wire JSON.  An adapter can map the two cases to the RFC filter objects.
+#derive(Eq)
 pub(all) enum FilterSpec {
   InMailbox(String)
   UnreadInMailbox(String)
-} derive(Eq)
+}
 
 ///|
 pub extend FilterSpec with Eq::{not_equal, equal}
@@ -29,9 +31,10 @@ pub extend FilterSpec with Eq::{not_equal, equal}
 ///   "property": "receivedAt",
 ///   "isAscending": false
 /// }]`.
+#derive(Eq)
 pub(all) enum SortSpec {
   ReceivedAtDescending
-} derive(Eq)
+}
 
 ///|
 pub extend SortSpec with Eq::{not_equal, equal}
@@ -39,6 +42,7 @@ pub extend SortSpec with Eq::{not_equal, equal}
 ///|
 /// Fixed presentation properties. The order is stable so callers can use it
 /// as the `Email/get` properties array without constructing a generic schema.
+#derive(Eq)
 pub(all) enum Property {
   Id
   ThreadId
@@ -48,7 +52,7 @@ pub(all) enum Property {
   Subject
   From
   Preview
-} derive(Eq)
+}
 
 ///|
 pub extend Property with Eq::{not_equal, equal}
@@ -134,10 +138,11 @@ pub fn default_properties() -> Array[String] {
 /// silently reducing the map to an array of strings.  A `false` value is
 /// retained so a decoder can diagnose a malformed server response rather than
 /// losing information while building a view.
+#derive(Eq)
 pub(all) struct BooleanEntry {
   key : String
   value : Bool
-} derive(Eq)
+}
 
 ///|
 pub extend BooleanEntry with Eq::{not_equal, equal}
@@ -146,10 +151,11 @@ pub extend BooleanEntry with Eq::{not_equal, equal}
 /// The RFC `EmailAddress` projection used by the `from` property.  The name
 /// is nullable on the wire; an absent name is represented by `None`, not by a
 /// fabricated empty string.
+#derive(Eq)
 pub(all) struct EmailAddress {
   email : String
   name : String?
-} derive(Eq)
+}
 
 ///|
 pub extend EmailAddress with Eq::{not_equal, equal}
@@ -165,6 +171,7 @@ pub extend EmailAddress with Eq::{not_equal, equal}
 /// The v0.1 adapter is expected to construct `Some(...)` only when the field
 /// was present with the supported value; it must not turn null/missing into an
 /// empty string.
+#derive(Eq)
 pub(all) struct EmailRecord {
   id : String
   thread_id : String
@@ -174,7 +181,7 @@ pub(all) struct EmailRecord {
   subject : String?
   from : Array[EmailAddress]?
   preview : String?
-} derive(Eq)
+}
 
 ///|
 pub extend EmailRecord with Eq::{not_equal, equal}

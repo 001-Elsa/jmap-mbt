@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.2.0（本地未发布，2026-10-27）
+## 0.2.1（2026-11-12）
+
+- 适配 moon 0.1.20261104 / moonc v0.10.20，将 48 个后置 derive 声明迁移为前置 #derive，修复严格警告与格式检查。
+- 重新生成公开接口，保持原有 API 与同步行为，无新增依赖。
+- 四后端各 75 项测试、核心示例及源码归档复验通过；README 记录 macOS native SDK 限制。
+- 保留现有四后端 CI，完整工具链和验证记录见 docs/compatibility-2026-11-12.md。
+
+## 0.2.0（2026-10-27）
 
 - Ready 与恢复增加邮箱/未读谓词检查，矛盾时重建查询。
 - 窗口内更新立即移除旧字段；committed_emails 只返回 Ready 的有序分离记录。
@@ -11,8 +18,7 @@
 - 使用本机 Stalwart v0.16.27 重新验证 5 封邮件的已读突变；旧对象未发布为 Ready，受影响前缀保留并在新 queryState 下补取后缀。
 
 
-All notable changes to MoonJMAP are recorded here. The project is currently
-at the `0.1.0` source-delivery stage. The public source repository is
+All notable changes to MoonJMAP are recorded here. The public source repository is
 https://github.com/001-Elsa/jmap-mbt; Mooncakes publication remains separate.
 
 ## 0.1.1 - submission guide delivery - 2026-10-26

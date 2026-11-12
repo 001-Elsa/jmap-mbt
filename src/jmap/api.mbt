@@ -7,12 +7,13 @@
 
 ///|
 /// The only methods exported by MoonJMAP v0.1.
+#derive(Eq, Debug)
 pub(all) enum MethodName {
   EmailQuery
   EmailQueryChanges
   EmailGet
   EmailChanges
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend MethodName with Eq::{not_equal, equal}
@@ -35,12 +36,13 @@ pub fn MethodName::wire_name(self : Self) -> String {
 
 ///|
 /// `StaleResponse` to a dropped response without advancing a checkpoint.
+#derive(Eq, Debug)
 pub(all) enum DecodeFailure {
   InvalidInput(String)
   Unsupported(String)
   ProtocolFailure(String)
   StaleResponse(String)
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend DecodeFailure with Eq::{not_equal, equal}
@@ -50,9 +52,10 @@ pub extend DecodeFailure with @moonbitlang/core/debug.Debug::{to_repr}
 
 ///|
 /// The sole supported result reference: an in-batch Email/query `/ids` value.
+#derive(Eq, Debug)
 pub(all) struct ResultReference {
   result_of : String
-} derive(Eq, Debug)
+}
 
 ///|
 pub extend ResultReference with Eq::{not_equal, equal}
@@ -84,11 +87,12 @@ pub fn ResultReference::to_json(self : Self) -> Json {
 
 ///|
 /// JSON pointers or dispatch arbitrary RPC methods.
+#derive(Debug)
 pub(all) struct MethodCall {
   method_name : MethodName
   arguments : Json
   call_id : String
-} derive(Debug)
+}
 
 ///|
 pub extend MethodCall with @moonbitlang/core/debug.Debug::{to_repr}
@@ -119,9 +123,10 @@ pub fn MethodCall::to_json(self : Self) -> Json {
 
 ///|
 /// v0.1 core only speaks JMAP Core + Mail.
+#derive(Debug)
 pub(all) struct Request {
   method_calls : Array[MethodCall]
-} derive(Debug)
+}
 
 ///|
 pub extend Request with @moonbitlang/core/debug.Debug::{to_repr}
@@ -152,10 +157,11 @@ pub fn Request::to_json(self : Self) -> Json {
 
 ///|
 /// object by the Python codec; MoonBit callers can keep the same object here.
+#derive(Debug)
 pub(all) struct MethodError {
   type_ : String
   arguments : Json
-} derive(Debug)
+}
 
 ///|
 pub extend MethodError with @moonbitlang/core/debug.Debug::{to_repr}
@@ -175,11 +181,12 @@ pub fn MethodError::new(type_ : String, arguments : Json) -> MethodError? {
 
 ///|
 /// advances either state token.
+#derive(Debug)
 pub(all) struct MethodResponse {
   name : String
   arguments : Json
   call_id : String
-} derive(Debug)
+}
 
 ///|
 pub extend MethodResponse with @moonbitlang/core/debug.Debug::{to_repr}
@@ -205,13 +212,14 @@ pub fn MethodResponse::new(
 /// argument objects; this type records the identity facts that the sync core
 /// must check before accepting a response.  `can_calculate_changes` is only
 /// meaningful for `Email/query`, where RFC 8621 makes it an optional member.
+#derive(Debug)
 pub(all) struct TypedMethodResponse {
   method_name : MethodName
   account_id : String
   arguments : Json
   call_id : String
   can_calculate_changes : Bool?
-} derive(Debug)
+}
 
 ///|
 pub extend TypedMethodResponse with @moonbitlang/core/debug.Debug::{to_repr}
@@ -269,9 +277,10 @@ fn supported_response_name(name : String) -> Bool {
 
 ///|
 /// them into a call-id dictionary.
+#derive(Debug)
 pub(all) struct Response {
   method_responses : Array[MethodResponse]
-} derive(Debug)
+}
 
 ///|
 pub extend Response with @moonbitlang/core/debug.Debug::{to_repr}

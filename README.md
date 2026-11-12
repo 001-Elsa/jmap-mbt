@@ -1,6 +1,6 @@
 # MoonJMAP
 
-**当前工作区为本地未发布的 0.2.0。** Mooncakes 上的 [`001-Elsa/moonjmap@0.1.1`](https://mooncakes.io/docs/001-Elsa/moonjmap) 和远端仓库现有版本仍是历史版本，不能用安装 0.1.1 代替下面的新行为。此轮没有发布、推送或提交赛事。
+**当前源码版本为 0.2.1。** 本版适配 2026 年 11 月官方 MoonBit 工具链，保持 0.2.0 的 API 和同步行为。包入口为 [`001-Elsa/moonjmap`](https://mooncakes.io/docs/001-Elsa/moonjmap)，变更见 [CHANGELOG](CHANGELOG.md)。
 
 MoonJMAP 接收调用方取得的 JMAP 响应，维护指定邮箱“最新邮件”或“未读邮件”的前 N 条结果。输出下一条明确请求、需要刷新的状态，或可展示的有序邮件。核心不连接网络，不实现邮件发送、MIME、归档或通用集合复制。
 
@@ -19,6 +19,7 @@ MoonJMAP 接收调用方取得的 JMAP 响应，维护指定邮箱“最新邮�
 
 ```sh
 moon check --target wasm --deny-warn
+moon build --target wasm --deny-warn
 moon test --target wasm --deny-warn
 moon run cmd/demo --target wasm
 python3 scripts/run_differential.py
@@ -26,6 +27,34 @@ PYTHONPATH=src python3 -m unittest discover -s tests -p 'test*.py'
 ```
 
 测试覆盖固定视图竞态、对象失效、同状态补位、旧代次与预算边界。`rank_prefix_test.mbt` 用完整服务器新旧列表及所有可保留公共子序列构造合法变化，检查 75,140 种转移；其中 70,952 种实际执行合成后缀查询。对拍保留 15 个有界场景，报告中列出旧向量与新后缀协议的中间状态差别。另可运行 `python3 scripts/run_real_mutation_scenario.py`，在临时本机 Stalwart 上复现 5 封邮件的真实四方法突变记录；脱敏结果见 [mutation-scenario.md](outputs/real-interop-stalwart-v0.16.27/mutation-scenario.md)。
+
+## 工具链与后端兼容性
+
+2026-11-12 使用[官方安装方式](https://www.moonbitlang.com/download/)的 `latest` 通道更新并验证。`moon version --all` 的实际输出为：
+
+```text
+moon 0.1.20261104 (940aa18 2026-11-04)
+moonc v0.10.20+65efd5b93 (2026-11-05)
+moonrun 0.1.20261104 (940aa18 2026-11-04)
+Feature flags enabled: rr_moon_mod,rr_moon_pkg
+```
+
+本轮已把旧的后置 `derive(...)` 迁移为声明前的 `#derive(...)`，以通过新版的格式检查和 `--deny-warn`。推荐使用上述已验证版本或更新的官方工具链；更早版本未在本轮复验。项目只有标准库依赖，清单无需迁移。
+
+默认后端为 **wasm**；现有 CI 同时维护 **wasm-gc、js、native**。本轮在 macOS arm64 上，四后端均通过 `moon check/build/test --target <target> --deny-warn` 和 `moon run cmd/demo --target <target>`，各通过 75 项测试。JS 运行需要 Node.js，本轮使用 24.19.0，CI 配置为 Node.js 22。
+
+native 需要可用的 C 编译/链接环境。本机默认 macOS 27.0 SDK 与链接器组合报 `tapi error: malformed file` / `unknown architecture`；指定已安装的 26.5 SDK 后构建、测试与示例通过。遇到同类问题时可运行：
+
+```sh
+export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk
+moon build --target native --deny-warn
+moon test --target native --deny-warn
+moon run cmd/demo --target native
+```
+
+该路径仅适用于安装了此 SDK 的 macOS；其他机器应使用匹配的 Command Line Tools/SDK。wasm、wasm-gc 和 JS 不需要这个设置。Linux CI 的远端执行结果不能用本机验证替代。
+
+[现有 CI](.github/workflows/ci.yml) 在 push、pull request 和手动触发时安装官方最新工具链、记录版本，并执行四后端检查、构建、测试及示例，以及 Python 回归、对拍、源码归档复验和包构建。完整本轮结果与复现命令见 [兼容性记录](docs/compatibility-2026-11-12.md)。
 
 ## 使用核心包
 

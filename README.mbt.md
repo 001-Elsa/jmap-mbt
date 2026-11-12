@@ -1,15 +1,15 @@
 # MoonJMAP · MoonBit 入口
 
-当前工作区为本地未发布的 0.2.0。MoonJMAP 为固定邮箱的最新或未读邮件维护有界连续窗口，分别跟踪邮件对象和查询顺序的 state，输出下一条请求或 Ready 的有序邮件记录。受影响后缀由服务器在同一 queryState 下重新确认；位置证书与本地序列归并已移除。网络传输由调用方负责。
+当前源码版本为 0.2.1，包含工具链兼容性修复并保持 0.2.0 的 API。MoonJMAP 为固定邮箱的最新或未读邮件维护有界连续窗口，分别跟踪邮件对象和查询顺序的 state，输出下一条请求或 Ready 的有序邮件记录。受影响后缀由服务器在同一 queryState 下重新确认；位置证书与本地序列归并已移除。网络传输由调用方负责。
 
 完整功能、支持边界、来源和证据以 [README.md](README.md) 为准；按提交指引复现请看 [ACCEPTANCE.md](ACCEPTANCE.md)。
 
 ## 安装与最小用法
 
-下面的新行为应从当前源码复现。Mooncakes 当前已发布的 `0.1.1` 是历史版本，见 [发布记录](docs/mooncakes-release-0.1.1.md)；以下安装命令仅用于取得该历史版本：
+从 Mooncakes 安装本版：
 
 ```sh
-moon add 001-Elsa/moonjmap@0.1.1
+moon add 001-Elsa/moonjmap@0.2.1
 ```
 
 为下面的独立测试，在包的 `moon.pkg` 中添加测试导入：
